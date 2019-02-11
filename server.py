@@ -26,17 +26,21 @@ def handle_status_response(resp):
             abort(500)
 
 @app.route('/patterns/<int:p_id>')
-def get_vehicle(p_id):
+def get_pattern(p_id):
     """ 
         Returns pattern information in json by given pattern id.
         HTTP 404 is returned when pattern not found.
     """
 
+    pattern_id = p_id
+
+
+    resp = Ravelry_handler.get_pattern(pattern_id)
     # handle_status_response(resp)
     # import pdb; pdb.set_trace()
-    resp = ''
 
-    return resp
+
+    return jsonify(resp)
 
 
 
