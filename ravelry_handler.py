@@ -3,9 +3,26 @@
 import requests
 import json
 
-def Ravelry_Handler():
+class Ravelry_handler():
 
     BASE_URL = 'https://api.ravelry.com/'
+    AUTH = ''
+
+
+
+    def set_auth(self):
+        with open('config.json', 'r') as f:
+            config = json.load(f)
+
+        USER = config['DEFAULT']['USER_NAME']
+        PASSWORD = config['DEFAULT']['PASSWORD']
+        self.AUTH = (USER, PASSWORD)
+
+
+    def __init__(self):
+        self.set_auth()
+
+
 
 
     def submit_post(self, URL, dictToSend):
@@ -20,9 +37,8 @@ def Ravelry_Handler():
 
     def submit_get(self, URL):
         """Returns response of external api as json."""
-
         try: 
-            response = requests.get(URL)
+            response = requests.get(URL, auth=self.AUTH)
             return response.json()
         except:
             return {"status" : "500" , "reason" : "Post unsuccessful."}
@@ -35,8 +51,10 @@ def Ravelry_Handler():
 
         partial_url = '{}{}{}'.format(prefix_url, pattern_id, suffix_url)
 
-        url = '{}{}'.format(BASE_URL, partial_url)
+        url = '{}{}'.format(self.BASE_URL, partial_url)
 
+        print('++++++++')
+        print(url)
         return url
 
     def get_pattern(self, p_id):

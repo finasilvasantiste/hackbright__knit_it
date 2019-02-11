@@ -8,8 +8,7 @@ from ravelry_handler import Ravelry_handler
 app = Flask(__name__)
 
 app.secret_key = 'dev'
-# Override key if this file exists in folder.
-app.config.from_pyfile('config.py', silent=True)
+
 
 # Handles requests to external api.
 HANDLER = Ravelry_handler()
@@ -33,9 +32,9 @@ def get_pattern(p_id):
     """
 
     pattern_id = p_id
+    # pattern_id = '781496'
 
-
-    resp = Ravelry_handler.get_pattern(pattern_id)
+    resp = HANDLER.get_pattern(pattern_id)
     # handle_status_response(resp)
     # import pdb; pdb.set_trace()
 
