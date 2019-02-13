@@ -15,32 +15,51 @@ HANDLER = Ravelry_handler()
 
 # Set up routes.
 
-def handle_status_response(resp):
-    """Check if response is not 200."""
-
-    if resp.get('status'):
-        if resp['status'] == '404':
-            abort(404)
-        else:
-            abort(500)
-
 @app.route('/patterns/<int:p_id>')
-def get_pattern(p_id):
+def get_pattern_by_id(p_id):
     """ 
         Returns pattern information in json by given pattern id.
-        HTTP 404 is returned when pattern not found.
     """
 
     pattern_id = p_id
-    # pattern_id = '781496'
+    # pattern_id = '781496' ##Strathcona sweater
+    # pattern_id = '425122' ##Diamond Jumper, not available for download
+    # pattern_id = '903194' ##Random knitting pattern
 
-    resp = HANDLER.get_pattern(pattern_id)
-    # handle_status_response(resp)
+
+    resp = HANDLER.get_pattern_by_id(pattern_id)
+ 
     # import pdb; pdb.set_trace()
 
 
     return jsonify(resp)
 
+@app.route('/patterns')
+def get_patterns():
+    """
+        Returns all patterns.
+    """
+
+    resp = HANDLER.get_patterns()
+
+    return jsonify(resp)
+
+@app.route('/patterns/list/<string:p_ids_s>')
+def get_knitting_patterns(p_ids_s):
+    """
+        Returns patterns by a list of ids.
+    """
+
+    pattern_ids_string = p_ids_s
+    pattern_ids = []
+
+    pattern_ids = pattern_ids_string.split('+')
+
+    print(pattern_ids)
+
+    resp = HANDLER.get_pattern_by_ids(pattern_ids)
+
+    return jsonify(resp)
 
 
 if __name__ == "__main__":

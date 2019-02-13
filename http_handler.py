@@ -41,13 +41,13 @@ class HTTP_Handler():
             return {"status" : "500" , "reason" : "Post unsuccessful."}
 
 
-    def compose_url(self, pre_url, p_id):
-        pattern_id = p_id
+    def compose_url(self, pre_url, m_url, s_url):
+        middel_url = m_url
         prefix_url = pre_url
-        suffix_url = '.json'
+        suffix_url = s_url
 
-        partial_url = '{}{}{}'.format(prefix_url, pattern_id, suffix_url)
+        partial_url = '{}{}{}'.format(prefix_url, middel_url, suffix_url)
 
         url = '{}{}'.format(self.BASE_URL, partial_url)
-        
+
         return url
