@@ -14,7 +14,6 @@ app.secret_key = 'dev'
 HANDLER = Ravelry_handler()
 
 # Set up routes.
-
 @app.route('/patterns/<int:p_id>')
 def get_pattern_by_id(p_id):
     """ 
@@ -34,6 +33,7 @@ def get_pattern_by_id(p_id):
 
     return jsonify(resp)
 
+
 @app.route('/patterns')
 def get_patterns():
     """
@@ -43,6 +43,7 @@ def get_patterns():
     resp = HANDLER.get_patterns()
 
     return jsonify(resp)
+
 
 @app.route('/patterns/list/<string:p_ids_s>')
 def get_knitting_patterns(p_ids_s):
