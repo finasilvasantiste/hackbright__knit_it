@@ -19,7 +19,12 @@ class Pattern():
 
         return repr_s
 
+    @classmethod
+    def as_dict(self, pattern):
 
+        pattern_dict = {"pattern_id" : pattern.pattern_id, "name" : pattern.name, "is_free": pattern.is_free, "img_fullsize_ur": pattern.img_fullsize_url, "img_small_url": pattern.img_small_url}
+
+        return pattern_dict
 
 class Needles():
     pass
