@@ -13,6 +13,7 @@ app.secret_key = 'dev'
 # Handles requests to external api.
 HANDLER = Ravelry_handler()
 
+
 # Set up routes.
 @app.route('/patterns/<int:p_id>')
 def get_pattern_by_id(p_id):
@@ -27,9 +28,6 @@ def get_pattern_by_id(p_id):
 
 
     resp = HANDLER.get_pattern_by_id(pattern_id)
- 
-    # import pdb; pdb.set_trace()
-
 
     return jsonify(resp)
 
@@ -44,6 +42,7 @@ def get_patterns():
 
     return jsonify(resp)
 
+
 @app.route('/patterns/knitting')
 def get_knitting_patterns():
     """
@@ -54,11 +53,23 @@ def get_knitting_patterns():
 
     return jsonify(resp)
 
+@app.route('/patterns/knitting/page/<int:p>')
+def get_knitting_patterns_by_page(p):
+    """
+        Returns all knitting patterns, 
+        but only up to 100 at a time (provides paginator).
+    """
+    page = p
+
+    resp = HANDLER.get_knitting_patterns_by_page(page)
+
+    return jsonify(resp)
+
 
 @app.route('/patterns/list/<string:p_ids_s>')
 def get_patterns_by_ids(p_ids_s):
     """
-        Returns patterns by a list of ids.
+       Returns multiple patterns given a list of pattern ids.
     """
 
     pattern_ids_string = p_ids_s
