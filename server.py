@@ -44,9 +44,19 @@ def get_patterns():
 
     return jsonify(resp)
 
+@app.route('/patterns/knitting')
+def get_knitting_patterns():
+    """
+        Returns all knitting patterns.
+    """
+
+    resp = HANDLER.get_knitting_patterns()
+
+    return jsonify(resp)
+
 
 @app.route('/patterns/list/<string:p_ids_s>')
-def get_knitting_patterns(p_ids_s):
+def get_patterns_by_ids(p_ids_s):
     """
         Returns patterns by a list of ids.
     """
@@ -58,7 +68,7 @@ def get_knitting_patterns(p_ids_s):
 
     print(pattern_ids)
 
-    resp = HANDLER.get_pattern_by_ids(pattern_ids)
+    resp = HANDLER.get_patterns_by_ids(pattern_ids)
 
     return jsonify(resp)
 
