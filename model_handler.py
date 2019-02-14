@@ -27,3 +27,22 @@ class Model_Handler():
 
 
         return patterns_dict_list
+
+
+    def create_pattern_list(self, patterns_dict_list):
+        """
+            Returns a list with pattern objects by using list with dictionaries provided.
+        """
+        patterns_list = []
+
+        for p_dict in patterns_dict_list:
+            pattern_values = self.set_values(p_dict)
+            pattern = self.create_pattern(pattern_values)
+            patterns_list.append(pattern)
+
+            print(pattern)
+            print('   ')
+
+        print(len(patterns_list))
+
+        return patterns_list

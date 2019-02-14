@@ -4,12 +4,14 @@
 
 class Pattern():
     
-    def __init__(self, p_id, n, i_f, img_f_url, img_s_url):
-        self.pattern_id = p_id
-        self.name = n
-        self.is_free = i_f
-        self.img_fullsize_url = img_f_url
-        self.img_small_url = img_s_url
+
+    def __init__(self, pattern_values):
+
+        self.pattern_id = pattern_values['pattern_id']
+        self.name = pattern_values['name']
+        self.is_free = pattern_values['is_free']
+        self.img_fullsize_url = pattern_values['img_fullsize_url']
+        self.img_small_url = pattern_values['img_small_url']
 
 
     def __repr__(self):
@@ -25,6 +27,8 @@ class Pattern():
         pattern_dict = {"pattern_id" : pattern.pattern_id, "name" : pattern.name, "is_free": pattern.is_free, "img_fullsize_ur": pattern.img_fullsize_url, "img_small_url": pattern.img_small_url}
 
         return pattern_dict
+
+
 
 class Needles():
     pass
