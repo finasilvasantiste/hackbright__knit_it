@@ -5,22 +5,35 @@ from model_handler import Model_Handler
 
 class Model_Handler_Search_Requests(Model_Handler):
 
-    def create_pattern(self, pattern_dict):
+    def set_values(self, pattern_dict):
         """
-            Returns pattern object by using data from dictionary provided.
+            Returns pattern values by using data from dictionary provided.
         """
-        # pattern_dict = p_dict
 
         pattern_id = pattern_dict['id']
         name = pattern_dict['name']
         is_free = pattern_dict['free']
         img_fullsize_url = pattern_dict['first_photo']['medium2_url']
         img_small_url = pattern_dict['first_photo']['small_url']
-        
-        pattern = Pattern(pattern_id, name, is_free, 
-            img_fullsize_url, img_small_url)
 
-        # print(pattern)
+        pattern_values = {
+            "pattern_id" : pattern_id,
+            "name" : name,
+            "is_free" : is_free,
+            "img_fullsize_url" : img_fullsize_url,
+            "img_small_url" : img_small_url
+        }
+
+        return pattern_values
+
+
+    def create_pattern(self, pattern_values):
+        """
+            Returns pattern object by using data from dictionary provided.
+        """
+
+        pattern = Pattern(pattern_values["pattern_id"], pattern_values["name"], pattern_values["is_free"], 
+            pattern_values["img_fullsize_url"], pattern_values["img_small_url"])
 
         return pattern
 
@@ -29,11 +42,11 @@ class Model_Handler_Search_Requests(Model_Handler):
         """
             Returns a list with pattern objects by using list with dictionaries provided.
         """
-        # patterns_dict_list = p_dict_list
         patterns_list = []
 
         for p_dict in patterns_dict_list:
-            pattern = self.create_pattern(p_dict)
+            pattern_values = self.set_values(p_dict)
+            pattern = self.create_pattern(pattern_values)
             patterns_list.append(pattern)
 
             print(pattern)
@@ -42,32 +55,3 @@ class Model_Handler_Search_Requests(Model_Handler):
         print(len(patterns_list))
 
         return patterns_list
-
-
-    # def create_pattern_dict(self, p):
-    #     """
-    #         Returns pattern dictionary by using data from pattern object provided.
-    #     """
-    #     pattern = p
-
-    #     pattern_dict = Pattern.as_dict(pattern)
-
-    #     return pattern_dict
-
-
-
-    # def create_pattern_dict_list(self, p_list):
-    #     """
-    #         Returns a list with pattern dictionaries by using list with pattern objects provided.
-    #     """
-
-    #     patterns_list = p_list
-    #     patterns_dict_list = []
-
-    #     for p in patterns_list:
-    #         p_dict = self.create_pattern_dict(p)
-    #         patterns_dict_list.append(p_dict)
-
-
-    #     return patterns_dict_list
-

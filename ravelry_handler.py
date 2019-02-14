@@ -94,7 +94,8 @@ class Ravelry_handler():
 
     def get_knitting_patterns_by_page(self, page):
         """
-            Returns all knitting patterns on a specific page.
+            Returns all knitting patterns on a specific page, 
+            but only up to 100 at a time (provides paginator).
         """
         base = 'patterns/'
         action = 'search'
@@ -111,3 +112,26 @@ class Ravelry_handler():
             
 
             return patterns_dict  
+
+
+    def get_knitting_patterns_by_query(self, query):
+        """
+            Returns all knitting patterns matching search query. 
+        """
+        base = 'patterns/'
+        action = 'search'
+        query = '.json?query={}&craft=knitting'.format(query) 
+        
+
+        resp_from_server = self.get_api_result(base, action, query)
+
+        if resp_from_server.get('status'):
+            return resp_from_server
+        else:
+            pattern_dicts = resp_from_server['patterns']
+            patterns = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_list(pattern_dicts)
+            patterns_dict = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_dict_list(patterns)
+            
+
+            return patterns_dict   
+            # return resp_from_server      

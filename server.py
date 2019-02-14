@@ -35,15 +35,22 @@ def get_knitting_patterns():
 
     return jsonify(resp)
 
-@app.route('/patterns/knitting/<string:query>')
-def get_knitting_patterns_by_query():
 
-    pass
+@app.route('/patterns/knitting/query/<string:query>')
+def get_knitting_patterns_by_query(query):
+    """
+        Returns all knitting patterns matching search query.
+    """
+
+    resp = HANDLER.get_knitting_patterns_by_query(query)
+
+    return jsonify(resp)
+
 
 @app.route('/patterns/knitting/page/<int:page>')
 def get_knitting_patterns_by_page(page):
     """
-        Returns all knitting patterns, 
+        Returns all knitting patterns on a specific page, 
         but only up to 100 at a time (provides paginator).
     """
 
