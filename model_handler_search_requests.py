@@ -10,11 +10,27 @@ class Model_Handler_Search_Requests(Model_Handler):
             Returns pattern values by using data from dictionary provided.
         """
 
-        pattern_id = pattern_dict['id']
-        name = pattern_dict['name']
-        is_free = pattern_dict['free']
-        img_fullsize_url = pattern_dict['first_photo']['medium2_url']
-        img_small_url = pattern_dict['first_photo']['small_url']
+        if pattern_dict['id']:
+            pattern_id = pattern_dict['id']
+        else:
+            pattern_id = ''
+
+        if pattern_dict['name']:
+            name = pattern_dict['name']
+        else:
+            name = ''
+
+        if pattern_dict['free']:
+            is_free = pattern_dict['free']
+        else:
+            is_free = ''
+
+        if pattern_dict['first_photo']:
+            img_fullsize_url = pattern_dict['first_photo']['medium2_url']
+            img_small_url = pattern_dict['first_photo']['small_url']
+        else:
+            img_fullsize_url = ''
+            img_small_url = ''
 
         pattern_values = {
             "pattern_id" : pattern_id,
