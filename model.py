@@ -2,7 +2,7 @@
 
 
 
-class Pattern():
+class Mini_Pattern():
     
 
     def __init__(self, pattern_values):
@@ -27,6 +27,11 @@ class Pattern():
         pattern_dict = {"pattern_id" : pattern.pattern_id, "name" : pattern.name, "is_free": pattern.is_free, "img_fullsize_ur": pattern.img_fullsize_url, "img_small_url": pattern.img_small_url}
 
         return pattern_dict
+
+class Pattern(Mini_Pattern):
+
+    def __init__(self, pattern_values):
+        super().__init__(pattern_values)
 
 
 

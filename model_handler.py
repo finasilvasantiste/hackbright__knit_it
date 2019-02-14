@@ -1,6 +1,6 @@
 ### Requests that require usage of model classes are handled here. ###
 
-from model import Pattern
+from model import Pattern, Mini_Pattern
 
 class Model_Handler():
 
@@ -29,20 +29,12 @@ class Model_Handler():
         return patterns_dict_list
 
 
-    def create_pattern_list(self, patterns_dict_list):
+    def create_pattern_of_type(self, pattern_type, pattern_values):
         """
-            Returns a list with pattern objects by using list with dictionaries provided.
+            Returns pattern object of specified type by using data from dictionary provided.
         """
-        patterns_list = []
 
-        for p_dict in patterns_dict_list:
-            pattern_values = self.set_values(p_dict)
-            pattern = self.create_pattern(pattern_values)
-            patterns_list.append(pattern)
-
-            print(pattern)
-            print('   ')
-
-        print(len(patterns_list))
-
-        return patterns_list
+        if pattern_type == 'mini pattern':
+            return Mini_Pattern(pattern_values)
+        elif pattern_type == 'pattern':
+            return Pattern(pattern_values)

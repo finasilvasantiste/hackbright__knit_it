@@ -2,6 +2,6 @@
 
 from model import Pattern
 
-class Model_Handler_ID_Requests():
+class Model_Handler_Pattern():
 
     pass

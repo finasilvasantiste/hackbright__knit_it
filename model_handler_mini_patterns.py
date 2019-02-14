@@ -1,9 +1,9 @@
 ### Search requests that require usage of model classes are handled here. ###
 
-from model import Pattern
+from model import Mini_Pattern
 from model_handler import Model_Handler
 
-class Model_Handler_Search_Requests(Model_Handler):
+class Model_Handler_Mini_Pattern(Model_Handler):
 
     def set_values(self, pattern_dict):
         """
@@ -44,16 +44,21 @@ class Model_Handler_Search_Requests(Model_Handler):
         return pattern_values
 
 
-    def create_pattern(self, pattern_values):
+
+    def create_pattern_list(self, patterns_dict_list):
         """
-            Returns pattern object by using data from dictionary provided.
+            Returns a list with mini pattern objects by using list with dictionaries provided.
         """
+        patterns_list = []
 
+        for p_dict in patterns_dict_list:
+            pattern_values = self.set_values(p_dict)
+            pattern = self.create_pattern_of_type('mini pattern', pattern_values)
+            patterns_list.append(pattern)
 
-        # pattern = Pattern(pattern_values["pattern_id"], pattern_values["name"], pattern_values["is_free"], 
-        #     pattern_values["img_fullsize_url"], pattern_values["img_small_url"])
+            print(pattern)
+            print('   ')
 
+        print(len(patterns_list))
 
-        # return pattern
-
-        return Pattern(pattern_values)
+        return patterns_list

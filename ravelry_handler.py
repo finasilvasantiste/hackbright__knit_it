@@ -1,15 +1,15 @@
 ### Calls to Ravelry Api are handled here. ###
 
 from http_handler import HTTP_Handler
-from model_handler_search_requests import Model_Handler_Search_Requests
-from model_handler_id_requests import Model_Handler_ID_Requests
+from model_handler_mini_patterns import Model_Handler_Mini_Pattern
+from model_handler_patterns import Model_Handler_Pattern
 
 
 class Ravelry_handler():
 
     HTTP_HANDLER = HTTP_Handler()
-    MODEL_HANDLER_SEARCH_REQUESTS = Model_Handler_Search_Requests()
-    MODEL_HANDLER_ID_REQUESTS = Model_Handler_ID_Requests()
+    MODEL_HANDLER_MINI_PATTERNS = Model_Handler_Mini_Pattern()
+    MODEL_HANDLER_PATTERNS = Model_Handler_Pattern()
 
     def get_api_result(self, base, action, query):
         """
@@ -41,7 +41,6 @@ class Ravelry_handler():
             return resp_from_server
         else:
             pattern_dicts = resp_from_server['patterns']
-            # patterns = self.MODEL_HANDLER.create_pattern_list(pattern_dicts)
 
             # print(patterns)
             return resp_from_server
@@ -61,12 +60,9 @@ class Ravelry_handler():
         if resp_from_server.get('status'):
             return resp_from_server
         else:
-            pattern_dicts = resp_from_server['patterns']
-            patterns = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_list(pattern_dicts)
-            patterns_dict = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_dict_list(patterns)
-            
+            patterns_dicts = self.get_mini_patterns_dict(resp_from_server)
 
-            return patterns_dict      
+            return patterns_dicts      
 
 
     def get_knitting_patterns(self):
@@ -83,12 +79,9 @@ class Ravelry_handler():
         if resp_from_server.get('status'):
             return resp_from_server
         else:
-            pattern_dicts = resp_from_server['patterns']
-            patterns = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_list(pattern_dicts)
-            patterns_dict = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_dict_list(patterns)
-            
+            patterns_dicts = self.get_mini_patterns_dict(resp_from_server)
 
-            return patterns_dict
+            return patterns_dicts
             # return resp_from_server  
 
 
@@ -106,12 +99,9 @@ class Ravelry_handler():
         if resp_from_server.get('status'):
             return resp_from_server
         else:
-            pattern_dicts = resp_from_server['patterns']
-            patterns = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_list(pattern_dicts)
-            patterns_dict = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_dict_list(patterns)
-            
+            patterns_dicts = self.get_mini_patterns_dict(resp_from_server)
 
-            return patterns_dict  
+            return patterns_dicts  
 
 
     def get_knitting_patterns_by_query(self, query):
@@ -128,10 +118,17 @@ class Ravelry_handler():
         if resp_from_server.get('status'):
             return resp_from_server
         else:
-            pattern_dicts = resp_from_server['patterns']
-            patterns = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_list(pattern_dicts)
-            patterns_dict = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_dict_list(patterns)
-            
+            patterns_dicts = self.get_mini_patterns_dict(resp_from_server)
 
-            return patterns_dict   
-            # return resp_from_server      
+            return patterns_dicts   
+            # return resp_from_server
+
+
+    def get_mini_patterns_dict(self, resp_from_server):
+        """
+            Returns list of mini patterns dictionaries using response from server provided.
+        """
+        patterns = self.MODEL_HANDLER_MINI_PATTERNS.create_pattern_list(resp_from_server['patterns'])
+        patterns_dict = self.MODEL_HANDLER_MINI_PATTERNS.create_pattern_dict_list(patterns)
+        
+        return patterns_dict
