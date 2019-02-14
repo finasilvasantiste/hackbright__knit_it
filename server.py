@@ -14,24 +14,6 @@ app.secret_key = 'dev'
 HANDLER = Ravelry_handler()
 
 
-# Set up routes.
-@app.route('/patterns/<int:p_id>')
-def get_pattern_by_id(p_id):
-    """ 
-        Returns pattern information in json by given pattern id.
-    """
-
-    pattern_id = p_id
-    # pattern_id = '781496' ##Strathcona sweater
-    # pattern_id = '425122' ##Diamond Jumper, not available for download
-    # pattern_id = '903194' ##Random knitting pattern
-
-
-    resp = HANDLER.get_pattern_by_id(pattern_id)
-
-    return jsonify(resp)
-
-
 @app.route('/patterns')
 def get_patterns():
     """
@@ -66,7 +48,7 @@ def get_knitting_patterns_by_page(p):
     return jsonify(resp)
 
 
-@app.route('/patterns/list/<string:p_ids_s>')
+@app.route('/patterns/ids/<string:p_ids_s>')
 def get_patterns_by_ids(p_ids_s):
     """
        Returns multiple patterns given a list of pattern ids.

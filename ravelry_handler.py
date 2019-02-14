@@ -1,12 +1,15 @@
 ### Calls to Ravelry Api are handled here. ###
 
 from http_handler import HTTP_Handler
-from model_handler import Model_Handler
+from model_handler_search_requests import Model_Handler_Search_Requests
+from model_handler_id_requests import Model_Handler_ID_Requests
+
 
 class Ravelry_handler():
 
     HTTP_HANDLER = HTTP_Handler()
-    MODEL_HANDLER = Model_Handler()
+    MODEL_HANDLER_SEARCH_REQUESTS = Model_Handler_Search_Requests()
+    MODEL_HANDLER_ID_REQUESTS = Model_Handler_ID_Requests()
 
     def submit_request(self, b, a, q):
         """
@@ -21,26 +24,9 @@ class Ravelry_handler():
         return self.HTTP_HANDLER.submit_get(url)
 
 
-    def get_pattern_by_id(self, p_id):
-        """
-            Returns pattern by given id.
-        """
-        base = 'patterns/'
-        action = p_id
-        query = '.json'
-
-        resp_from_server = self.submit_request(base, action, query)
-
-        if resp_from_server.get('status'):
-            return resp_from_server
-        else:
-
-            return resp_from_server
-
-
     def get_patterns_by_ids(self, ids_l):
         """
-            Returns multiple patterns given a list of pattern ids.
+            Returns patterns given a list of pattern ids.
         """
         base = 'patterns.json'
         ids_list = ids_l
@@ -58,7 +44,10 @@ class Ravelry_handler():
         if resp_from_server.get('status'):
             return resp_from_server
         else:
+            pattern_dicts = resp_from_server['patterns']
+            # patterns = self.MODEL_HANDLER.create_pattern_list(pattern_dicts)
 
+            # print(patterns)
             return resp_from_server
 
 
@@ -76,8 +65,12 @@ class Ravelry_handler():
         if resp_from_server.get('status'):
             return resp_from_server
         else:
+            pattern_dicts = resp_from_server['patterns']
+            patterns = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_list(pattern_dicts)
+            patterns_dict = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_dict_list(patterns)
+            
 
-            return resp_from_server       
+            return patterns_dict      
 
 
     def get_knitting_patterns(self):
@@ -94,8 +87,13 @@ class Ravelry_handler():
         if resp_from_server.get('status'):
             return resp_from_server
         else:
+            pattern_dicts = resp_from_server['patterns']
+            patterns = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_list(pattern_dicts)
+            patterns_dict = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_dict_list(patterns)
+            
 
-            return resp_from_server  
+            return patterns_dict
+            # return resp_from_server  
 
 
     def get_knitting_patterns_by_page(self, p):
@@ -112,12 +110,9 @@ class Ravelry_handler():
         if resp_from_server.get('status'):
             return resp_from_server
         else:
-            # p_dict = resp_from_server['patterns'][0]
-            # pattern = self.create_pattern(p_dict)
-
             pattern_dicts = resp_from_server['patterns']
-            patterns = self.MODEL_HANDLER.create_pattern_list(pattern_dicts)
-            patterns_dict = self.MODEL_HANDLER.create_pattern_dict_list(patterns)
+            patterns = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_list(pattern_dicts)
+            patterns_dict = self.MODEL_HANDLER_SEARCH_REQUESTS.create_pattern_dict_list(patterns)
             
 
             return patterns_dict  

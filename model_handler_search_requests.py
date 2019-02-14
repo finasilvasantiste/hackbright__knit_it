@@ -1,9 +1,9 @@
-### Usage of model classes is handled here. ###
+### Search requests that require usage of model classes are handled here. ###
 
 from model import Pattern
 
-class Model_Handler():
-    
+class Model_Handler_Search_Requests():
+
     def create_pattern(self, p_dict):
         """
             Returns pattern object by using data from dictionary provided.
@@ -69,3 +69,4 @@ class Model_Handler():
 
 
         return patterns_dict_list
+
