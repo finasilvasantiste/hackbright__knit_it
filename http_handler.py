@@ -41,10 +41,7 @@ class HTTP_Handler():
             return {"status" : "500" , "reason" : "Post unsuccessful."}
 
 
-    def compose_url(self, pre_url, m_url, s_url):
-        middel_url = m_url
-        prefix_url = pre_url
-        suffix_url = s_url
+    def compose_url(self, prefix_url, middel_url, suffix_url):
 
         partial_url = '{}{}{}'.format(prefix_url, middel_url, suffix_url)
 

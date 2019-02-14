@@ -4,23 +4,21 @@ from model import Pattern
 
 class Model_Handler():
 
-    def create_pattern_dict(self, p):
+    def create_pattern_dict(self, pattern):
         """
             Returns pattern dictionary by using data from pattern object provided.
         """
-        pattern = p
 
         pattern_dict = Pattern.as_dict(pattern)
 
         return pattern_dict
 
 
-    def create_pattern_dict_list(self, p_list):
+    def create_pattern_dict_list(self, patterns_list):
         """
             Returns a list with pattern dictionaries by using list with pattern objects provided.
         """
 
-        patterns_list = p_list
         patterns_dict_list = []
 
         for p in patterns_list:

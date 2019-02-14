@@ -5,11 +5,11 @@ from model_handler import Model_Handler
 
 class Model_Handler_Search_Requests(Model_Handler):
 
-    def create_pattern(self, p_dict):
+    def create_pattern(self, pattern_dict):
         """
             Returns pattern object by using data from dictionary provided.
         """
-        pattern_dict = p_dict
+        # pattern_dict = p_dict
 
         pattern_id = pattern_dict['id']
         name = pattern_dict['name']
@@ -25,11 +25,11 @@ class Model_Handler_Search_Requests(Model_Handler):
         return pattern
 
 
-    def create_pattern_list(self, p_dict_list):
+    def create_pattern_list(self, patterns_dict_list):
         """
             Returns a list with pattern objects by using list with dictionaries provided.
         """
-        patterns_dict_list = p_dict_list
+        # patterns_dict_list = p_dict_list
         patterns_list = []
 
         for p_dict in patterns_dict_list:
