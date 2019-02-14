@@ -11,9 +11,9 @@ class Ravelry_handler():
     MODEL_HANDLER_SEARCH_REQUESTS = Model_Handler_Search_Requests()
     MODEL_HANDLER_ID_REQUESTS = Model_Handler_ID_Requests()
 
-    def submit_request(self, b, a, q):
+    def get_api_result(self, b, a, q):
         """
-            Submits request to HTTP Handler object.
+            Returns result from http request to external api.
         """
         base = b
         action = a
@@ -21,7 +21,7 @@ class Ravelry_handler():
 
         url = self.HTTP_HANDLER.compose_url(base, action , query)
 
-        return self.HTTP_HANDLER.submit_get(url)
+        return self.HTTP_HANDLER.get_api_result(url)
 
 
     def get_patterns_by_ids(self, ids_l):
@@ -39,7 +39,7 @@ class Ravelry_handler():
         action = '?ids='
         query = ids_string
 
-        resp_from_server = self.submit_request(base, action, query)
+        resp_from_server = self.get_api_result(base, action, query)
 
         if resp_from_server.get('status'):
             return resp_from_server
@@ -60,7 +60,7 @@ class Ravelry_handler():
         action = 'search'
         query = '.json'
 
-        resp_from_server = self.submit_request(base, action, query)
+        resp_from_server = self.get_api_result(base, action, query)
 
         if resp_from_server.get('status'):
             return resp_from_server
@@ -82,7 +82,7 @@ class Ravelry_handler():
         action = 'search'
         query = '.json?query=&craft=knitting'
 
-        resp_from_server = self.submit_request(base, action, query)
+        resp_from_server = self.get_api_result(base, action, query)
 
         if resp_from_server.get('status'):
             return resp_from_server
@@ -105,7 +105,7 @@ class Ravelry_handler():
         action = 'search'
         query = '.json?query=&craft=knitting&page={}'.format(page)
 
-        resp_from_server = self.submit_request(base, action, query)
+        resp_from_server = self.get_api_result(base, action, query)
 
         if resp_from_server.get('status'):
             return resp_from_server
