@@ -46,7 +46,8 @@ class Ravelry_handler():
         else:
             patterns_dicts = self.get_patterns_dict(resp_from_server)
 
-            return patterns_dicts
+            # return patterns_dicts
+            return resp_from_server 
 
 
     def get_patterns(self):

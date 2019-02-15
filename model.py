@@ -4,7 +4,6 @@
 
 class Mini_Pattern():
     
-
     def __init__(self, pattern_values):
 
         self.pattern_id = pattern_values['pattern_id']
@@ -28,6 +27,7 @@ class Mini_Pattern():
 
         return pattern_dict
 
+
 class Pattern(Mini_Pattern):
 
     def __init__(self, pattern_values):
@@ -40,7 +40,11 @@ class Pattern(Mini_Pattern):
         self.pattern_type = pattern_values['pattern_type']
         self.is_downloadable = pattern_values['is_downloadable']
         self.url = pattern_values['url']
-        self.yardage = pattern_values['yardage']
+        self.yardage = pattern_values['yardage_description']
+        self.yarn_weight = pattern_values['yarn_weight_description']
+        self.gauge = pattern_values['gauge_description']
+        self.sizes = pattern_values['sizes_available']
+        self.description = pattern_values['notes']
 
 
     def __repr__(self):
@@ -66,7 +70,11 @@ class Pattern(Mini_Pattern):
             "pattern_type" : pattern.pattern_type,
             "is_downloadable" : pattern.is_downloadable,
             "url" : pattern.url,
-            "yardage" : pattern.yardage
+            "yardage" : pattern.yardage,
+            "yarn_weight" : pattern.yarn_weight,
+            "gauge" : pattern.gauge,
+            "sizes" : pattern.sizes,
+            "description" : pattern.description
             }
 
         return pattern_dict
@@ -82,20 +90,6 @@ class Yarn():
 
 
 class Author():
-    pass
-
-
-
-### Associative Tables
-class Pattern_Authors():
-    pass
-
-
-class Suggested_Yarn():
-    pass
-
-
-class Needles_Required():
     pass
 
 

@@ -25,14 +25,13 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
         else:
             is_free = ''
 
-        ##### TO-DO get photos
-        if pattern_dict['photos']:
-            img_fullsize_url = ''
-            img_small_url = ''
+        dict_from_list = self.return_dict_from_list(pattern_dict['photos'])
+        if dict_from_list:
+            img_fullsize_url = dict_from_list['medium2_url']
+            img_small_url = dict_from_list['small_url']
         else:
             img_fullsize_url = ''
             img_small_url = ''
-
 
         if pattern_dict['pattern_type']:
             if pattern_dict['pattern_type']['clothing']:
@@ -61,9 +60,29 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
             url = ''
 
         if pattern_dict['yardage_description']:
-            yardage = pattern_dict['yardage_description']
+            yardage_description = pattern_dict['yardage_description']
         else:
-            yardage = ''
+            yardage_description = ''
+
+        if pattern_dict['yarn_weight_description']:
+            yarn_weight_description = pattern_dict['yarn_weight_description']
+        else:
+            yarn_weight_description = ''
+
+        if pattern_dict['gauge_description']:
+            gauge_description = pattern_dict['gauge_description']
+        else:
+            gauge_description = ''
+
+        if pattern_dict['sizes_available']:
+            sizes_available = pattern_dict['sizes_available']
+        else:
+            sizes_available = ''
+
+        if pattern_dict['notes']:
+            notes = pattern_dict['notes']
+        else:
+            notes = ''
 
 
 
@@ -77,12 +96,29 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
             "pattern_type" : pattern_type,
             "is_downloadable" : is_downloadable,
             "url" : url,
-            "yardage" : yardage
+            "yardage_description" : yardage_description,
+            "yarn_weight_description" : yarn_weight_description,
+            "gauge_description" : gauge_description,
+            "sizes_available" : sizes_available,
+            "notes" : notes,
         }
 
 
 
+
+
         return pattern_values
+
+
+    def return_dict_from_list(self, list_to_convert):
+        result_dict = {}
+
+        for item in list_to_convert:
+            for key, value in item.items():
+                result_dict[key] = value 
+
+        return result_dict
+
 
 
     def create_pattern_list(self, patterns_dict):
