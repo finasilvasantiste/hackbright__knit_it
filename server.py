@@ -59,8 +59,8 @@ def get_knitting_patterns_by_page(page):
     return jsonify(resp)
 
 
-@app.route('/patterns/ids/<string:pattern_ids_string>')
-def get_patterns_by_ids(pattern_ids_string):
+@app.route('/patterns/knitting/ids/<string:pattern_ids_string>')
+def get_knitting_patterns_by_ids(pattern_ids_string):
     """
        Returns multiple patterns given a list of pattern ids.
     """
@@ -71,7 +71,7 @@ def get_patterns_by_ids(pattern_ids_string):
 
     # print(pattern_ids)
 
-    resp = HANDLER.get_patterns_by_ids(pattern_ids)
+    resp = HANDLER.get_knitting_patterns_by_ids(pattern_ids)
 
     return jsonify(resp)
 

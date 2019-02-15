@@ -21,30 +21,15 @@ class HTTP_Handler():
         self.set_auth()
 
 
-
-    def submit_post(self, URL, dictToSend):
+    def send_get_request(self, url, params):
         """Returns response of external api as json."""
 
+        url = '{}{}'.format(self.BASE_URL, url)
+
+        print(url)
+        print(params)
         try: 
-            response = requests.post(URL, json=dictToSend)
+            response = requests.get(url, auth=self.AUTH, params = params,)
             return response.json()
         except:
             return {"status" : "500" , "reason" : "Post unsuccessful."}
-
-
-    def submit_get(self, URL):
-        """Returns response of external api as json."""
-        try: 
-            response = requests.get(URL, auth=self.AUTH)
-            return response.json()
-        except:
-            return {"status" : "500" , "reason" : "Post unsuccessful."}
-
-
-    def compose_url(self, prefix_url, middel_url, suffix_url):
-
-        partial_url = '{}{}{}'.format(prefix_url, middel_url, suffix_url)
-
-        url = '{}{}'.format(self.BASE_URL, partial_url)
-
-        return url

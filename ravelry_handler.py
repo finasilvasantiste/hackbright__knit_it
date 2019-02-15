@@ -11,31 +11,34 @@ class Ravelry_handler():
     MODEL_HANDLER_MINI_PATTERNS = Model_Handler_Mini_Pattern()
     MODEL_HANDLER_PATTERNS = Model_Handler_Pattern()
 
-    def get_api_result(self, base, action, query):
+
+    def get_api_result(self, url, params):
         """
-            Returns result from http request to external api.
+            Returns result from http get request to external api.
         """
-
-        url = self.HTTP_HANDLER.compose_url(base, action , query)
-
-        return self.HTTP_HANDLER.submit_get(url)
+        return self.HTTP_HANDLER.send_get_request(url, params)
 
 
-    def get_patterns_by_ids(self, ids_list):
+    def get_knitting_patterns_by_ids(self, ids_list):
         """
             Returns patterns given a list of pattern ids.
         """
-        base = 'patterns.json'
         ids_string = ''
 
         for i in ids_list:
-            ids_string = '{}+{}'.format(ids_string, i)
+            ids_string = '{}, {}'.format(ids_string, i)
 
-        base = 'patterns.json'
-        action = '?ids='
-        query = ids_string
+        ids_string = ids_string[1:]    
 
-        resp_from_server = self.get_api_result(base, action, query)
+        url = 'patterns.json'
+
+        params = {
+            "ids" : ids_string,
+            "craft" : "knitting"
+        }
+
+        resp_from_server = self.get_api_result(url, params)
+
 
         if resp_from_server.get('status'):
             return resp_from_server
@@ -51,11 +54,13 @@ class Ravelry_handler():
             Returns all patterns, 
             but only up to 100 at a time (provides paginator).
         """
-        base = 'patterns/'
-        action = 'search'
-        query = '.json'
 
-        resp_from_server = self.get_api_result(base, action, query)
+        url = "patterns/search.json"
+        params = {
+            "query" : ""
+        }
+
+        resp_from_server = self.get_api_result(url, params)
 
         if resp_from_server.get('status'):
             return resp_from_server
@@ -70,11 +75,14 @@ class Ravelry_handler():
             Returns all knitting patterns, 
             but only up to 100 at a time (provides paginator).
         """
-        base = 'patterns/'
-        action = 'search'
-        query = '.json?query=&craft=knitting'
 
-        resp_from_server = self.get_api_result(base, action, query)
+        url = 'patterns/search.json'
+        params = {
+            "query" : "",
+            "craft" : "knitting"
+        }
+
+        resp_from_server = self.get_api_result(url, params)
 
         if resp_from_server.get('status'):
             return resp_from_server
@@ -90,11 +98,18 @@ class Ravelry_handler():
             Returns all knitting patterns on a specific page, 
             but only up to 100 at a time (provides paginator).
         """
-        base = 'patterns/'
-        action = 'search'
-        query = '.json?query=&craft=knitting&page={}'.format(page)
 
-        resp_from_server = self.get_api_result(base, action, query)
+        url = 'patterns/search.json'
+
+        params = {
+            "query" : "",
+            "craft" : "knitting",
+            "page" : page
+        }
+
+
+        resp_from_server = self.get_api_result(url, params)
+
 
         if resp_from_server.get('status'):
             return resp_from_server
@@ -109,10 +124,12 @@ class Ravelry_handler():
             Returns all knitting patterns matching search query. 
         """
 
+        url = 'patterns/search.json'
 
-        base = 'patterns/'
-        action = 'search'
-        query = '.json?query={}&craft=knitting'.format(query) 
+        params = {
+            "query" : query,
+            "craft" : "knitting"
+        }
         
 
         # if page_number:
@@ -124,7 +141,7 @@ class Ravelry_handler():
         #     ## TO-DO: Implement paginating
         #     print('Query result has {} pages.'.format(resp_from_server['paginator']['page_count']))
 
-        resp_from_server = self.get_api_result(base, action, query)
+        resp_from_server = self.get_api_result(url, params)
 
         if resp_from_server.get('status'):
             return resp_from_server
