@@ -69,7 +69,7 @@ def get_patterns_by_ids(pattern_ids_string):
 
     pattern_ids = pattern_ids_string.split('+')
 
-    print(pattern_ids)
+    # print(pattern_ids)
 
     resp = HANDLER.get_patterns_by_ids(pattern_ids)
 

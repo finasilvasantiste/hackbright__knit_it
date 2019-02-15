@@ -40,10 +40,10 @@ class Ravelry_handler():
         if resp_from_server.get('status'):
             return resp_from_server
         else:
-            pattern_dicts = resp_from_server['patterns']
 
-            # print(patterns)
-            return resp_from_server
+            patterns_dicts = self.get_patterns_dict(resp_from_server)
+
+            return patterns_dicts
 
 
     def get_patterns(self):
@@ -104,14 +104,25 @@ class Ravelry_handler():
             return patterns_dicts  
 
 
-    def get_knitting_patterns_by_query(self, query):
+    def get_knitting_patterns_by_query(self, query, page_number=None):
         """
             Returns all knitting patterns matching search query. 
         """
+
+
         base = 'patterns/'
         action = 'search'
         query = '.json?query={}&craft=knitting'.format(query) 
         
+
+        # if page_number:
+        #     resp_from_server = self.get_next_page(base, action, query, page_number)
+        # else:
+        #     resp_from_server = self.get_api_result(base, action, query)
+
+        # if resp_from_server['paginator']['page'] != resp_from_server['paginator']['page_count']:
+        #     ## TO-DO: Implement paginating
+        #     print('Query result has {} pages.'.format(resp_from_server['paginator']['page_count']))
 
         resp_from_server = self.get_api_result(base, action, query)
 
@@ -121,14 +132,37 @@ class Ravelry_handler():
             patterns_dicts = self.get_mini_patterns_dict(resp_from_server)
 
             return patterns_dicts   
-            # return resp_from_server
+
+
+
+    # def get_next_page(self, base, action, query, page_number):
+    #     """
+    #         Returns next page of result.
+    #     """
+    #     page = 'page={}'.format(page_number)
+    #     query = '{}&{}'.format(query, page)
+
+    #     return self.get_api_result(base, action, query)
+
 
 
     def get_mini_patterns_dict(self, resp_from_server):
         """
             Returns list of mini patterns dictionaries using response from server provided.
         """
+
         patterns = self.MODEL_HANDLER_MINI_PATTERNS.create_pattern_list(resp_from_server['patterns'])
         patterns_dict = self.MODEL_HANDLER_MINI_PATTERNS.create_pattern_dict_list(patterns)
+        
+        return patterns_dict
+
+
+    def get_patterns_dict(self, resp_from_server):
+        """
+            Returns list of patterns dictionaries using response from server provided.
+        """
+
+        patterns = self.MODEL_HANDLER_PATTERNS.create_pattern_list(resp_from_server['patterns'])
+        patterns_dict = self.MODEL_HANDLER_PATTERNS.create_pattern_dict_list(patterns)
         
         return patterns_dict

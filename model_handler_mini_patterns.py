@@ -1,7 +1,7 @@
 ### Search requests that require usage of model classes are handled here. ###
 
-from model import Mini_Pattern
 from model_handler import Model_Handler
+from model import Mini_Pattern
 
 class Model_Handler_Mini_Pattern(Model_Handler):
 
@@ -56,9 +56,15 @@ class Model_Handler_Mini_Pattern(Model_Handler):
             pattern = self.create_pattern_of_type('mini pattern', pattern_values)
             patterns_list.append(pattern)
 
-            print(pattern)
-            print('   ')
-
-        print(len(patterns_list))
 
         return patterns_list
+
+
+    def create_pattern_dict(self, pattern):
+        """
+            Returns pattern dictionary by using data from pattern object provided.
+        """
+
+        pattern_dict = Mini_Pattern.as_dict(pattern)
+
+        return pattern_dict

@@ -4,15 +4,6 @@ from model import Pattern, Mini_Pattern
 
 class Model_Handler():
 
-    def create_pattern_dict(self, pattern):
-        """
-            Returns pattern dictionary by using data from pattern object provided.
-        """
-
-        pattern_dict = Pattern.as_dict(pattern)
-
-        return pattern_dict
-
 
     def create_pattern_dict_list(self, patterns_list):
         """
@@ -34,6 +25,7 @@ class Model_Handler():
             Returns pattern object of specified type by using data from dictionary provided.
         """
 
+        
         if pattern_type == 'mini pattern':
             return Mini_Pattern(pattern_values)
         elif pattern_type == 'pattern':
