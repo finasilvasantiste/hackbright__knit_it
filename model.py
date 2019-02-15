@@ -43,6 +43,16 @@ class Pattern(Mini_Pattern):
         self.yardage = pattern_values['yardage']
 
 
+    def __repr__(self):
+
+        repr_s = "<Pattern pattern_id='{}' name='{}' is_free='{}' img_fullsize_url='{}' img_small_url='{}' is_clothing={} pattern_type={} is_downloadable={}> url={} yardage={}".format(
+            self.pattern_id, self.name, self.is_free, self.img_fullsize_url, 
+            self.img_small_url, self.is_clothing, self.pattern_type, self.is_downloadable,
+            self.url, self.yardage)
+
+        return repr_s
+
+
     @classmethod
     def as_dict(self, pattern):
 

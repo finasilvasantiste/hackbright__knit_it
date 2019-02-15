@@ -1,9 +1,9 @@
 ### ID requests that require usage of model classes are handled here.   ###
 
-from model_handler import Model_Handler
+from model_handler_mini_patterns import Model_Handler_Mini_Pattern
 from model import Pattern
 
-class Model_Handler_Pattern(Model_Handler):
+class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
 
     def set_values(self, pattern_dict):
         """
