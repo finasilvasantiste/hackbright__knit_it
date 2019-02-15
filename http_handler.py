@@ -26,8 +26,6 @@ class HTTP_Handler():
 
         url = '{}{}'.format(self.BASE_URL, url)
 
-        print(url)
-        print(params)
         try: 
             response = requests.get(url, auth=self.AUTH, params = params,)
             return response.json()

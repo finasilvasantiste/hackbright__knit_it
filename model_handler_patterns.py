@@ -84,6 +84,11 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
         else:
             notes = ''
 
+        if pattern_dict['created_at']:
+            created_at = pattern_dict['created_at']
+        else:
+            created_at = ''
+
 
 
         pattern_values = {
@@ -101,6 +106,7 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
             "gauge_description" : gauge_description,
             "sizes_available" : sizes_available,
             "notes" : notes,
+            "created_at" : created_at
         }
 
 
