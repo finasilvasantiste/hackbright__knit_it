@@ -10,6 +10,9 @@ class Ravelry_handler():
     HTTP_HANDLER = HTTP_Handler()
     MODEL_HANDLER_MINI_PATTERNS = Model_Handler_Mini_Pattern()
     MODEL_HANDLER_PATTERNS = Model_Handler_Pattern()
+    
+    URL_RETURNS_MINI_PATTERNS = "patterns/search.json"
+    URL_RETURNS_PATTERNS = "patterns.json"
 
 
     def get_api_result(self, url, params):
@@ -21,7 +24,7 @@ class Ravelry_handler():
 
     def get_knitting_patterns_by_ids(self, ids_list):
         """
-            Returns patterns given a list of pattern ids.
+            Returns knitting patterns given a list of pattern ids.
         """
         ids_string = ''
 
@@ -30,20 +33,17 @@ class Ravelry_handler():
 
         ids_string = ids_string[1:]    
 
-        url = 'patterns.json'
-
         params = {
             "ids" : ids_string,
             "craft" : "knitting"
         }
 
-        resp_from_server = self.get_api_result(url, params)
+        resp_from_server = self.get_api_result(self.URL_RETURNS_PATTERNS, params)
 
 
         if resp_from_server.get('status'):
             return resp_from_server
         else:
-
             patterns_dicts = self.get_patterns_dict(resp_from_server)
 
             return patterns_dicts
@@ -55,12 +55,11 @@ class Ravelry_handler():
             but only up to 100 at a time (provides paginator).
         """
 
-        url = "patterns/search.json"
         params = {
             "query" : ""
         }
 
-        resp_from_server = self.get_api_result(url, params)
+        resp_from_server = self.get_api_result(self.URL_RETURNS_MINI_PATTERNS, params)
 
         if resp_from_server.get('status'):
             return resp_from_server
@@ -76,13 +75,12 @@ class Ravelry_handler():
             but only up to 100 at a time (provides paginator).
         """
 
-        url = 'patterns/search.json'
         params = {
             "query" : "",
             "craft" : "knitting"
         }
 
-        resp_from_server = self.get_api_result(url, params)
+        resp_from_server = self.get_api_result(self.URL_RETURNS_MINI_PATTERNS, params)
 
         if resp_from_server.get('status'):
             return resp_from_server
@@ -99,8 +97,6 @@ class Ravelry_handler():
             but only up to 100 at a time (provides paginator).
         """
 
-        url = 'patterns/search.json'
-
         params = {
             "query" : "",
             "craft" : "knitting",
@@ -108,7 +104,7 @@ class Ravelry_handler():
         }
 
 
-        resp_from_server = self.get_api_result(url, params)
+        resp_from_server = self.get_api_result(self.URL_RETURNS_MINI_PATTERNS, params)
 
 
         if resp_from_server.get('status'):
@@ -123,8 +119,6 @@ class Ravelry_handler():
         """
             Returns all knitting patterns matching search query. 
         """
-
-        url = 'patterns/search.json'
 
         params = {
             "query" : query,
@@ -141,7 +135,7 @@ class Ravelry_handler():
         #     ## TO-DO: Implement paginating
         #     print('Query result has {} pages.'.format(resp_from_server['paginator']['page_count']))
 
-        resp_from_server = self.get_api_result(url, params)
+        resp_from_server = self.get_api_result(self.URL_RETURNS_MINI_PATTERNS, params)
 
         if resp_from_server.get('status'):
             return resp_from_server
