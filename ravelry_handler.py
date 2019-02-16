@@ -92,39 +92,33 @@ class Ravelry_handler():
             # return resp_from_server  
 
 
-    def get_knitting_patterns_by_page(self, page):
-        """
-            Returns all knitting patterns on a specific page, 
-            but only up to 100 at a time (provides paginator).
-        """
-
-        params = {
-            "query" : "",
-            "craft" : "knitting",
-            "page" : page
-        }
-
-
-        resp_from_server = self.get_api_result(self.URL_RETURNS_MINI_PATTERNS, params)
-
-
-        if resp_from_server.get('status'):
-            return resp_from_server
-        else:
-            patterns_dicts = self.get_mini_patterns_dict(resp_from_server)
-
-            return patterns_dicts  
-
-
     def get_knitting_patterns_by_query(self, query, page_number=None):
         """
-            Returns all knitting patterns matching search query. 
+            Returns all knitting patterns matching search query,
+            but only up to 100 at a time (provides paginator).
+            Optional argument page number. 
         """
 
-        params = {
-            "query" : query,
-            "craft" : "knitting"
-        }
+        query_list = query.split("+")
+        query_string = ""
+
+        if len(query_list) >1:
+            for i in query_list:
+                query_string = '{} {}'.format(query_string, i)
+        else:
+            query_string = query  
+
+        if page_number:        
+            params = {
+                "query" : query_string,
+                "craft" : "knitting",
+                "page" : page_number
+            }
+        else:
+            params = {
+                "query" : query_string,
+                "craft" : "knitting"
+            }   
         
 
         # if page_number:

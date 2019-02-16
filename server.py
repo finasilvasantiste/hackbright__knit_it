@@ -53,8 +53,8 @@ def get_knitting_patterns_by_page(page):
         Returns all knitting patterns on a specific page, 
         but only up to 100 at a time (provides paginator).
     """
-
-    resp = HANDLER.get_knitting_patterns_by_page(page)
+    query = ""
+    resp = HANDLER.get_knitting_patterns_by_query(query,page)
 
     return jsonify(resp)
 
@@ -68,8 +68,6 @@ def get_knitting_patterns_by_ids(pattern_ids_string):
     pattern_ids = []
 
     pattern_ids = pattern_ids_string.split('+')
-
-    # print(pattern_ids)
 
     resp = HANDLER.get_knitting_patterns_by_ids(pattern_ids)
 
