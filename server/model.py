@@ -48,7 +48,12 @@ class Pattern(Mini_Pattern):
         self.description = pattern_values['notes']
         self.created_at = self.convert_date_time(pattern_values['created_at'])
 
-        print(self)
+        self.suggested_yarn = Yarn.get_yarn_list(pattern_values['suggested_yarn_list'])
+        self.suggested_needles = Needles.get_needles_list(pattern_values['suggested_needles_list'])
+
+        # print(self)
+        # print('+++++++++++')
+        # print(pattern_values['suggested_needles_list'])
 
 
     def convert_date_time(self, date_time_str):
@@ -84,6 +89,10 @@ class Pattern(Mini_Pattern):
     @classmethod
     def as_dict(self, pattern):
 
+        suggested_yarn_dict = Yarn.get_yarn_dicts(pattern.suggested_yarn)
+
+        needles_dict = Needles.get_needles_dicts(pattern.suggested_needles)
+
         pattern_dict = {
             "pattern_id" : pattern.pattern_id, 
             "name" : pattern.name, 
@@ -99,22 +108,116 @@ class Pattern(Mini_Pattern):
             "gauge" : pattern.gauge,
             "sizes" : pattern.sizes,
             "description" : pattern.description,
-            "created_at" : pattern.created_at
+            "created_at" : pattern.created_at,
+            "suggested_yarn" : suggested_yarn_dict,
+            "needles" : needles_dict
             }
 
         return pattern_dict
 
 
 
-class Needles():
-    pass
-
-
 class Yarn():
-    pass
+    
+    def __init__(self, name, weight):
+        self.name = name
+        self.weight = weight
 
 
-class Author():
-    pass
+    def __repr__(self):
+        repr_s = "<Yarn name='{}' weight='{}'>".format(self.name, self.weight)
+        return repr_s
+
+
+    @classmethod
+    def get_yarn_list(self, suggested_yarn_list):
+        yarn_list = []
+
+        for yarn in suggested_yarn_list:
+            yarn_name = yarn['yarn_name']
+            yarn_weight = yarn['yarn_weight']['name']
+
+            yarn = Yarn(yarn_name, yarn_weight)
+
+            yarn_list.append(yarn)
+
+        return yarn_list
+
+
+    @classmethod
+    def get_yarn_dicts(self, yarn_list):
+        yarn_dict_list = []
+
+        for yarn in yarn_list:
+            yarn_dict = Yarn.as_dict(yarn)
+
+            yarn_dict_list.append(yarn_dict)
+
+        return yarn_dict_list
+
+
+    @classmethod
+    def as_dict(self, yarn):
+
+        yarn_dict ={
+            "name" : yarn.name,
+            "weight" : yarn.weight
+        }
+
+        return yarn_dict
+
+
+class Needles():
+
+    def __init__(self, name):
+        self.name = name
+
+
+    def __repr__(self):
+
+        repr_s = "<Needles name='{}'>".format(self.name)
+
+        return repr_s
+
+
+    @classmethod
+    def get_needles_list(self, suggested_needles_list):
+        needles_list = []
+
+        for needles in suggested_needles_list:
+            needles_name = needles['name']
+
+            needles = Needles(needles_name)
+
+            needles_list.append(needles)
+
+        return needles_list
+
+
+    @classmethod
+    def get_needles_dicts(self, needles_list):
+        needles_dict_list = []
+
+        for needles in needles_list:
+            needles_dict = Needles.as_dict(needles)
+
+            needles_dict_list.append(needles_dict)
+
+        return needles_dict_list
+
+
+    @classmethod
+    def as_dict(self, needles):
+
+        needles_dict ={
+            "name" : needles.name
+        }
+
+        return needles_dict
+
+
+
+# class Author():
+#     pass
 
 

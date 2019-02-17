@@ -120,7 +120,7 @@ class Ravelry_handler():
                 "craft" : "knitting"
             }   
         
-
+        ### PAGINATION DRAFT
         # if page_number:
         #     resp_from_server = self.get_next_page(base, action, query, page_number)
         # else:
@@ -140,7 +140,7 @@ class Ravelry_handler():
             return patterns_dicts   
 
 
-
+    ### PAGINATION DRAFT
     # def get_next_page(self, base, action, query, page_number):
     #     """
     #         Returns next page of result.

@@ -89,6 +89,15 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
         else:
             created_at = ''
 
+        if pattern_dict['packs']:
+            suggested_yarn_list = pattern_dict['packs']
+        else:
+            suggested_yarn_list = []
+
+        if pattern_dict['pattern_needle_sizes']:
+            suggested_needles_list = pattern_dict['pattern_needle_sizes']
+        else:
+            suggested_needles_list = []
 
 
         pattern_values = {
@@ -106,11 +115,10 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
             "gauge_description" : gauge_description,
             "sizes_available" : sizes_available,
             "notes" : notes,
-            "created_at" : created_at
+            "created_at" : created_at,
+            "suggested_yarn_list" : suggested_yarn_list,
+            "suggested_needles_list" : suggested_needles_list
         }
-
-
-
 
 
         return pattern_values

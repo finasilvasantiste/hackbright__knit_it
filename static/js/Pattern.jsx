@@ -50,8 +50,10 @@ export default class Pattern extends React.Component {
     }
 
     getPythonPattern(){
-        const route = 'patterns/knitting/ids/781496'
-        $.get(window.location.href + route, (data) => {
+        const route = '/patterns/knitting/ids/781496'
+
+        $.get(route, (data) => {
+        // $.get(window.location.href + route, (data) => {
             console.log(data);
             this.setPattern(data)
         });

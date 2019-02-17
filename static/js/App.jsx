@@ -1,5 +1,5 @@
 import React from "react";
-import Hello from "./Hello";
+// import Hello from "./Hello";
 import Pattern from "./Pattern"
 import { PageHeader } from "react-bootstrap";
 
