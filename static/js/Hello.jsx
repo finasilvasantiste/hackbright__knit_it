@@ -18,6 +18,7 @@ export default class Hello extends React.Component {
 
     getPythonHello() {
         $.get(window.location.href + 'hello', (data) => {
+            console.log('Data:')
             console.log(data);
             this.personaliseGreeting(data);
         });
