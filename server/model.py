@@ -88,7 +88,7 @@ class Pattern(Mini_Pattern):
             "pattern_id" : pattern.pattern_id, 
             "name" : pattern.name, 
             "is_free": pattern.is_free, 
-            "img_fullsize_ur": pattern.img_fullsize_url, 
+            "img_fullsize_url": pattern.img_fullsize_url, 
             "img_small_url": pattern.img_small_url,
             "is_clothing" : pattern.is_clothing,
             "pattern_type" : pattern.pattern_type,
