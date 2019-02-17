@@ -20,6 +20,14 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
         else:
             name = ''
 
+        if pattern_dict['pattern_author']:
+            if pattern_dict['pattern_author']['name']:
+                author = pattern_dict['pattern_author']['name']
+            else:
+                author = ''
+        else:
+            author = ''
+
         if pattern_dict['free']:
             is_free = pattern_dict['free']
         else:
@@ -103,6 +111,7 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
         pattern_values = {
             "pattern_id" : pattern_id,
             "name" : name,
+            "author" : author,
             "is_free" : is_free,
             "img_fullsize_url" : img_fullsize_url,
             "img_small_url" : img_small_url,

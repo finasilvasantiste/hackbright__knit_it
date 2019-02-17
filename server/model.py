@@ -34,6 +34,7 @@ class Pattern(Mini_Pattern):
     def __init__(self, pattern_values):
         self.pattern_id = pattern_values['pattern_id']
         self.name = pattern_values['name']
+        self.author = pattern_values['author']
         self.is_free = pattern_values['is_free']
         self.img_fullsize_url = pattern_values['img_fullsize_url']
         self.img_small_url = pattern_values['img_small_url']
@@ -78,8 +79,8 @@ class Pattern(Mini_Pattern):
 
     def __repr__(self):
 
-        repr_s = "<Pattern pattern_id='{}' name='{}' is_free='{}' img_fullsize_url='{}' img_small_url='{}' is_clothing='{}' pattern_type='{}' is_downloadable='{}' url='{}' yardage='{}' yarn_weight='{}' gauge='{}' sizes='{}' description='{}' created_at='{}'".format(
-            self.pattern_id, self.name, self.is_free, self.img_fullsize_url, 
+        repr_s = "<Pattern pattern_id='{}' name='{}' author='{}' is_free='{}' img_fullsize_url='{}' img_small_url='{}' is_clothing='{}' pattern_type='{}' is_downloadable='{}' url='{}' yardage='{}' yarn_weight='{}' gauge='{}' sizes='{}' description='{}' created_at='{}'".format(
+            self.pattern_id, self.name, self.author, self.is_free, self.img_fullsize_url, 
             self.img_small_url, self.is_clothing, self.pattern_type, self.is_downloadable,
             self.url, self.yardage, self.yarn_weight, self.gauge, self.sizes, self.description, self.created_at)
 
@@ -96,6 +97,7 @@ class Pattern(Mini_Pattern):
         pattern_dict = {
             "pattern_id" : pattern.pattern_id, 
             "name" : pattern.name, 
+            "author" : pattern.author,
             "is_free": pattern.is_free, 
             "img_fullsize_url": pattern.img_fullsize_url, 
             "img_small_url": pattern.img_small_url,
@@ -167,6 +169,7 @@ class Yarn():
         return yarn_dict
 
 
+
 class Needles():
 
     def __init__(self, name):
@@ -214,10 +217,4 @@ class Needles():
         }
 
         return needles_dict
-
-
-
-# class Author():
-#     pass
-
 
