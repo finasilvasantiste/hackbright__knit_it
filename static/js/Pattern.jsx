@@ -150,9 +150,7 @@ export default class Pattern extends React.Component {
 
     render () {
         return (
-            <Grid>
-                <Row>
-                <Col md={7} mdOffset={5}>
+                <Col>
                     <h1>{this.state.name}</h1>
                     By {this.state.author}
                     <br></br>
@@ -187,16 +185,11 @@ export default class Pattern extends React.Component {
                     <p>
                     Description: {this.state.description}
                     </p>
-                </Col>
-                </Row>
-                <Row>
-                <Col md={7} mdOffset={5}>
+
                     <Button bsSize="large" bsStyle="danger" onClick={this.getPythonPattern}>
                     Load Pattern!
                     </Button>
                 </Col>
-                </Row>
-            </Grid>
         );
     }
 

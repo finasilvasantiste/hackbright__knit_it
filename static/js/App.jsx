@@ -1,6 +1,10 @@
 import React from "react";
 import Pattern from "./Pattern"
-import { PageHeader } from "react-bootstrap";
+import Search from "./Search"
+// import { PageHeader } from "react-bootstrap";
+import { Button, Grid, Row, Col } from "react-bootstrap";
+
+
 
 require('../css/fullstack.css');
 var $ = require('jquery');
@@ -24,7 +28,17 @@ export default class App extends React.Component {
             //     <Pattern />
             //     </div>
             // </PageHeader>
-            <Pattern />
+            
+            <Grid>
+                <Row>
+                    <Col md={6} >
+                        <Search />
+                    </Col>
+                    <Col md={6}>
+                        <Pattern /> 
+                    </Col>                
+                </Row>
+            </Grid>
         );
     }
 }

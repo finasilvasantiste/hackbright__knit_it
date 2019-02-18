@@ -19,14 +19,7 @@ HANDLER = Ravelry_handler()
 def index():
 
     return render_template('index.html')
-
-
-@app.route('/pattern_info')
-def get_pattern_info():
-    '''
-        Returns rendered pattern info page.
-    '''
-    return render_template('pattern_info.html')
+    
 
 
 @app.route('/patterns')
