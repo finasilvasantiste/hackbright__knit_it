@@ -1,7 +1,9 @@
 import React from "react";
 import { Button, Grid, Row, Col } from "react-bootstrap";
 
+
 var $ = require('jquery');
+
 
 export default class Pattern extends React.Component {
 
@@ -28,29 +30,23 @@ export default class Pattern extends React.Component {
 
         this.getPythonPattern = this.getPythonPattern.bind(this);
 
-        this.setSuggestedYarn = this.setSuggestedYarn.bind(this);
-        this.setYarnHTML = this.setYarnHTML.bind(this);
-
-
     }
 
-    setYarnHTML(yarn){
-        console.log(yarn)
-        let yarn_html = yarn.name + ' (weight class: ' + yarn.weight + ')'
+    setYarnText(yarn){
+        let yarn_html = yarn.name + ' (' + yarn.weight + ')'
 
         return yarn_html
     }
 
     setSuggestedYarn(yarn_list){
-        let yarn_unpacked = ''
+        let yarn_unpacked = []
 
         for(let i = 0; i< yarn_list.length; i++){
-            let yarn = this.setYarnHTML(yarn_list[i])
-            yarn_unpacked = yarn_unpacked + ', ' + yarn
+            let yarn = this.setYarnText(yarn_list[i])
+            yarn_unpacked.push(yarn)
 
         };
 
-        yarn_unpacked = yarn_unpacked.substr(1);
         return yarn_unpacked
     }
 
@@ -60,6 +56,12 @@ export default class Pattern extends React.Component {
 
         const suggested_yarn = this.setSuggestedYarn(pattern.suggested_yarn)
 
+
+        const yarn_list = suggested_yarn.map((yarn) =>
+            <li key={yarn.toString()}>
+            {yarn}</li>
+            );
+               
         this.setState({
             name: pattern.name ,
             author : pattern.author,
@@ -76,7 +78,9 @@ export default class Pattern extends React.Component {
             description : pattern.description,
             img_fullsize_url : pattern.img_fullsize_url,
             img_small_url: pattern.img_small_url,
-            suggested_yarn : suggested_yarn
+            suggested_yarn : yarn_list
+            // suggested_yarn : suggested_yarn
+            // suggested_yarn : pattern.suggested_yarn
         });
 
     }
@@ -120,9 +124,10 @@ export default class Pattern extends React.Component {
                     <br></br>
                     Url: {this.state.url}
                     </p>
-                    <p>
-                    Suggested Yarn: {this.state.suggested_yarn}
-                    </p>
+                    Suggested Yarn: 
+                    <ul>
+                    {this.state.suggested_yarn}
+                    </ul>
                     <p>
                     Description: {this.state.description}
                     </p>
