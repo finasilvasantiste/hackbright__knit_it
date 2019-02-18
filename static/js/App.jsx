@@ -31,11 +31,11 @@ export default class App extends React.Component {
             
             <Grid>
                 <Row>
-                    <Col md={6} >
+                    <Col md={8} >
                         <Search />
                     </Col>
-                    <Col md={6}>
-                        <Pattern /> 
+                    <Col md={4}>
+                        <Pattern id='781496'/> 
                     </Col>                
                 </Row>
             </Grid>
