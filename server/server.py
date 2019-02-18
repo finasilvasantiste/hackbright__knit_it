@@ -17,9 +17,11 @@ HANDLER = Ravelry_handler()
 
 @app.route('/')
 def index():
-
+    """
+        Returns rendered index.html.
+    """
     return render_template('index.html')
-    
+
 
 
 @app.route('/patterns')
@@ -34,6 +36,14 @@ def get_patterns():
 
 
 @app.route('/patterns/knitting')
+def knitting_patterns():
+    """
+       Calls function to return all knitting patterns.
+    """
+
+    return get_knitting_patterns()
+
+
 def get_knitting_patterns():
     """
         Returns all knitting patterns.

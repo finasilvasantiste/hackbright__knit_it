@@ -30,7 +30,7 @@ export default class Pattern extends React.Component {
             img_small_url: 'pattern.img_small_url',
             suggested_yarn : 'pattern.suggested_yarn',
             needles_required : 'pattern.needles',
-            id : this.props.id
+            pattern_id : this.props.id
         };
         // console.log(this.state.id)
         this.getPythonPattern = this.getPythonPattern.bind(this);
@@ -76,6 +76,8 @@ export default class Pattern extends React.Component {
         return needles_unpacked
 
     }
+
+
 
 
     setPattern(pattern_list){
@@ -136,12 +138,15 @@ export default class Pattern extends React.Component {
 
     }
 
+
+
+
     getPythonPattern(){
         /* 
             Gets pattern info from python server and forwards it to set the new state of component.
         */
 
-        const pattern_id = this.state.id
+        const pattern_id = this.state.pattern_id
 
         const route = '/patterns/knitting/ids/'
 
@@ -150,6 +155,10 @@ export default class Pattern extends React.Component {
             console.log(data);
             this.setPattern(data)
         });
+    }
+
+    componentDidMount() {
+        this.getPythonPattern(); 
     }
 
     render () {
@@ -189,10 +198,6 @@ export default class Pattern extends React.Component {
                     <p>
                     Description: {this.state.description}
                     </p>
-
-                    <Button bsSize="large" bsStyle="danger" onClick={this.getPythonPattern}>
-                    Load Pattern!
-                    </Button>
                 </Col>
         );
     }

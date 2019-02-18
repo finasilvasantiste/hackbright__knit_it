@@ -1,6 +1,6 @@
 import React from "react";
 import Pattern from "./Pattern"
-import Search from "./Search"
+import MiniPatterns from "./MiniPatterns"
 // import { PageHeader } from "react-bootstrap";
 import { Button, Grid, Row, Col } from "react-bootstrap";
 
@@ -31,10 +31,10 @@ export default class App extends React.Component {
             
             <Grid>
                 <Row>
-                    <Col md={8} >
-                        <Search />
+                    <Col md={7} >
+                        <MiniPatterns />
                     </Col>
-                    <Col md={4}>
+                    <Col md={5}>
                         <Pattern id='781496'/> 
                     </Col>                
                 </Row>
