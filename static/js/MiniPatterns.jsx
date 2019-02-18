@@ -9,10 +9,11 @@ export default class MiniPatterns extends React.Component {
         super(props);
         this.state = {
           data: [
-            {name: "mini_pattern.name",
-            pattern_id: "mini_pattern.pattern_id",
-            img_fullsize_url : "mini_pattern.img_fullsize_url",
-            img_small_url : "mini_pattern.img_small_url"
+            {
+                name: "mini_pattern.name",
+                pattern_id: "mini_pattern.pattern_id",
+                img_fullsize_url : "mini_pattern.img_fullsize_url",
+                img_small_url : "mini_pattern.img_small_url"
             }
            ]
         };
@@ -20,10 +21,14 @@ export default class MiniPatterns extends React.Component {
 
 
     setMiniPatterns(mini_patterns_list){
+        /*
+            Sets new state of component using mini patterns list.
+        */
         this.setState({
             data : mini_patterns_list
         });
 
+        this.props.callbackFromParent(this.state.data[0])
     }
 
 
@@ -33,6 +38,8 @@ export default class MiniPatterns extends React.Component {
         */
 
         // const pattern_id = this.state.pattern_id
+
+        console.log('Inside Pattern');
 
         const route = '/patterns/knitting'
 

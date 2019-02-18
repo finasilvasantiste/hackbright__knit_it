@@ -77,8 +77,15 @@ export default class Pattern extends React.Component {
 
     }
 
+    getBoolString(bool_to_convert){
 
+        if (bool_to_convert){
+            return 'Yes'
+        }else{
+            return 'No'
+        }
 
+    }
 
     setPattern(pattern_list){
         /* 
@@ -91,20 +98,10 @@ export default class Pattern extends React.Component {
         
         const needles_required = this.getNeedlesRequired(pattern.needles)
 
-        let is_free_string
-        if (pattern.is_free){
-            is_free_string = 'Yes'
-        }else{
-            is_free_string = 'No'
-        }
+        let is_free_string = this.getBoolString(pattern.is_free)
 
-        let is_downloadable_string
-        if (pattern.is_downloadable){
-            is_downloadable_string = 'Yes'
-        }else{
-            is_downloadable_string = 'No'
-        }
-
+        let is_downloadable_string = this.getBoolString(pattern.is_downloadable)
+ 
 
         const yarn_list = suggested_yarn.map((yarn) =>
             <li key={yarn.toString()}>
@@ -139,8 +136,6 @@ export default class Pattern extends React.Component {
     }
 
 
-
-
     getPythonPattern(){
         /* 
             Gets pattern info from python server and forwards it to set the new state of component.
@@ -160,6 +155,10 @@ export default class Pattern extends React.Component {
     componentDidMount() {
         this.getPythonPattern(); 
     }
+
+    // componentDidUpdate() {
+    //     this.getPythonPattern(); 
+    // }
 
     render () {
         return (
