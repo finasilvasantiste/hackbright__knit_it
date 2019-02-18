@@ -8,6 +8,9 @@ var $ = require('jquery');
 export default class Pattern extends React.Component {
 
     constructor(props){
+        /*
+            Sets initial state and binds function getPythonPattern.
+        */
         super(props);
         this.state = {
             name: 'pattern.name' ,
@@ -21,29 +24,35 @@ export default class Pattern extends React.Component {
             is_clothing : 'pattern.is_clothing',
             is_free : 'pattern.is_free',
             is_downloadable : 'pattern.is_downloadable',
-            url : 'pattern.url',
+            download_url : 'pattern.url',
             description : 'pattern.description',
             img_fullsize_url : 'pattern.img_fullsize_url',
             img_small_url: 'pattern.img_small_url',
             suggested_yarn : 'pattern.suggested_yarn',
-            needles_required : 'pattern.needles'
+            needles_required : 'pattern.needles',
         };
 
         this.getPythonPattern = this.getPythonPattern.bind(this);
 
     }
 
-    setYarnText(yarn){
+    getYarnText(yarn){
+        /*
+            Returns a yarn item by combining name and weight to one string.
+        */
         const yarn_html = yarn.name + ' (' + yarn.weight + ')'
 
         return yarn_html
     }
 
-    setSuggestedYarn(yarn_list){
+    getSuggestedYarn(yarn_list){
+        /*
+            Returns list with yarn name and weight.
+        */
         const yarn_unpacked = []
 
         for(let i = 0; i< yarn_list.length; i++){
-            const yarn = this.setYarnText(yarn_list[i])
+            const yarn = this.getYarnText(yarn_list[i])
             yarn_unpacked.push(yarn)
 
         };
@@ -51,7 +60,10 @@ export default class Pattern extends React.Component {
         return yarn_unpacked
     }
 
-    setNeedlesRequired(needles_list){
+    getNeedlesRequired(needles_list){
+        /*
+            Returns list with needle names.
+        */
         const needles_unpacked = []
 
         for(let i = 0; i< needles_list.length; i++){
@@ -66,11 +78,29 @@ export default class Pattern extends React.Component {
 
 
     setPattern(pattern_list){
+        /* 
+            Sets new state of component with pattern values.
+        */
+
         const pattern = pattern_list[0]
 
-        const suggested_yarn = this.setSuggestedYarn(pattern.suggested_yarn)
+        const suggested_yarn = this.getSuggestedYarn(pattern.suggested_yarn)
         
-        const needles_required = this.setNeedlesRequired(pattern.needles)
+        const needles_required = this.getNeedlesRequired(pattern.needles)
+
+        let is_free_string
+        if (pattern.is_free){
+            is_free_string = 'Yes'
+        }else{
+            is_free_string = 'No'
+        }
+
+        let is_downloadable_string
+        if (pattern.is_downloadable){
+            is_downloadable_string = 'Yes'
+        }else{
+            is_downloadable_string = 'No'
+        }
 
 
         const yarn_list = suggested_yarn.map((yarn) =>
@@ -93,9 +123,9 @@ export default class Pattern extends React.Component {
             yarn_weight : pattern.yarn_weight,
             gauge : pattern.gauge,
             is_clothing : pattern.is_clothing,
-            is_free : pattern.is_free,
-            is_downloadable : pattern.is_downloadable,
-            url : pattern.url,
+            is_free : is_free_string,
+            is_downloadable : is_downloadable_string,
+            download_url : pattern.url,
             description : pattern.description,
             img_fullsize_url : pattern.img_fullsize_url,
             img_small_url: pattern.img_small_url,
@@ -106,6 +136,9 @@ export default class Pattern extends React.Component {
     }
 
     getPythonPattern(){
+        /* 
+            Gets pattern info from python server and forwards it to set the new state of component.
+        */
         const route = '/patterns/knitting/ids/781496'
 
         $.get(route, (data) => {
@@ -125,6 +158,7 @@ export default class Pattern extends React.Component {
                     <br></br>
                     Created at {this.state.created_at}
                     <hr/>
+                    <img src={this.state.img_fullsize_url}/>
                     <p>
                     Pattern Type: {this.state.pattern_type}
                     <br></br>
@@ -136,13 +170,11 @@ export default class Pattern extends React.Component {
                     <br></br>
                     Gauge: {this.state.gauge}
                     <br></br>
-                    Is clothing: {this.state.is_clothing}
+                    Is it free?: {this.state.is_free}
                     <br></br>
-                    Is free: {this.state.is_free}
+                    Can I download it?: {this.state.is_downloadable}
                     <br></br>
-                    Is downloadble: {this.state.is_downloadable}
-                    <br></br>
-                    Url: {this.state.url}
+                    Download url: {this.state.download_url}
                     </p>
                     Suggested Yarn: 
                     <ul>

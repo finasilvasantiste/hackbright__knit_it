@@ -33,13 +33,18 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
         else:
             is_free = ''
 
-        dict_from_list = self.return_dict_from_list(pattern_dict['photos'])
-        if dict_from_list:
-            img_fullsize_url = dict_from_list['medium2_url']
-            img_small_url = dict_from_list['small_url']
+        photos_list = pattern_dict['photos']
+        if photos_list:
+            if len(photos_list) > 1:
+                img_fullsize_url = photos_list[0]['medium2_url']
+                img_small_url = photos_list[0]['small_url']
+            else:
+                img_fullsize_url = ''
+                img_small_url = ''
         else:
             img_fullsize_url = ''
             img_small_url = ''
+
 
         if pattern_dict['pattern_type']:
             if pattern_dict['pattern_type']['clothing']:
@@ -131,17 +136,6 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
 
 
         return pattern_values
-
-
-    def return_dict_from_list(self, list_to_convert):
-        result_dict = {}
-
-        for item in list_to_convert:
-            for key, value in item.items():
-                result_dict[key] = value 
-
-        return result_dict
-
 
 
     def create_pattern_list(self, patterns_dict):
