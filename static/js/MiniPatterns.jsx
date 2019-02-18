@@ -18,10 +18,12 @@ export default class MiniPatterns extends React.Component {
                 img_small_url : "mini_pattern.img_small_url"
             }
            ],
-           pattern_id: 781496
+           pattern_id: 781496,
+           page_number: 1
         };
 
         this.getPatternID = this.getPatternID.bind(this);
+        this.getNextPage = this.getNextPage.bind(this);
     }
 
 
@@ -37,21 +39,27 @@ export default class MiniPatterns extends React.Component {
     }
 
 
-    getPythonMiniPatterns(){
+    getPythonMiniPatterns(increment){
         /* 
             Gets mini patterns from python server and forwards it to set the new state of component.
         */
+        let next_page
 
-        // const pattern_id = this.state.pattern_id
+        if (increment){
+            next_page = this.state.page_number + 1
+        }else{
+            next_page = this.state.page_number
+        };
 
-        console.log('Inside Pattern');
+        const route = '/patterns/knitting/page/'
 
-        const route = '/patterns/knitting'
+        this.setState({
+            page_number : next_page
+        })
 
-        $.get(route, (data) => {
-        // $.get(window.location.href + route, (data) => {
+
+        $.get(route + next_page, (data) => {
             console.log(data);
-            // this.setPattern(data)
             this.setMiniPatterns(data)
         });
     }
@@ -64,12 +72,14 @@ export default class MiniPatterns extends React.Component {
             pattern_id : pattern_id
         });
 
-        console.log(this.state.pattern_id)
-
     };
 
+    getNextPage(){
+        this.getPythonMiniPatterns(true); 
+    }
+
     componentDidMount() {
-        this.getPythonMiniPatterns(); 
+        this.getPythonMiniPatterns(false); 
     }
 
     render(){
@@ -92,7 +102,10 @@ export default class MiniPatterns extends React.Component {
                 <Col md={5}>
                     <Pattern id={this.state.pattern_id}/> 
                 </Col> 
-            </Row> 
+                <Button bsSize="large" bsStyle="danger" onClick={this.getNextPage}>
+                  Next Page!
+                </Button>
+            </Row>
             );
     }
 

@@ -136,29 +136,37 @@ export default class Pattern extends React.Component {
     }
 
 
-    getPythonPattern(){
+    getPythonPattern(pattern_id){
         /* 
             Gets pattern info from python server and forwards it to set the new state of component.
         */
 
-        const pattern_id = this.state.pattern_id
+        // const pattern_id = this.state.pattern_id;
 
-        const route = '/patterns/knitting/ids/'
+
+        if (pattern_id != this.state.pattern_id){
+            this.setState({
+                pattern_id : pattern_id
+            })
+        }
+
+        const route = '/patterns/knitting/ids/';
 
         $.get(route + pattern_id, (data) => {
-        // $.get(window.location.href + route, (data) => {
             console.log(data);
             this.setPattern(data)
         });
     }
 
     componentDidMount() {
-        this.getPythonPattern(); 
+        this.getPythonPattern(this.state.pattern_id); 
     }
 
-    // componentDidUpdate() {
-    //     this.getPythonPattern(); 
-    // }
+    componentWillReceiveProps(nextProps){
+        this.getPythonPattern(nextProps.id)
+
+    }
+
 
     render () {
         return (
