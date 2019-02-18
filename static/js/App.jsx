@@ -36,14 +36,7 @@ export default class App extends React.Component {
     render () {
         return (
             <Grid>
-                <Row>
-                    <Col md={7} >
-                        <MiniPatterns />
-                    </Col>
-                    <Col md={5}>
-                        <Pattern id={this.state.pattern_id}/> 
-                    </Col>                
-                </Row>
+                    <MiniPatterns />              
             </Grid>
         );
     }
