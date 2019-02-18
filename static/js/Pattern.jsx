@@ -25,7 +25,8 @@ export default class Pattern extends React.Component {
             description : 'pattern.description',
             img_fullsize_url : 'pattern.img_fullsize_url',
             img_small_url: 'pattern.img_small_url',
-            suggested_yarn : 'pattern.suggested_yarn'
+            suggested_yarn : 'pattern.suggested_yarn',
+            needles_required : 'pattern.needles'
         };
 
         this.getPythonPattern = this.getPythonPattern.bind(this);
@@ -33,16 +34,16 @@ export default class Pattern extends React.Component {
     }
 
     setYarnText(yarn){
-        let yarn_html = yarn.name + ' (' + yarn.weight + ')'
+        const yarn_html = yarn.name + ' (' + yarn.weight + ')'
 
         return yarn_html
     }
 
     setSuggestedYarn(yarn_list){
-        let yarn_unpacked = []
+        const yarn_unpacked = []
 
         for(let i = 0; i< yarn_list.length; i++){
-            let yarn = this.setYarnText(yarn_list[i])
+            const yarn = this.setYarnText(yarn_list[i])
             yarn_unpacked.push(yarn)
 
         };
@@ -50,16 +51,36 @@ export default class Pattern extends React.Component {
         return yarn_unpacked
     }
 
+    setNeedlesRequired(needles_list){
+        const needles_unpacked = []
+
+        for(let i = 0; i< needles_list.length; i++){
+            const needles = needles_list[i]['name']
+            needles_unpacked.push(needles)
+
+        };
+
+        return needles_unpacked
+
+    }
+
 
     setPattern(pattern_list){
         const pattern = pattern_list[0]
 
         const suggested_yarn = this.setSuggestedYarn(pattern.suggested_yarn)
+        
+        const needles_required = this.setNeedlesRequired(pattern.needles)
 
 
         const yarn_list = suggested_yarn.map((yarn) =>
             <li key={yarn.toString()}>
             {yarn}</li>
+            );
+
+        const needles_required_list = needles_required.map((needles) =>
+            <li key={needles.toString()}>
+            {needles}</li>
             );
                
         this.setState({
@@ -78,9 +99,8 @@ export default class Pattern extends React.Component {
             description : pattern.description,
             img_fullsize_url : pattern.img_fullsize_url,
             img_small_url: pattern.img_small_url,
-            suggested_yarn : yarn_list
-            // suggested_yarn : suggested_yarn
-            // suggested_yarn : pattern.suggested_yarn
+            suggested_yarn : yarn_list,
+            needles_required : needles_required_list
         });
 
     }
@@ -127,6 +147,10 @@ export default class Pattern extends React.Component {
                     Suggested Yarn: 
                     <ul>
                     {this.state.suggested_yarn}
+                    </ul>
+                    Needles required:
+                    <ul>
+                    {this.state.needles_required}
                     </ul>
                     <p>
                     Description: {this.state.description}
