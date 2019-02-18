@@ -17,6 +17,8 @@ export default class MiniPatterns extends React.Component {
             }
            ]
         };
+
+        this.getPatternID = this.getPatternID.bind(this);
     }
 
 
@@ -28,7 +30,7 @@ export default class MiniPatterns extends React.Component {
             data : mini_patterns_list
         });
 
-        this.props.callbackFromParent(this.state.data[0])
+        // this.props.callbackFromParent(this.state.data[0])
     }
 
 
@@ -51,6 +53,12 @@ export default class MiniPatterns extends React.Component {
         });
     }
 
+    getPatternID(pattern_id){
+        console.log('Click!')
+        console.log(pattern_id)
+
+    };
+
     componentDidMount() {
         this.getPythonMiniPatterns(); 
     }
@@ -62,10 +70,12 @@ export default class MiniPatterns extends React.Component {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam varius efficitur nulla ut condimentum. Phasellus luctus lacinia nisi, nec porta neque placerat vitae. In sed gravida metus. Donec dolor felis, ultrices in lacus sit amet, posuere laoreet dolor. Mauris rhoncus mauris ac tellus finibus, cursus tincidunt lectus rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin imperdiet sem quam, vitae molestie ipsum blandit quis. Donec viverra eros vitae augue euismod elementum. Suspendisse rhoncus massa vitae dolor dapibus, sit amet feugiat mauris rhoncus. Nam sapien felis, sagittis at sapien quis, vulputate vehicula ligula. Sed ac egestas justo, at fringilla est. Nam eleifend, nisl vitae maximus sagittis, felis massa dapibus elit, in pharetra justo ex non eros.
                     </p>
                     {this.state.data.map(d => 
-                        <div key={d.name}>
+                        <div key={d.name} onClick={()=>this.getPatternID(d.pattern_id)}>
                             <img src={d.img_small_url}/>
                             <br></br>
                             {d.name}
+                            <br></br>
+                            {d.pattern_id}
                         </div>
                     )}
                 </Col>

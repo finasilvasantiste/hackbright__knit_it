@@ -15,19 +15,22 @@ export default class App extends React.Component {
             pattern_id : 781496
         }
 
-        this.getPatternID = this.getPatternID.bind(this);
+        // this.getPatternID = this.getPatternID.bind(this);
     }
 
-    getPatternID(dataFromMiniPattern){
-        // console.log(dataFromMiniPattern)
-        this.setState({
-            pattern_id : dataFromMiniPattern.pattern_id
+    // getPatternID(dataFromMiniPattern){
+    //     // console.log(dataFromMiniPattern)
+    //     this.setState({
+    //         pattern_id : dataFromMiniPattern.pattern_id
 
-        });
+    //     });
 
         
-        console.log('Pattern_id from App: '+this.state.pattern_id)
-    }
+    //     console.log('Pattern_id from App: '+this.state.pattern_id)
+    // }
+
+
+
 
 
     render () {
@@ -35,7 +38,7 @@ export default class App extends React.Component {
             <Grid>
                 <Row>
                     <Col md={7} >
-                        <MiniPatterns callbackFromParent={this.getPatternID} />
+                        <MiniPatterns />
                     </Col>
                     <Col md={5}>
                         <Pattern id={this.state.pattern_id}/> 
