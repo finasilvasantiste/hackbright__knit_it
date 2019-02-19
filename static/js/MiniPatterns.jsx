@@ -20,7 +20,8 @@ export default class MiniPatterns extends React.Component {
            ],
            pattern_id: 781496,
            page_number: 1,
-           query : ''
+           query : '%20',
+           button_query : ' '
         };
 
         this.getPatternID = this.getPatternID.bind(this);
@@ -41,29 +42,34 @@ export default class MiniPatterns extends React.Component {
     }
 
 
-    getPythonMiniPatterns(next_page){
-        /* 
-            Gets mini patterns from python server and forwards it to set the new state of component.
-        */
+    // getPythonMiniPatterns(next_page){
+    //     /* 
+    //         Gets mini patterns from python server and forwards it to set the new state of component.
+    //     */
 
-        const route = '/patterns/knitting/page/'
+    //     const route = '/patterns/knitting/page/'
 
-        this.setState({
-            page_number : next_page
-        })
+    //     this.setState({
+    //         page_number : next_page
+    //     })
 
 
-        $.get(route + next_page, (data) => {
-            console.log(data);
-            this.setMiniPatterns(data)
-        });
-    }
+    //     $.get(route + next_page, (data) => {
+    //         console.log(data);
+    //         this.setMiniPatterns(data)
+    //     });
+    // }
 
 
     getPythonMiniPatternsByQuery(query, next_page){
 
         const route_query = '/patterns/knitting/query/'
         const route_page = '/page/'
+
+        this.setState({
+            page_number : next_page,
+            query : query
+        })
 
         $.get(route_query + query + route_page + next_page, (data) => {
             console.log(data);
@@ -79,17 +85,19 @@ export default class MiniPatterns extends React.Component {
             no call is executed.
         */
 
+        const query = this.state.query
+
         if (increment){
-            this.getPythonMiniPatterns(this.state.page_number + 1)
+            this.getPythonMiniPatternsByQuery(query, this.state.page_number + 1)
         }else{
             if(decrement){
                 if (this.state.page_number > 1){
-                    this.getPythonMiniPatterns(this.state.page_number - 1)
+                    this.getPythonMiniPatternsByQuery(query, this.state.page_number - 1)
                 }else{
                     console.log('No previous page! Already on page '+ this.state.page_number)
                 }
             }else{
-                this.getPythonMiniPatterns(this.state.page_number)
+                this.getPythonMiniPatternsByQuery(query, this.state.page_number)
             }
         };
 
@@ -113,6 +121,9 @@ export default class MiniPatterns extends React.Component {
         /*
             Gets next page of results.
         */
+        console.log('Next Page:')
+        console.log(this.state.query)
+
         this.setPage(true, false); 
     }
 
@@ -121,19 +132,27 @@ export default class MiniPatterns extends React.Component {
         /*
             Gets previous page of results.
         */
+
+        console.log(this.state.query)
+
         this.setPage(false, true); 
     }
 
 
+
     getQuery(query){
         // query = 'Query!'
-        console.log(this.state.query.value)
+        // console.log(this.state.button_query.value)
+        const query_string = String(this.state.button_query.value)
+        console.log(query_string)
 
         this.setState({
-            query : this.state.query.value
+            query : query_string
         });
 
-        this.getPythonMiniPatternsByQuery(this.state.query.value, 1)
+
+
+        this.getPythonMiniPatternsByQuery(query_string, 1)
 
     }
 
@@ -144,10 +163,9 @@ export default class MiniPatterns extends React.Component {
     render(){
         return (
             <Grid>
-            <Row>
-                <Form>
+            <Row><Form>
                   <FormGroup controlId="formBasicEmail">
-                    <FormControl inputRef={node => this.state.query = node} type="text" placeholder="Enter email" />
+                    <FormControl inputRef={node => this.state.button_query = node}  type="text" placeholder="Enter email" />
                   </FormGroup>
                   <Button bsStyle="info" onClick={this.getQuery}>
                     Search!
