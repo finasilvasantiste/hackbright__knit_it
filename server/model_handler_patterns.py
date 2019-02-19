@@ -5,6 +5,33 @@ from model import Pattern
 
 class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
 
+    def get_yarn_list(self, suggested_yarn_list):
+        """
+            Returns yarn dictionary with name and weight.
+        """
+
+        yarn_list = []
+
+        if len(suggested_yarn_list) > 0:
+            if suggested_yarn_list[0].get('yarn_name'):
+                for yarn in suggested_yarn_list:
+                    yarn_name = yarn['yarn_name']
+                    if yarn['yarn_weight'] is None:
+                        yarn_weight = ''
+                    else:
+                        yarn_weight = yarn['yarn_weight']['name']
+
+                    yarn_list.append({"yarn_weight" : yarn_name, "yarn_name" : yarn_weight})    
+
+            else:
+                yarn_list.append({"yarn_weight" : '', "yarn_name" : ''})
+        else:
+            yarn_list.append({"yarn_weight" : '', "yarn_name" : ''})
+
+
+        return yarn_list  
+
+
     def set_values(self, pattern_dict):
         """
             Returns pattern values by using data from dictionary provided.
@@ -103,7 +130,7 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
             created_at = ''
 
         if pattern_dict['packs']:
-            suggested_yarn_list = pattern_dict['packs']
+            suggested_yarn_list = self.get_yarn_list(pattern_dict['packs'])
         else:
             suggested_yarn_list = []
 
