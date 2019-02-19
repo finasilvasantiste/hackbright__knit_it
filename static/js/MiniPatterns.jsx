@@ -28,6 +28,7 @@ export default class MiniPatterns extends React.Component {
         this.getNextPage = this.getNextPage.bind(this);
         this.getPreviousPage = this.getPreviousPage.bind(this);
         this.getQuery = this.getQuery.bind(this);
+        this.resetResults = this.resetResults.bind(this)
     }
 
 
@@ -40,25 +41,6 @@ export default class MiniPatterns extends React.Component {
         });
 
     }
-
-
-    // getPythonMiniPatterns(next_page){
-    //     /* 
-    //         Gets mini patterns from python server and forwards it to set the new state of component.
-    //     */
-
-    //     const route = '/patterns/knitting/page/'
-
-    //     this.setState({
-    //         page_number : next_page
-    //     })
-
-
-    //     $.get(route + next_page, (data) => {
-    //         console.log(data);
-    //         this.setMiniPatterns(data)
-    //     });
-    // }
 
 
     getPythonMiniPatternsByQuery(query, next_page){
@@ -140,20 +122,27 @@ export default class MiniPatterns extends React.Component {
 
 
 
-    getQuery(query){
+    getQuery(is_reset = false){
         // query = 'Query!'
         // console.log(this.state.button_query.value)
-        const query_string = String(this.state.button_query.value)
+        let query_string = String(this.state.button_query.value)
+        
+        if(is_reset == true){
+            query_string = '%20'
+        }
+
         console.log(query_string)
 
         this.setState({
             query : query_string
         });
 
-
-
         this.getPythonMiniPatternsByQuery(query_string, 1)
 
+    }
+
+    resetResults(){
+        this.getQuery(true)
     }
 
     componentDidMount() {
@@ -167,9 +156,12 @@ export default class MiniPatterns extends React.Component {
                   <FormGroup controlId="formBasicEmail">
                     <FormControl inputRef={node => this.state.button_query = node}  type="text" placeholder="Enter email" />
                   </FormGroup>
-                  <Button bsStyle="info" onClick={this.getQuery}>
-                    Search!
-                </Button>
+                    <Button bsStyle="info" onClick={this.getQuery}>
+                        Search!
+                    </Button>
+                    <Button bsStyle="info" onClick={this.resetResults}>
+                        Reset Results!
+                    </Button>
                 </Form>
             </Row>
             <Row>
