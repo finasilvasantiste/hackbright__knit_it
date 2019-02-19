@@ -24,48 +24,74 @@ def index():
 
 
 
-@app.route('/patterns')
-def get_patterns():
+# @app.route('/patterns')
+# def get_patterns():
+#     """
+#         Returns all patterns.
+#     """
+
+#     resp = HANDLER.get_patterns()
+
+#     return jsonify(resp)
+
+
+# @app.route('/patterns/knitting')
+# def knitting_patterns():
+#     """
+#        Calls function to return all knitting patterns.
+#     """
+
+#     return get_knitting_patterns()
+
+
+# def get_knitting_patterns():
+#     """
+#         Returns all knitting patterns.
+#     """
+
+#     resp = HANDLER.get_knitting_patterns()
+
+#     return jsonify(resp)
+
+@app.route('/patterns/knitting/query/<string:query>/page/<int:page>')
+def knitting_patterns_by_query_page(query, page):
     """
-        Returns all patterns.
+        Renders search query and page number results.
     """
 
-    resp = HANDLER.get_patterns()
+    return get_knitting_patterns_by_query_page(query, page)
+
+
+def get_knitting_patterns_by_query_page(query, page):
+    """
+        Returns all knitting patterns matching search query and page number.
+    """
+
+    print('{} {}'.format(query, page))
+    resp = HANDLER.get_knitting_patterns_by_query(query, page)
 
     return jsonify(resp)
 
 
-@app.route('/patterns/knitting')
-def knitting_patterns():
-    """
-       Calls function to return all knitting patterns.
-    """
+# @app.route('/patterns/knitting/query/<string:query>')
+# def get_knitting_patterns_by_query(query):
+#     """
+#         Returns all knitting patterns matching search query.
+#     """
 
-    return get_knitting_patterns()
+#     resp = HANDLER.get_knitting_patterns_by_query(query)
 
-
-def get_knitting_patterns():
-    """
-        Returns all knitting patterns.
-    """
-
-    resp = HANDLER.get_knitting_patterns()
-
-    return jsonify(resp)
-
-
-@app.route('/patterns/knitting/query/<string:query>')
-def get_knitting_patterns_by_query(query):
-    """
-        Returns all knitting patterns matching search query.
-    """
-
-    resp = HANDLER.get_knitting_patterns_by_query(query)
-
-    return jsonify(resp)
+#     return jsonify(resp)
 
 
 @app.route('/patterns/knitting/page/<int:page>')
+def knitting_patterns_by_page(page):
+    """
+        Renders knitting patterns by page results.
+    """
+
+    return get_knitting_patterns_by_page(page)
+
 def get_knitting_patterns_by_page(page):
     """
         Returns all knitting patterns on a specific page, 
@@ -77,10 +103,11 @@ def get_knitting_patterns_by_page(page):
     return jsonify(resp)
 
 
+
 @app.route('/patterns/knitting/ids/<string:pattern_ids_string>')
 def knitting_patterns_by_ids(pattern_ids_string):
     """
-       Calls function to return multiple patterns given a list of pattern ids.
+       Renders multiple patterns given a list of pattern ids.
     """
     return get_knitting_patterns_by_ids(pattern_ids_string)
 

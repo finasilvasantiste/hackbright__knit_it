@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Grid, Row, Col } from "react-bootstrap";
+import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl } from "react-bootstrap";
 
 import Pattern from "./Pattern"
 
@@ -19,12 +19,14 @@ export default class MiniPatterns extends React.Component {
             }
            ],
            pattern_id: 781496,
-           page_number: 1
+           page_number: 1,
+           query : ''
         };
 
         this.getPatternID = this.getPatternID.bind(this);
         this.getNextPage = this.getNextPage.bind(this);
         this.getPreviousPage = this.getPreviousPage.bind(this);
+        this.getQuery = this.getQuery.bind(this);
     }
 
 
@@ -56,6 +58,19 @@ export default class MiniPatterns extends React.Component {
             this.setMiniPatterns(data)
         });
     }
+
+
+    getPythonMiniPatternsByQuery(query, next_page){
+
+        const route_query = '/patterns/knitting/query/'
+        const route_page = '/page/'
+
+        $.get(route_query + query + route_page + next_page, (data) => {
+            console.log(data);
+            this.setMiniPatterns(data)
+        });
+    }
+
 
     setPage(increment, decrement){
         /*
@@ -93,6 +108,7 @@ export default class MiniPatterns extends React.Component {
 
     };
 
+
     getNextPage(){
         /*
             Gets next page of results.
@@ -108,12 +124,36 @@ export default class MiniPatterns extends React.Component {
         this.setPage(false, true); 
     }
 
+
+    getQuery(query){
+        // query = 'Query!'
+        console.log(this.state.query.value)
+
+        this.setState({
+            query : this.state.query.value
+        });
+
+        this.getPythonMiniPatternsByQuery(this.state.query.value, 1)
+
+    }
+
     componentDidMount() {
         this.setPage(false, false); 
     }
 
     render(){
         return (
+            <Grid>
+            <Row>
+                <Form>
+                  <FormGroup controlId="formBasicEmail">
+                    <FormControl inputRef={node => this.state.query = node} type="text" placeholder="Enter email" />
+                  </FormGroup>
+                  <Button bsStyle="info" onClick={this.getQuery}>
+                    Search!
+                </Button>
+                </Form>
+            </Row>
             <Row>
                 <Col md={7} >
                     <p>
@@ -128,7 +168,7 @@ export default class MiniPatterns extends React.Component {
                         </Button>
                     </p>
                     {this.state.data.map(d => 
-                        <div key={d.name} onClick={()=>this.getPatternID(d.pattern_id)}>
+                        <div key={d.pattern_id} onClick={()=>this.getPatternID(d.pattern_id)}>
                             <img src={d.img_small_url}/>
                             <br></br>
                             {d.name}
@@ -141,6 +181,7 @@ export default class MiniPatterns extends React.Component {
                     <Pattern id={this.state.pattern_id}/> 
                 </Col> 
             </Row>
+            </Grid>
             );
     }
 

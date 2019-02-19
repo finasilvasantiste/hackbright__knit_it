@@ -35,7 +35,7 @@ class Model_Handler_Pattern(Model_Handler_Mini_Pattern):
 
         photos_list = pattern_dict['photos']
         if photos_list:
-            if len(photos_list) > 1:
+            if len(photos_list) >= 1:
                 img_fullsize_url = photos_list[0]['medium2_url']
                 img_small_url = photos_list[0]['small_url']
             else:

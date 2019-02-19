@@ -10,18 +10,16 @@ var $ = require('jquery');
 export default class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state= {
-            pattern_id : 781496
-        }
+        // this.state= {
+        //     pattern_id : 781496
+        // }
 
     }
 
 
     render () {
         return (
-            <Grid>
-                    <MiniPatterns />              
-            </Grid>
+                <MiniPatterns />              
         );
     }
 }

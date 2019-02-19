@@ -135,13 +135,14 @@ class Yarn():
     def get_yarn_list(self, suggested_yarn_list):
         yarn_list = []
 
-        for yarn in suggested_yarn_list:
-            yarn_name = yarn['yarn_name']
-            yarn_weight = yarn['yarn_weight']['name']
+        if suggested_yarn_list[0].get('yarn_name'):
+            for yarn in suggested_yarn_list:
+                yarn_name = yarn['yarn_name']
+                yarn_weight = yarn['yarn_weight']['name']
 
-            yarn = Yarn(yarn_name, yarn_weight)
+                yarn = Yarn(yarn_name, yarn_weight)
 
-            yarn_list.append(yarn)
+                yarn_list.append(yarn)
 
         return yarn_list
 
