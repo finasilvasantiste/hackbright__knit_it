@@ -8,9 +8,6 @@ var $ = require('jquery');
 export default class Pattern extends React.Component {
 
     constructor(props){
-        /*
-            Sets initial state and binds function getPythonPattern.
-        */
         super(props);
         this.state = {
             name: 'pattern.name' ,
@@ -32,7 +29,7 @@ export default class Pattern extends React.Component {
             needles_required : 'pattern.needles',
             pattern_id : this.props.id
         };
-        // console.log(this.state.id)
+
         this.getPythonPattern = this.getPythonPattern.bind(this);
 
     }
@@ -78,6 +75,9 @@ export default class Pattern extends React.Component {
     }
 
     getBoolString(bool_to_convert){
+        /*
+            Converts boolean values to string.
+        */
 
         if (bool_to_convert){
             return 'Yes'
