@@ -2,8 +2,8 @@ import React from "react";
 import { Button, Grid, Row, Col } from "react-bootstrap";
 
 
-var $ = require('jquery');
-
+// var $ = require('jquery');
+import $ from 'jquery'
 
 export default class Pattern extends React.Component {
 

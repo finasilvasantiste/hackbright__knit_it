@@ -3,7 +3,8 @@ import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl } fr
 
 import Pattern from "./Pattern"
 
-var $ = require('jquery');
+import $ from 'jquery'
+// var $ = require('jquery');
 
 
 export default class MiniPatterns extends React.Component {
@@ -20,15 +21,12 @@ export default class MiniPatterns extends React.Component {
            ],
            pattern_id: 781496,
            page_number: 1,
-           query : '%20',
-           button_query : ' '
+           query : this.props.query
         };
 
         this.getPatternID = this.getPatternID.bind(this);
         this.getNextPage = this.getNextPage.bind(this);
         this.getPreviousPage = this.getPreviousPage.bind(this);
-        this.getQuery = this.getQuery.bind(this);
-        this.resetResults = this.resetResults.bind(this)
     }
 
 
@@ -44,6 +42,9 @@ export default class MiniPatterns extends React.Component {
 
 
     getPythonMiniPatternsByQuery(query, next_page){
+        /*
+            Returns mini pattern search result by given query string and page number.
+        */
 
         const route_query = '/patterns/knitting/query/'
         const route_page = '/page/'
@@ -103,8 +104,6 @@ export default class MiniPatterns extends React.Component {
         /*
             Gets next page of results.
         */
-        console.log('Next Page:')
-        console.log(this.state.query)
 
         this.setPage(true, false); 
     }
@@ -121,51 +120,20 @@ export default class MiniPatterns extends React.Component {
     }
 
 
-
-    getQuery(is_reset = false){
-        // query = 'Query!'
-        // console.log(this.state.button_query.value)
-        let query_string = String(this.state.button_query.value)
-        
-        if(is_reset == true){
-            query_string = '%20'
-        }
-
-        console.log(query_string)
-
-        this.setState({
-            query : query_string
-        });
-
-        this.getPythonMiniPatternsByQuery(query_string, 1)
-
-    }
-
-    resetResults(){
-        this.getQuery(true)
-    }
-
     componentDidMount() {
-        this.setPage(false, false); 
+        this.getPythonMiniPatternsByQuery(this.state.query, 1); 
     }
+
+    componentWillReceiveProps(nextProps){
+        this.getPythonMiniPatternsByQuery(nextProps.query, 1);
+    }
+
 
     render(){
         return (
-            <Grid>
-            <Row><Form>
-                  <FormGroup controlId="formBasicEmail">
-                    <FormControl inputRef={node => this.state.button_query = node}  type="text" placeholder="Enter email" />
-                  </FormGroup>
-                    <Button bsStyle="info" onClick={this.getQuery}>
-                        Search!
-                    </Button>
-                    <Button bsStyle="info" onClick={this.resetResults}>
-                        Reset Results!
-                    </Button>
-                </Form>
-            </Row>
-            <Row>
-                <Col md={7} >
+            <div>
+                <Row>
+                <Col md={7}>
                     <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam varius efficitur nulla ut condimentum. Phasellus luctus lacinia nisi, nec porta neque placerat vitae. In sed gravida metus. Donec dolor felis, ultrices in lacus sit amet, posuere laoreet dolor. Mauris rhoncus mauris ac tellus finibus, cursus tincidunt lectus rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin imperdiet sem quam, vitae molestie ipsum blandit quis. Donec viverra eros vitae augue euismod elementum. Suspendisse rhoncus massa vitae dolor dapibus, sit amet feugiat mauris rhoncus. Nam sapien felis, sagittis at sapien quis, vulputate vehicula ligula. Sed ac egestas justo, at fringilla est. Nam eleifend, nisl vitae maximus sagittis, felis massa dapibus elit, in pharetra justo ex non eros.
                     </p>
@@ -190,8 +158,8 @@ export default class MiniPatterns extends React.Component {
                 <Col md={5}>
                     <Pattern id={this.state.pattern_id}/> 
                 </Col> 
-            </Row>
-            </Grid>
+                </Row>
+            </div>
             );
     }
 
