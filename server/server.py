@@ -22,6 +22,18 @@ def index():
     """
     return render_template('index.html')
 
+@app.route('/auth/log_in/<string:email>+<string:password>')
+def get_log_in(email, password):
+    """
+        Returns true if login successful.
+    """
+    ### TO-DO: Implement password hash
+    resp = {
+        'success': 'true'
+        }
+
+    return jsonify(resp)
+
 
 
 # @app.route('/patterns')

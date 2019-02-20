@@ -4,7 +4,7 @@ import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl } fr
 
 
 require('../css/fullstack.css');
-// import $ from 'jquery'
+import $ from 'jquery'
 
 
 export default class SearchMiniPatterns extends React.Component {
@@ -12,10 +12,9 @@ export default class SearchMiniPatterns extends React.Component {
         super(props);
         this.state= {
             logging: {
-                email : 'Fina',
-                password_hash : 'jsdkfjkh4',
-                email_button : '',
-                password_hash_button : '',
+                email : 'fina',
+                button_email : 'button_email',
+                button_password : 'button_password',
                 is_logged_in : false
             },
             query : '%20',
@@ -23,7 +22,9 @@ export default class SearchMiniPatterns extends React.Component {
         }
 
         this.getQuery = this.getQuery.bind(this);
-        this.resetResults = this.resetResults.bind(this)
+        this.resetResults = this.resetResults.bind(this);
+        this.setLogIn = this.setLogIn.bind(this);
+        this.setLogOut = this.setLogOut.bind(this);
 
     }
 
@@ -32,6 +33,7 @@ export default class SearchMiniPatterns extends React.Component {
             Sets the new value for query in state. 
         */
         let query_string = String(this.state.button_query.value)
+        console.log(this.state.button_query.value)
         
         if(is_reset == true){
             query_string = '%20'
@@ -53,12 +55,69 @@ export default class SearchMiniPatterns extends React.Component {
         this.getQuery(true)
     }
 
-    setLogIn(){
-        console.log('Logging in!')
+    updateLogInStatus(resp){
+        /*
+            Updates user log in status according to server response.
+        */
+        if(resp['success']== 'true'){
+            this.setState({
+                logging: {
+                    is_logged_in : true
+                    }
+                });
+        }
+    };
+
+    sendAuthToServer(email, password){
+        /*
+            Returns authentication success status from server.
+        */
+
+        const route_part_1 = '/auth/log_in/'
+        const route_part_2 = '+'
+
+
+        $.get(route_part_1 + email + route_part_2 + password, (data) => {
+            console.log(data);
+            this.updateLogInStatus(data);
+        });
+
     }
 
+    setLogIn(){
+        /*
+            Sends auth values to server to log user in.
+        */
+        console.log('Logging in!');
+
+        const email = String(this.state.logging.button_email.value);
+        const password = String(this.state.logging.button_password.value);
+
+        if (email != this.state.logging.email){
+            if (this.state.logging.is_logged_in == false){
+                this.sendAuthToServer(email, password);
+            }
+        }else{
+            this.sendAuthToServer(email, password);
+        };
+        
+    }
+
+
     setLogOut(){
+        /*
+            Logs user out, no auth values required.
+        */
         console.log('Logging out!')
+
+        if (this.state.logging.is_logged_in == true){
+            this.setState({
+                logging: {
+                    is_logged_in : false
+                    }
+            });
+        }
+
     }
 
 
@@ -68,33 +127,18 @@ export default class SearchMiniPatterns extends React.Component {
                     <Row>
                   <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <a className="navbar-brand" href="/">Knit It</a>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                      <span className="navbar-toggler-icon"></span>
-                    </button>
 
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                      <ul className="navbar-nav mr-auto">
-                        <li className="nav-item active">
-                          <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" href="/">Link</a>
-                        </li>
-                        <li className="nav-item dropdown">
-                          <a className="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                          </a>
-                          <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a className="dropdown-item" href="/">Action</a>
-                            <a className="dropdown-item" href="/">Another action</a>
-                            <div className="dropdown-divider"></div>
-                            <a className="dropdown-item" href="/">Something else here</a>
-                          </div>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link disabled" href="/">Disabled</a>
-                        </li>
-                      </ul>
+                        <form className="form-inline my-2 my-lg-0">
+                            <FormControl inputRef={node => this.state.logging.button_email = node}  type="text" placeholder="Email" />
+                            <FormControl inputRef={node => this.state.logging.button_password = node}  type="text" placeholder="Password" />
+                            <Button bsStyle="info" onClick={this.setLogIn} className="mr-sm-2" >
+                                Log in
+                            </Button>
+                            <Button bsStyle="info" onClick={this.setLogOut} className="mr-sm-2" >
+                                Log out
+                            </Button>
+                      </form>
                       <form className="form-inline my-2 my-lg-0">
                             <FormControl inputRef={node => this.state.button_query = node}  type="text" placeholder="Enter query" />
                             <Button bsStyle="warning" onClick={this.getQuery} className="mr-sm-2" >
