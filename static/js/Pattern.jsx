@@ -87,6 +87,16 @@ export default class Pattern extends React.Component {
 
     }
 
+
+    setListItems(items_list, obj_to_map){
+
+        return items_list.map((obj_to_map) =>
+            <li key={obj_to_map.toString()}>
+            {obj_to_map}</li>
+            );
+    }
+
+
     setPattern(pattern_list){
         /* 
             Sets new state of component with pattern values.
@@ -102,17 +112,10 @@ export default class Pattern extends React.Component {
 
         let is_downloadable_string = this.getBoolString(pattern.is_downloadable)
  
+        const yarn_list = this.setListItems(suggested_yarn, 'yarn')
+        const needles_required_list = this.setListItems(needles_required, 'needles')
+             
 
-        const yarn_list = suggested_yarn.map((yarn) =>
-            <li key={yarn.toString()}>
-            {yarn}</li>
-            );
-
-        const needles_required_list = needles_required.map((needles) =>
-            <li key={needles.toString()}>
-            {needles}</li>
-            );
-               
         this.setState({
             name: pattern.name ,
             author : pattern.author,

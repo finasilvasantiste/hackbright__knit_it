@@ -21,7 +21,8 @@ export default class MiniPatterns extends React.Component {
            ],
            pattern_id: 781496,
            page_number: 1,
-           query : this.props.query
+           query : this.props.query,
+           is_logged_in : this.props.is_logged_in
         };
 
         this.getPatternID = this.getPatternID.bind(this);
@@ -114,18 +115,22 @@ export default class MiniPatterns extends React.Component {
             Gets previous page of results.
         */
 
-        console.log(this.state.query)
-
         this.setPage(false, true); 
     }
 
 
     componentDidMount() {
         this.getPythonMiniPatternsByQuery(this.state.query, 1); 
+
+        console.log('Did mount, is_logged_in:' + this.state.is_logged_in)
+
     }
 
     componentWillReceiveProps(nextProps){
         this.getPythonMiniPatternsByQuery(nextProps.query, 1);
+
+        console.log('Will Receive props, is_logged_in:' + nextProps.is_logged_in)
+
     }
 
 
