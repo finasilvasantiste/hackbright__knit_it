@@ -1,9 +1,24 @@
 ### Calls to Database are handled here. ###
 
 from flask_sqlalchemy import SQLAlchemy
-from model_db import Users
+
 
 db = SQLAlchemy()
+
+class User(db.Model):
+    """User in Knit it app."""
+
+    __tablename__ = "users"
+
+    user_email = db.Column(db.String(100), primary_key=True)
+    queue_id = db.Column(db.Integer)
+
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<User user_email={self.user_email} queue_id={self.queue_id}>"
+
 
 
 class DB_Handler():
