@@ -6,7 +6,9 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class User(db.Model):
-    """User in Knit It app."""
+    """
+        Represents a user in Knit It app.
+    """
 
     __tablename__ = "users"
 
@@ -16,14 +18,28 @@ class User(db.Model):
     queue = db.relationship('Queue')
 
 
+    @classmethod
+    def get_patterns_from_user(self, user):
+        """
+            Returns list of patterns in user's queue.
+        """
+        patterns = user.queue.patterns
+
+        return patterns
+
+
     def __repr__(self):
-        """Provide helpful representation when printed."""
+        """
+            Provides helpful representation when object is printed.
+        """
 
         return f"<User user_email={self.user_email} queue_id={self.queue_id}>"
 
 
 class Queue(db.Model):
-    """A user's queue."""
+    """
+        A user's queue.
+    """
 
     __tablename__ = "queues"
 
@@ -31,11 +47,13 @@ class Queue(db.Model):
 
     # Define relationship to user
     user = db.relationship('User')
-    patterns_queue = db.relationship('Patterns_Queue')
+    patterns = db.relationship('Patterns_Queue')
 
 
     def __repr__(self):
-        """Provide helpful representation when printed."""
+        """
+            Provides helpful representation when object is printed.
+        """
 
         return f"<Queue queue_id={self.queue_id}>"
 
@@ -52,18 +70,40 @@ class Patterns_Queue(db.Model):
     queue = db.relationship('Queue')
 
 
+    @classmethod
+    def get_users_from_pattern(self, pattern):
+        """
+            Returns list of users who have the same pattern in queue.
+        """
+        pattern_id = pattern.pattern_id
+
+        queues_with_pattern = Patterns_Queue.query.filter(Patterns_Queue.pattern_id==pattern_id).all()
+
+        users = []
+
+        for q in queues_with_pattern:
+            users.extend(q.queue.user)
+
+
+        return users
+
+
     def __repr__(self):
-        """Provide helpful representation when printed."""
+        """
+            Provides helpful representation when object is printed.
+        """
 
         return f"<Patterns_Queue queue_id={self.queue_id} pattern_id={self.pattern_id}>"
 
 
 
-class DB_Handler():
+class DB_Connection_Handler():
 
 
     def connect_to_db(self, app):
-        """Connect the database to our Flask app."""
+        """
+            Connect the database to Flask app.
+        """
 
         # Configure to use our PostgreSQL database
         app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5434/hackbright'
@@ -74,14 +114,19 @@ class DB_Handler():
         db.init_app(app)
 
 
-if __name__ == "__main__":
-    # As a convenience, if we run this module interactively, it will leave
-    # you in a state of being able to work with the database directly.
-
+def init_app():
+    # So that we can use Flask-SQLAlchemy, we'll make a Flask app.
     from server import app
 
 
-    DB_HANDLER = DB_Handler()
+    DB__CONNECTION_HANDLER = DB_Connection_Handler()
 
-    DB_HANDLER.connect_to_db(app)
+    DB__CONNECTION_HANDLER.connect_to_db(app)
     print("Connected to DB.")
+
+
+if __name__ == "__main__":
+    # As a convenience, if we run this module interactively, it will leave
+    # you in a state of being able to work with the database directly.
+    init_app()
+    

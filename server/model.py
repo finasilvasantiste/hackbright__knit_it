@@ -4,6 +4,10 @@ import datetime
 import pytz
 
 class Mini_Pattern():
+    """
+        Represents a search result object. 
+        Values are subset of information found in Pattern.
+    """
     
     def __init__(self, pattern_values):
 
@@ -15,7 +19,9 @@ class Mini_Pattern():
 
 
     def __repr__(self):
-
+        """
+            Provides helpful representation when object is printed.
+        """
         repr_s = "<Pattern pattern_id='{}' name='{}' is_free='{}' img_fullsize_url='{}' img_small_url='{}'>".format(
             self.pattern_id, self.name, self.is_free, self.img_fullsize_url, self.img_small_url)
 
@@ -23,13 +29,18 @@ class Mini_Pattern():
 
     @classmethod
     def as_dict(self, pattern):
-
+        """
+            Returns object in dictionary format.
+        """
         pattern_dict = {"pattern_id" : pattern.pattern_id, "name" : pattern.name, "is_free": pattern.is_free, "img_fullsize_url": pattern.img_fullsize_url, "img_small_url": pattern.img_small_url}
 
         return pattern_dict
 
 
 class Pattern(Mini_Pattern):
+    """
+        Represents a pattern with detailed information. 
+    """
 
     def __init__(self, pattern_values):
         self.pattern_id = pattern_values['pattern_id']
@@ -52,9 +63,6 @@ class Pattern(Mini_Pattern):
         self.suggested_yarn = Yarn.get_yarn_list(pattern_values['suggested_yarn_list'])
         self.suggested_needles = Needles.get_needles_list(pattern_values['suggested_needles_list'])
 
-        # print(self)
-        # print('+++++++++++')
-        # print(pattern_values['suggested_needles_list'])
 
 
     def convert_date_time(self, date_time_str):
@@ -78,7 +86,9 @@ class Pattern(Mini_Pattern):
 
 
     def __repr__(self):
-
+        """
+            Provides helpful representation when object is printed.
+        """
         repr_s = "<Pattern pattern_id='{}' name='{}' author='{}' is_free='{}' img_fullsize_url='{}' img_small_url='{}' is_clothing='{}' pattern_type='{}' is_downloadable='{}' url='{}' yardage='{}' yarn_weight='{}' gauge='{}' sizes='{}' description='{}' created_at='{}'".format(
             self.pattern_id, self.name, self.author, self.is_free, self.img_fullsize_url, 
             self.img_small_url, self.is_clothing, self.pattern_type, self.is_downloadable,
@@ -89,7 +99,9 @@ class Pattern(Mini_Pattern):
 
     @classmethod
     def as_dict(self, pattern):
-
+        """
+            Returns object in dictionary format.
+        """
         suggested_yarn_dict = Yarn.get_yarn_dicts(pattern.suggested_yarn)
 
         needles_dict = Needles.get_needles_dicts(pattern.suggested_needles)
@@ -127,12 +139,18 @@ class Yarn():
 
 
     def __repr__(self):
+        """
+            Provides helpful representation when object is printed.
+        """
         repr_s = "<Yarn name='{}' weight='{}'>".format(self.name, self.weight)
         return repr_s
 
 
     @classmethod
     def get_yarn_list(self, suggested_yarn_list):
+        """
+            Returns list with yarn objects given dictionaries with yarn information.
+        """
         yarn_list = []
 
         for yarn in suggested_yarn_list:
@@ -149,6 +167,9 @@ class Yarn():
 
     @classmethod
     def get_yarn_dicts(self, yarn_list):
+        """
+            Returns dictionaries with yarn information given list with yarn objects.
+        """
         yarn_dict_list = []
 
         for yarn in yarn_list:
@@ -161,7 +182,9 @@ class Yarn():
 
     @classmethod
     def as_dict(self, yarn):
-
+        """
+            Returns object in dictionary format.
+        """
         yarn_dict ={
             "name" : yarn.name,
             "weight" : yarn.weight
@@ -178,7 +201,9 @@ class Needles():
 
 
     def __repr__(self):
-
+        """
+            Provides helpful representation when object is printed.
+        """
         repr_s = "<Needles name='{}'>".format(self.name)
 
         return repr_s
@@ -186,6 +211,9 @@ class Needles():
 
     @classmethod
     def get_needles_list(self, suggested_needles_list):
+        """
+            Returns list with needles objects given dictionaries with needles information.
+        """
         needles_list = []
 
         for needles in suggested_needles_list:
@@ -200,6 +228,9 @@ class Needles():
 
     @classmethod
     def get_needles_dicts(self, needles_list):
+        """
+            Returns dictionaries with needles information given list with yarn objects.
+        """
         needles_dict_list = []
 
         for needles in needles_list:
@@ -212,7 +243,9 @@ class Needles():
 
     @classmethod
     def as_dict(self, needles):
-
+        """
+            Returns object in dictionary format.
+        """
         needles_dict ={
             "name" : needles.name
         }

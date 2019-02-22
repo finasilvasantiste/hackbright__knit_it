@@ -2,7 +2,7 @@
 from flask import Flask, redirect, request, render_template, session, jsonify, abort
 from flask_debugtoolbar import DebugToolbarExtension
 from ravelry_handler import Ravelry_handler
-from db_handler import DB_Handler
+# from db_handler import DB_Handler
 
 
 # Set up flask server.
@@ -14,7 +14,7 @@ app.secret_key = 'dev'
 
 # Handles requests to external api.
 HANDLER = Ravelry_handler()
-DB_HANDLER = DB_Handler()
+# DB_HANDLER = DB_Handler()
 
 @app.route('/')
 def index():
