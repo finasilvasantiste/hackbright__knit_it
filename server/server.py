@@ -1,8 +1,8 @@
 ### Runs server and manages requests.
-import random
 from flask import Flask, redirect, request, render_template, session, jsonify, abort
 from flask_debugtoolbar import DebugToolbarExtension
 from ravelry_handler import Ravelry_handler
+from db_handler import DB_Handler
 
 
 # Set up flask server.
@@ -14,6 +14,7 @@ app.secret_key = 'dev'
 
 # Handles requests to external api.
 HANDLER = Ravelry_handler()
+DB_HANDLER = DB_Handler()
 
 @app.route('/')
 def index():
@@ -35,36 +36,6 @@ def get_log_in(email, password):
     return jsonify(resp)
 
 
-
-# @app.route('/patterns')
-# def get_patterns():
-#     """
-#         Returns all patterns.
-#     """
-
-#     resp = HANDLER.get_patterns()
-
-#     return jsonify(resp)
-
-
-# @app.route('/patterns/knitting')
-# def knitting_patterns():
-#     """
-#        Calls function to return all knitting patterns.
-#     """
-
-#     return get_knitting_patterns()
-
-
-# def get_knitting_patterns():
-#     """
-#         Returns all knitting patterns.
-#     """
-
-#     resp = HANDLER.get_knitting_patterns()
-
-#     return jsonify(resp)
-
 @app.route('/patterns/knitting/query/<string:query>/page/<int:page>')
 def knitting_patterns_by_query_page(query, page):
     """
@@ -83,17 +54,6 @@ def get_knitting_patterns_by_query_page(query, page):
     resp = HANDLER.get_knitting_patterns_by_query(query, page)
 
     return jsonify(resp)
-
-
-# @app.route('/patterns/knitting/query/<string:query>')
-# def get_knitting_patterns_by_query(query):
-#     """
-#         Returns all knitting patterns matching search query.
-#     """
-
-#     resp = HANDLER.get_knitting_patterns_by_query(query)
-
-#     return jsonify(resp)
 
 
 @app.route('/patterns/knitting/page/<int:page>')
@@ -136,6 +96,7 @@ def get_knitting_patterns_by_ids(pattern_ids_string):
     resp = HANDLER.get_knitting_patterns_by_ids(pattern_ids)
 
     return jsonify(resp)
+
 
 
 

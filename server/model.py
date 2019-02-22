@@ -1,4 +1,4 @@
-### Data Model is defined here. ###
+### Data Model for api data is defined here. ###
 
 import datetime
 import pytz

@@ -12,9 +12,9 @@ export default class SearchMiniPatterns extends React.Component {
         super(props);
         this.state= {
             logging: {
-                email : 'fina',
-                button_email : 'button_email',
-                button_password : 'button_password',
+                email : '',
+                button_email : '',
+                button_password : '',
                 is_logged_in : false
             },
             query : '%20',
