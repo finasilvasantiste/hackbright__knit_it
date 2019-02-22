@@ -6,18 +6,56 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class User(db.Model):
-    """User in Knit it app."""
+    """User in Knit It app."""
 
     __tablename__ = "users"
 
     user_email = db.Column(db.String(100), primary_key=True)
-    queue_id = db.Column(db.Integer)
+    queue_id = db.Column(db.Integer, db.ForeignKey('queues.queue_id'), index=True)
+
+    queue = db.relationship('Queue')
 
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
         return f"<User user_email={self.user_email} queue_id={self.queue_id}>"
+
+
+class Queue(db.Model):
+    """A user's queue."""
+
+    __tablename__ = "queues"
+
+    queue_id = db.Column(db.Integer, primary_key=True)
+
+    # Define relationship to user
+    user = db.relationship('User')
+    patterns_queue = db.relationship('Patterns_Queue')
+
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<Queue queue_id={self.queue_id}>"
+
+
+class Patterns_Queue(db.Model):
+    """A user's queue."""
+
+    __tablename__ = "patterns_queues"
+
+    queue_id = db.Column(db.Integer, db.ForeignKey('queues.queue_id'), primary_key=True)
+    pattern_id = db.Column(db.Integer, primary_key=True)
+
+    # Define relationship to user
+    queue = db.relationship('Queue')
+
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<Patterns_Queue queue_id={self.queue_id} pattern_id={self.pattern_id}>"
 
 
 
