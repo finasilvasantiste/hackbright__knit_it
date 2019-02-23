@@ -1,4 +1,4 @@
-### Calls to Database are handled here. ###
+### Data Model for db data is defined here. ###
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -34,7 +34,7 @@ class User(db.Model):
         """
             Returns list of patterns in user's queue.
         """
-        patterns = user.queue.patterns
+        patterns = user.queue
 
         return patterns
 
