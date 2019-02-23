@@ -6,7 +6,6 @@ from ravelry_handler import Ravelry_handler
 
 
 # Set up flask server.
-# app = Flask(__name__)
 app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
 
 app.secret_key = 'dev'

@@ -44,12 +44,15 @@ class User(db.Model):
             Provides helpful representation when object is printed.
         """
 
-        return f"<User user_email={self.user_email} queue_id={self.queue_id} password_hash={self.password_hash}>"
+        return "<User user_email={} queue_id={} password_hash={}>".format(self.user_email,
+            self.queue_id, self.password_hash)
 
 
 
 class Queue(db.Model):
-    """A user's queue."""
+    """
+        Represents a user's queue.
+    """
 
     __tablename__ = "queues"
 
@@ -88,7 +91,7 @@ class Queue(db.Model):
             Provides helpful representation when object is printed.
         """
 
-        return f"<Patterns_Queue queue_id={self.queue_id} pattern_id={self.pattern_id}>"
+        return "<Queue queue_id={} pattern_id={}>".format(self.queue_id, self.pattern_id)
 
 
 
