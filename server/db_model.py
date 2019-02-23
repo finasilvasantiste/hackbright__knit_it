@@ -13,9 +13,20 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_email = db.Column(db.String(100), primary_key=True)
-    queue_id = db.Column(db.Integer, db.ForeignKey('queues.queue_id'), index=True)
+    queue_id = db.Column(db.Integer, unique=True, index=True)
+    password_hash = db.Column(db.String(500), nullable=False)
 
     queue = db.relationship('Queue')
+
+    def __init__(self, user_email, queue_id, password):
+        self.user_email = user_email
+        self.queue_id = queue_id
+        self.password_hash = User.get_password_hash(password)
+
+
+    @classmethod
+    def get_password_hash(self,password):
+        return hash(password)
 
 
     @classmethod
@@ -33,41 +44,25 @@ class User(db.Model):
             Provides helpful representation when object is printed.
         """
 
-        return f"<User user_email={self.user_email} queue_id={self.queue_id}>"
+        return f"<User user_email={self.user_email} queue_id={self.queue_id} password_hash={self.password_hash}>"
+
 
 
 class Queue(db.Model):
-    """
-        A user's queue.
-    """
+    """A user's queue."""
 
     __tablename__ = "queues"
 
-    queue_id = db.Column(db.Integer, primary_key=True)
-
-    # Define relationship to user
-    user = db.relationship('User')
-    patterns = db.relationship('Patterns_Queue')
-
-
-    def __repr__(self):
-        """
-            Provides helpful representation when object is printed.
-        """
-
-        return f"<Queue queue_id={self.queue_id}>"
-
-
-class Patterns_Queue(db.Model):
-    """A user's queue."""
-
-    __tablename__ = "patterns_queues"
-
-    queue_id = db.Column(db.Integer, db.ForeignKey('queues.queue_id'), primary_key=True)
+    queue_id = db.Column(db.Integer, db.ForeignKey('users.queue_id'), primary_key=True)
     pattern_id = db.Column(db.Integer, primary_key=True)
 
     # Define relationship to user
-    queue = db.relationship('Queue')
+    user = db.relationship('User')
+
+
+    def __init__(self, queue_id, pattern_id):
+        self.queue_id = queue_id
+        self.pattern_id = pattern_id
 
 
     @classmethod
@@ -77,12 +72,12 @@ class Patterns_Queue(db.Model):
         """
         pattern_id = pattern.pattern_id
 
-        queues_with_pattern = Patterns_Queue.query.filter(Patterns_Queue.pattern_id==pattern_id).all()
+        queues_with_pattern = Queue.query.filter(Queue.pattern_id==pattern_id).all()
 
         users = []
 
         for q in queues_with_pattern:
-            users.extend(q.queue.user)
+            users.append(q.user)
 
 
         return users
