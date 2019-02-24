@@ -75,6 +75,8 @@ class User(db.Model):
         return new_queue_id
 
 
+
+
     def __repr__(self):
         """
             Provides helpful representation when object is printed.
@@ -146,6 +148,11 @@ class DB_Connection_Handler():
         app.config['SQLALCHEMY_ECHO'] = True
         db.app = app
         db.init_app(app)
+
+    def add_new_object(self, object_to_add):
+        
+        db.session.add(object_to_add)
+        db.session.commit()
 
 
 def init_app():

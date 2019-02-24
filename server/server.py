@@ -13,6 +13,8 @@ app.secret_key = 'dev'
 
 # Handles requests to external api.
 HANDLER = Ravelry_handler()
+DB__CONNECTION_HANDLER = DB_Connection_Handler()
+
 
 @app.route('/')
 def index():
@@ -71,15 +73,20 @@ def get_registration(user_email, password):
         Registers user by given email and password.
         Returns true if registration successful, false otherwise.
     """
+    new_queue_id = User.get_new_queue_id()
+    new_user = User(user_email, new_queue_id, password)
+    user_db = User.query.filter(User.user_email == user_email).first()
 
-    resp = {
+    if user_db is None:
+        DB__CONNECTION_HANDLER.add_new_object(new_user)
+        resp = {
+            'success': 'true'
+            }
+    else:
+        print('User already in db.')
+        resp = {
             'success': 'false'
             }
-
-    new_queue_id = User.get_new_queue_id()
-
-    print('++++++++++')
-    print(new_queue_id)
 
     return jsonify(resp)
 
@@ -150,7 +157,6 @@ def get_knitting_patterns_by_ids(pattern_ids_string):
 def init_db():
     # So that we can use Flask-SQLAlchemy, we'll make a Flask app.
 
-    DB__CONNECTION_HANDLER = DB_Connection_Handler()
 
     DB__CONNECTION_HANDLER.connect_to_db(app)
     print("Connected to DB.")
