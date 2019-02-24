@@ -1,7 +1,8 @@
 ### Data Model for db data is defined here. ###
 
 from flask_sqlalchemy import SQLAlchemy
-
+import hashlib
+from random import randint
 
 db = SQLAlchemy()
 
@@ -26,7 +27,10 @@ class User(db.Model):
 
     @classmethod
     def get_password_hash(self,password):
-        return hash(password)
+
+        sha = hashlib.sha1(password.encode('utf-8'))
+        
+        return str(sha.hexdigest())
 
 
     @classmethod
@@ -37,6 +41,38 @@ class User(db.Model):
         patterns = user.queue
 
         return patterns
+
+
+    @classmethod
+    def get_all_queue_ids(self):
+        """
+            Returns list with all queue_ids in db.
+        """
+        
+        all_users = User.query.all()
+
+        queue_ids = []
+
+        for user in all_users:
+            queue_ids.append(user.queue_id)
+
+        return queue_ids
+
+
+    @classmethod
+    def get_new_queue_id(self):
+        """
+            Returns a new queue_id that is not yet in use.
+        """
+        queue_ids = self.get_all_queue_ids()
+
+        new_queue_id = randint(1, 10000)
+
+        while new_queue_id in queue_ids:
+
+            new_queue_id = randint(1, 10000)
+
+        return new_queue_id
 
 
     def __repr__(self):

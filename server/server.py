@@ -24,7 +24,7 @@ def index():
 @app.route('/auth/log_in/<string:user_email>+<string:password>')
 def log_in(user_email, password):
     """
-        Returns true if login successful.
+        Returns true if log in successful, false otherwise.
     """
 
     return get_log_in(user_email, password)
@@ -33,13 +33,53 @@ def log_in(user_email, password):
 def get_log_in(user_email, password):
     """
         Check user_email and password with values in database.
+        Returns true if log in successful, false otherwise.
     """
-    resp = {
-        'success': 'true'
-        }
 
-    user = User.query.filter(User.user_email == user_email).first()
-    print(user)
+    password = password.lower()
+    new_user_password_hash = User.get_password_hash(password)
+
+    user_db = User.query.filter(User.user_email == user_email).first()
+    # print(new_user_password_hash)
+    # print(user_db.password_hash)
+
+    if new_user_password_hash == user_db.password_hash:
+        # print('++++ Same password hash +++++')
+        resp = {
+            'success': 'true'
+            }
+    else:
+        # print ('+++++ Different password hash +++++')
+        resp = {
+            'success': 'false'
+            }
+
+    return jsonify(resp)
+
+
+@app.route('/auth/register/<string:user_email>+<string:password>')
+def register(user_email, password):
+    """
+        Returns true if registration successful, false otherwise.
+    """
+
+    return get_registration(user_email, password)
+
+
+def get_registration(user_email, password):
+    """
+        Registers user by given email and password.
+        Returns true if registration successful, false otherwise.
+    """
+
+    resp = {
+            'success': 'false'
+            }
+
+    new_queue_id = User.get_new_queue_id()
+
+    print('++++++++++')
+    print(new_queue_id)
 
     return jsonify(resp)
 
