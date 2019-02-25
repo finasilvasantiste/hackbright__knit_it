@@ -45,16 +45,21 @@ def get_log_in(user_email, password):
     # print(new_user_password_hash)
     # print(user_db.password_hash)
 
-    if new_user_password_hash == user_db.password_hash:
-        # print('++++ Same password hash +++++')
-        resp = {
-            'success': 'true'
-            }
-    else:
-        # print ('+++++ Different password hash +++++')
+    if user_db is None:
         resp = {
             'success': 'false'
             }
+    else:    
+        if new_user_password_hash == user_db.password_hash:
+            # print('++++ Same password hash +++++')
+            resp = {
+                'success': 'true'
+                }
+        else:
+            # print ('+++++ Different password hash +++++')
+            resp = {
+                'success': 'false'
+                }
 
     return jsonify(resp)
 
@@ -73,9 +78,12 @@ def get_registration(user_email, password):
         Registers user by given email and password.
         Returns true if registration successful, false otherwise.
     """
-    new_queue_id = User.get_new_queue_id()
-    new_user = User(user_email, new_queue_id, password)
+    # new_queue_id = User.get_new_queue_id()
+    new_user = User(user_email, password)
     user_db = User.query.filter(User.user_email == user_email).first()
+
+    print('+++++++')
+    print(new_user)
 
     if user_db is None:
         DB__CONNECTION_HANDLER.add_new_object(new_user)

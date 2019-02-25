@@ -14,15 +14,16 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_email = db.Column(db.String(100), primary_key=True)
-    queue_id = db.Column(db.Integer, unique=True, index=True)
     password_hash = db.Column(db.String(500), nullable=False)
+    queue_id = db.Column(db.Integer, autoincrement=True, unique=True, primary_key=True)
 
     queue = db.relationship('Queue')
 
-    def __init__(self, user_email, queue_id, password):
+    def __init__(self, user_email, password):
         self.user_email = user_email
-        self.queue_id = queue_id
+        self.queue_id = None
         self.password_hash = User.get_password_hash(password)
+
 
 
     @classmethod
@@ -142,7 +143,7 @@ class DB_Connection_Handler():
         """
 
         # Configure to use our PostgreSQL database
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5434/hackbright'
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5433/knit_it'
         # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///ratings'
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         app.config['SQLALCHEMY_ECHO'] = True
