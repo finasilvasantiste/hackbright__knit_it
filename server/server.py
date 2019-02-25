@@ -91,11 +91,47 @@ def get_registration(user_email, password):
     return jsonify(resp)
 
 
+@app.route('/favorites/<int:queue_id>/add/<int:pattern_id>')
+def add_to_queue(queue_id, pattern_id):
+    """
+        Adds pattern to given queue.
+        Returns true if pattern added successfully to queue.
+    """
+
+    return add_pattern_to_queue(queue_id, pattern_id)
+
+
+def add_pattern_to_queue(queue_id, pattern_id):
+    """
+        Adds pattern to given queue.
+        Returns true if pattern added successfully to queue.
+    """
+
+    # print('++++++++++++++++++++')
+    # print('Queue_id: {}, Pattern_id: {}'.format(queue_id, pattern_id))
+
+    new_queue_item = Queue(queue_id, pattern_id)
+    queue_item_db = Queue.query.filter(Queue.queue_id == queue_id, Queue.pattern_id == pattern_id).first()
+
+
+    if queue_item_db is None:
+        DB__CONNECTION_HANDLER.add_new_object(new_queue_item)
+        resp = {
+            'success': 'true'
+            }
+    else:
+        print('Pattern already in this user\'s queue!')
+        resp = {
+            'success': 'false'
+            }
+
+    return jsonify(resp)
+
 
 @app.route('/patterns/knitting/query/<string:query>/page/<int:page>')
 def knitting_patterns_by_query_page(query, page):
     """
-        Renders search query and page number results.
+        Returns search query and page number results.
     """
 
     return get_knitting_patterns_by_query_page(query, page)
@@ -115,7 +151,7 @@ def get_knitting_patterns_by_query_page(query, page):
 @app.route('/patterns/knitting/page/<int:page>')
 def knitting_patterns_by_page(page):
     """
-        Renders knitting patterns by page results.
+        Returns knitting patterns by page results.
     """
 
     return get_knitting_patterns_by_page(page)
@@ -135,7 +171,7 @@ def get_knitting_patterns_by_page(page):
 @app.route('/patterns/knitting/ids/<string:pattern_ids_string>')
 def knitting_patterns_by_ids(pattern_ids_string):
     """
-       Renders multiple patterns given a list of pattern ids.
+       Returns multiple patterns given a list of pattern ids.
     """
     return get_knitting_patterns_by_ids(pattern_ids_string)
 
