@@ -91,17 +91,17 @@ def get_registration(user_email, password):
     return jsonify(resp)
 
 
-@app.route('/favorites/<int:queue_id>/add/<int:pattern_id>')
-def add_to_queue(queue_id, pattern_id):
+@app.route('/<string:user_email>/favorites/add/<int:pattern_id>')
+def add_to_queue(user_email, pattern_id):
     """
         Adds pattern to given queue.
         Returns true if pattern added successfully to queue.
     """
 
-    return add_pattern_to_queue(queue_id, pattern_id)
+    return add_pattern_to_queue(user_email, pattern_id)
 
 
-def add_pattern_to_queue(queue_id, pattern_id):
+def add_pattern_to_queue(user_email, pattern_id):
     """
         Adds pattern to given queue.
         Returns true if pattern added successfully to queue.
@@ -110,6 +110,9 @@ def add_pattern_to_queue(queue_id, pattern_id):
     # print('++++++++++++++++++++')
     # print('Queue_id: {}, Pattern_id: {}'.format(queue_id, pattern_id))
 
+
+    user_db = User.query.filter(User.user_email == user_email).first()
+    queue_id = user_db.queue_id
     new_queue_item = Queue(queue_id, pattern_id)
     queue_item_db = Queue.query.filter(Queue.queue_id == queue_id, Queue.pattern_id == pattern_id).first()
 
@@ -124,6 +127,33 @@ def add_pattern_to_queue(queue_id, pattern_id):
         resp = {
             'success': 'false'
             }
+
+    return jsonify(resp)
+
+
+@app.route('/<string:user_email>/favorites/get')
+def patterns_in_queue(user_email):
+    """
+        Returns pattern ids from user's queue.
+    """
+
+    return get_patterns_in_queue(user_email)
+
+
+def get_patterns_in_queue(user_email):
+    """
+        Returns pattern ids from user's queue.
+    """
+
+    user_db = User.query.filter(User.user_email == user_email).first()
+    queue_list = user_db.queue
+
+    print(queue_list)
+    resp = {}
+
+    for i in range(len(queue_list)):
+        resp[i] = queue_list[i].pattern_id
+
 
     return jsonify(resp)
 
