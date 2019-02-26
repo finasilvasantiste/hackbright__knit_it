@@ -166,6 +166,31 @@ def get_patterns_in_queue(user_email):
     return jsonify(resp)
 
 
+@app.route('/patterns/knitting/<int:pattern_id>/queues/get')
+def queues_by_pattern(pattern_id):
+    """
+        Returns how many times a specific pattern has been added to a queue. 
+    """
+
+    return get_queues_by_pattern(pattern_id)
+
+
+def get_queues_by_pattern(pattern_id): 
+    """
+        Returns how many times a specific pattern has been added to a queue. 
+    """
+
+    queue_items_db = Queue.query.filter(Queue.pattern_id == pattern_id).all()
+    count_queues = len(queue_items_db)
+
+    resp = {
+        'countQueues': count_queues
+        }
+
+
+    return jsonify(resp)
+
+
 @app.route('/patterns/knitting/query/<string:query>/page/<int:page>')
 def knitting_patterns_by_query_page(query, page):
     """
@@ -206,7 +231,7 @@ def get_knitting_patterns_by_page(page):
 
 
 
-@app.route('/patterns/knitting/ids/<string:pattern_ids_string>')
+@app.route('/patterns/knitting/get/<string:pattern_ids_string>')
 def knitting_patterns_by_ids(pattern_ids_string):
     """
        Returns multiple patterns given a list of pattern ids.
