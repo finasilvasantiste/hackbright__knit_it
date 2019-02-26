@@ -184,7 +184,7 @@ def get_queues_by_pattern(pattern_id):
     count_queues = len(queue_items_db)
 
     resp = {
-        'countQueues': count_queues
+        'count_queues': count_queues
         }
 
 
