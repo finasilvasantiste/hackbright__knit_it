@@ -100,7 +100,7 @@ def get_registration(user_email, password):
 
 
 @app.route('/<string:user_email>/favorites/add/<int:pattern_id>')
-def add_to_queue(user_email, pattern_id):
+def pattern_to_queue(user_email, pattern_id):
     """
         Adds pattern to given queue.
         Returns true if pattern added successfully to queue.
