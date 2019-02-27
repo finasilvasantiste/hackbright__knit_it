@@ -19,10 +19,15 @@ export default class MiniPatterns extends React.Component {
                 img_small_url : "mini_pattern.img_small_url"
             }
            ],
-           pattern_id: 781496,
+           pattern: {
+                pattern_id: 781496
+           },
            page_number: 1,
            query : this.props.query,
-           is_logged_in : this.props.is_logged_in
+           user: {
+                email : this.props.email,
+                is_logged_in : this.props.is_logged_in
+            }
         };
 
         this.getPatternID = this.getPatternID.bind(this);
@@ -91,11 +96,13 @@ export default class MiniPatterns extends React.Component {
         /*
             Gets pattern_id from selected mini pattern.
         */
-        console.log('Click!')
+        console.log('Click! getPatternID:')
         console.log(pattern_id)
 
         this.setState({
-            pattern_id : pattern_id
+            pattern: {
+                pattern_id : pattern_id
+            }
         });
 
     };
@@ -122,14 +129,25 @@ export default class MiniPatterns extends React.Component {
     componentDidMount() {
         this.getPythonMiniPatternsByQuery(this.state.query, 1); 
 
-        console.log('Did mount, is_logged_in:' + this.state.is_logged_in)
+        // console.log('Did mount, is_logged_in:' + this.state.user.is_logged_in)
+        console.log('!!!!!!!!!!!!!')
+        console.log('MiniPatterns componentDidMount:')
+        console.log(this.state)
 
     }
 
     componentWillReceiveProps(nextProps){
         this.getPythonMiniPatternsByQuery(nextProps.query, 1);
 
-        console.log('Will Receive props, is_logged_in:' + nextProps.is_logged_in)
+        // console.log('Will Receive props, is_logged_in:' + nextProps.is_logged_in)
+
+        console.log('MiniPatterns nextProps ', nextProps)
+        this.setState({
+            user: {
+                email : nextProps.email,
+                is_logged_in : nextProps.is_logged_in
+            }
+        });
 
     }
 
@@ -161,7 +179,7 @@ export default class MiniPatterns extends React.Component {
                     )}
                 </Col>
                 <Col md={5}>
-                    <Pattern id={this.state.pattern_id}/> 
+                    <Pattern pattern_id={this.state.pattern.pattern_id} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email}/> 
                 </Col> 
                 </Row>
             </div>

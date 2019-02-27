@@ -11,7 +11,7 @@ export default class SearchMiniPatterns extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
-            logging: {
+            user: {
                 email : '',
                 button_email : '',
                 button_password : '',
@@ -33,7 +33,7 @@ export default class SearchMiniPatterns extends React.Component {
             Sets the new value for query in state. 
         */
         let query_string = String(this.state.button_query.value)
-        console.log(this.state.button_query.value)
+        // console.log(this.state.button_query.value)
         
         if(is_reset == true){
             query_string = '%20'
@@ -55,14 +55,15 @@ export default class SearchMiniPatterns extends React.Component {
         this.getQuery(true)
     }
 
-    updateLogInStatus(resp){
+    updateLogInStatus(resp, email){
         /*
             Updates user log in status according to server response.
         */
         if(resp['success']== 'true'){
             this.setState({
-                logging: {
-                    is_logged_in : true
+                user: {
+                    is_logged_in : true,
+                    email: email
                     }
                 });
         }
@@ -79,7 +80,7 @@ export default class SearchMiniPatterns extends React.Component {
 
         $.get(route_part_1 + email + route_part_2 + password, (data) => {
             console.log(data);
-            this.updateLogInStatus(data);
+            this.updateLogInStatus(data, email);
         });
 
     }
@@ -90,11 +91,11 @@ export default class SearchMiniPatterns extends React.Component {
         */
         console.log('Logging in!');
 
-        const email = String(this.state.logging.button_email.value);
-        const password = String(this.state.logging.button_password.value);
+        const email = String(this.state.user.button_email.value);
+        const password = String(this.state.user.button_password.value);
 
-        if (email != this.state.logging.email){
-            if (this.state.logging.is_logged_in == false){
+        if (email != this.state.user.email){
+            if (this.state.user.is_logged_in == false){
                 this.sendAuthToServer(email, password);
             }
         }else{
@@ -110,9 +111,9 @@ export default class SearchMiniPatterns extends React.Component {
         */
         console.log('Logging out!')
 
-        if (this.state.logging.is_logged_in == true){
+        if (this.state.user.is_logged_in == true){
             this.setState({
-                logging: {
+                user: {
                     is_logged_in : false
                     }
             });
@@ -130,8 +131,8 @@ export default class SearchMiniPatterns extends React.Component {
 
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <form className="form-inline my-2 my-lg-0">
-                            <FormControl inputRef={node => this.state.logging.button_email = node}  type="text" placeholder="Email" />
-                            <FormControl inputRef={node => this.state.logging.button_password = node}  type="text" placeholder="Password" />
+                            <FormControl inputRef={node => this.state.user.button_email = node}  type="text" placeholder="Email" />
+                            <FormControl inputRef={node => this.state.user.button_password = node}  type="text" placeholder="Password" />
                             <Button bsStyle="info" onClick={this.setLogIn} className="mr-sm-2" >
                                 Log in
                             </Button>
@@ -151,7 +152,7 @@ export default class SearchMiniPatterns extends React.Component {
                     </div>
                   </nav>
                     </Row>
-                        <MiniPatterns query={this.state.query} is_logged_in={this.state.logging.is_logged_in} />  
+                        <MiniPatterns query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} />  
                 </div>
         );
     }

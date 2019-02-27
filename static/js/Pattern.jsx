@@ -10,27 +10,35 @@ export default class Pattern extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            name: 'pattern.name' ,
-            author : 'pattern.author',
-            created_at: 'pattern.created_at',
-            pattern_type: 'pattern.pattern_type',
-            sizes: 'pattern.sizes',
-            yardage: 'pattern.yardage',
-            yarn_weight : 'pattern.yarn_weight',
-            gauge : 'pattern.gauge',
-            is_clothing : 'pattern.is_clothing',
-            is_free : 'pattern.is_free',
-            is_downloadable : 'pattern.is_downloadable',
-            download_url : 'pattern.url',
-            description : 'pattern.description',
-            img_fullsize_url : 'pattern.img_fullsize_url',
-            img_small_url: 'pattern.img_small_url',
-            suggested_yarn : 'pattern.suggested_yarn',
-            needles_required : 'pattern.needles',
-            pattern_id : this.props.id
+            data : {
+                name: 'pattern.name' ,
+                author : 'pattern.author',
+                created_at: 'pattern.created_at',
+                pattern_type: 'pattern.pattern_type',
+                sizes: 'pattern.sizes',
+                yardage: 'pattern.yardage',
+                yarn_weight : 'pattern.yarn_weight',
+                gauge : 'pattern.gauge',
+                is_clothing : 'pattern.is_clothing',
+                is_free : 'pattern.is_free',
+                is_downloadable : 'pattern.is_downloadable',
+                download_url : 'pattern.url',
+                description : 'pattern.description',
+                img_fullsize_url : 'pattern.img_fullsize_url',
+                img_small_url: 'pattern.img_small_url',
+                suggested_yarn : 'pattern.suggested_yarn',
+                needles_required : 'pattern.needles',
+            },
+           pattern_id : this.props.pattern_id,
+           count_queues : '0',
+           user: {
+                email : this.props.email,
+                is_logged_in : this.props.is_logged_in
+            }
         };
 
         this.getPythonPattern = this.getPythonPattern.bind(this);
+        this.addToQueue = this.addToQueue.bind(this);
 
     }
 
@@ -76,7 +84,7 @@ export default class Pattern extends React.Component {
 
     getBoolString(bool_to_convert){
         /*
-            Converts boolean values to string.
+            Converts boolean values to string representation.
         */
 
         if (bool_to_convert){
@@ -89,7 +97,9 @@ export default class Pattern extends React.Component {
 
 
     setListItems(items_list, obj_to_map){
-
+        /*
+            Returns html representation of items in list.
+        */
         return items_list.map((obj_to_map) =>
             <li key={obj_to_map.toString()}>
             {obj_to_map}</li>
@@ -97,9 +107,19 @@ export default class Pattern extends React.Component {
     }
 
 
-    setPattern(pattern_list){
+    setCountQueues(count_queues){
+        /*
+            Sets how many times pattern ahs been added to queue.
+        */
+        this.setState({
+            count_queues : count_queues
+        });
+    }
+
+
+    setPattern(pattern_list, count_queues){
         /* 
-            Sets new state of component with pattern values.
+            Sets pattern values in state.
         */
 
         const pattern = pattern_list[0]
@@ -117,24 +137,28 @@ export default class Pattern extends React.Component {
              
 
         this.setState({
-            name: pattern.name ,
-            author : pattern.author,
-            created_at: pattern.created_at,
-            pattern_type: pattern.pattern_type,
-            sizes: pattern.sizes,
-            yardage: pattern.yardage,
-            yarn_weight : pattern.yarn_weight,
-            gauge : pattern.gauge,
-            is_clothing : pattern.is_clothing,
-            is_free : is_free_string,
-            is_downloadable : is_downloadable_string,
-            download_url : pattern.url,
-            description : pattern.description,
-            img_fullsize_url : pattern.img_fullsize_url,
-            img_small_url: pattern.img_small_url,
-            suggested_yarn : yarn_list,
-            needles_required : needles_required_list
+            data : {
+                name: pattern.name ,
+                author : pattern.author,
+                created_at: pattern.created_at,
+                pattern_type: pattern.pattern_type,
+                sizes: pattern.sizes,
+                yardage: pattern.yardage,
+                yarn_weight : pattern.yarn_weight,
+                gauge : pattern.gauge,
+                is_clothing : pattern.is_clothing,
+                is_free : is_free_string,
+                is_downloadable : is_downloadable_string,
+                download_url : pattern.url,
+                description : pattern.description,
+                img_fullsize_url : pattern.img_fullsize_url,
+                img_small_url: pattern.img_small_url,
+                suggested_yarn : yarn_list,
+                needles_required : needles_required_list,
+            }
         });
+
+
 
     }
 
@@ -144,29 +168,107 @@ export default class Pattern extends React.Component {
             Gets pattern info from python server and forwards it to set the new state of component.
         */
 
-        // const pattern_id = this.state.pattern_id;
+        // console.log('*******************')
+        // console.log('Pattern getPythonPattern:')
+        // console.log('this.state:')
+        // console.log(this.state.pattern_id)
+        // console.log('pattern_id param:')
+        // console.log(pattern_id)
 
+        const route = '/patterns/knitting/get/';
+        const route_count_queues_pre = '/patterns/knitting/';
+        const route_count_queues_post = '/queues/get';
 
-        if (pattern_id != this.state.pattern_id){
-            this.setState({
-                pattern_id : pattern_id
-            })
-        }
-
-        const route = '/patterns/knitting/ids/';
-
-        $.get(route + pattern_id, (data) => {
+        if (pattern_id){
+            $.get(route + pattern_id, (data) => {
             console.log(data);
-            this.setPattern(data)
+            $.get(route_count_queues_pre + pattern_id + route_count_queues_post, (data2)=>{
+                this.setPattern(data)
+                this.setCountQueues(data2['count_queues'])
+
+            });
         });
+
+        }
+    }
+
+
+    addToQueue(){
+        /*
+            Adds pattern to favorites queue if user is logged in.
+        */
+        console.log('*************')
+        console.log('Pattern addToQueue')
+        console.log(this.state)
+
+        if(this.state.user.is_logged_in == true){
+            console.log('Adding to favorites!')
+
+            const email = this.state.user.email
+            const pattern_id = this.state.pattern_id
+
+            console.log('pattern_id:')
+            console.log(pattern_id)
+
+            const route_pre = '/'
+            const route_post = '/favorites/add/'
+
+            const route_count_queues_pre = '/patterns/knitting/';
+            const route_count_queues_post = '/queues/get';
+
+            $.get(route_pre + email + route_post + pattern_id, (data) => {
+                $.get(route_count_queues_pre + pattern_id + route_count_queues_post, (data2)=>{
+                    console.log('Add to queue, return from server:')
+                    console.log(data)
+                    this.setCountQueues(data2['count_queues'])
+                });
+            });
+
+        }else{
+            console.log('You\'re not logged in! Can\'t add to favorites!')
+        }
+    }
+
+    setPatternID(pattern_id){
+        /*
+            Sets pattern id in state.
+        */
+        this.setState({
+            pattern_id : pattern_id
+        })
+    }
+
+    setUser(user){
+        /*
+            Sets user information in state.
+        */
+        this.setState({
+            user: {
+                email : user.email,
+                is_logged_in : user.is_logged_in
+            }
+        })
+
     }
 
     componentDidMount() {
-        this.getPythonPattern(this.state.pattern_id); 
+        console.log('++++++++++')
+        console.log('Pattern componentDidMount:')
+        this.getPythonPattern(this.state.data.pattern_id); 
+
     }
 
     componentWillReceiveProps(nextProps){
-        this.getPythonPattern(nextProps.id)
+        console.log('++++++++++')
+        console.log('Pattern NextProps:')
+        console.log(nextProps)
+        console.log('Current state:')
+        console.log(this.state)
+
+
+        this.getPythonPattern(nextProps.pattern_id)
+        this.setPatternID(nextProps.pattern_id)
+        this.setUser(nextProps)
 
     }
 
@@ -174,39 +276,45 @@ export default class Pattern extends React.Component {
     render () {
         return (
                 <Col>
-                    <h1>{this.state.name}</h1>
-                    By {this.state.author}
+                    <h1>{this.state.data.name}</h1>
+                    By {this.state.data.author}
                     <br></br>
-                    Created at {this.state.created_at}
+                    Created at {this.state.data.created_at}
+                    <br></br>
+                    {this.state.count_queues} ❤ 
+                    <br></br>
+                    <Button bsStyle="info" onClick={this.addToQueue} className="mr-sm-2" >
+                        Add to Favorties
+                    </Button>
                     <hr/>
-                    <img src={this.state.img_fullsize_url}/>
+                    <img src={this.state.data.img_fullsize_url}/>
                     <p>
-                    Pattern Type: {this.state.pattern_type}
+                    Pattern Type: {this.state.data.pattern_type}
                     <br></br>
-                    Available sizes: {this.state.sizes}
+                    Available sizes: {this.state.data.sizes}
                     <br></br>
-                    Yardage: {this.state.yardage}
+                    Yardage: {this.state.data.yardage}
                     <br></br>
-                    Yarn weight: {this.state.yarn_weight}
+                    Yarn weight: {this.state.data.yarn_weight}
                     <br></br>
-                    Gauge: {this.state.gauge}
+                    Gauge: {this.state.data.gauge}
                     <br></br>
-                    Is it free?: {this.state.is_free}
+                    Is it free?: {this.state.data.is_free}
                     <br></br>
-                    Can I download it?: {this.state.is_downloadable}
+                    Can I download it?: {this.state.data.is_downloadable}
                     <br></br>
-                    Download url: {this.state.download_url}
+                    Download url: {this.state.data.download_url}
                     </p>
                     Suggested Yarn: 
                     <ul>
-                    {this.state.suggested_yarn}
+                    {this.state.data.suggested_yarn}
                     </ul>
                     Needles required:
                     <ul>
-                    {this.state.needles_required}
+                    {this.state.data.needles_required}
                     </ul>
                     <p>
-                    Description: {this.state.description}
+                    Description: {this.state.data.description}
                     </p>
                 </Col>
         );
