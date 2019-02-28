@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+// build with source maps
 const config = {
     entry:  __dirname + '/js/index.jsx',
     output: {
