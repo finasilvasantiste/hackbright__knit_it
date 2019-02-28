@@ -126,7 +126,7 @@ export default class SearchMiniPatterns extends React.Component {
         return (
                 <div>
                     <Row>
-                  <nav className="navbar navbar-expand-lg navbar-dark bg-primary container-fluid">
+                  <nav className="navbar navbar-expand-lg navbar-light bg-light container-fluid">
                     <a className="navbar-brand" href="/">Knit It</a>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                       <form className="form-inline my-2 my-lg-0">

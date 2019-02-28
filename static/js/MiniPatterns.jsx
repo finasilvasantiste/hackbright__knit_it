@@ -161,15 +161,16 @@ export default class MiniPatterns extends React.Component {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam varius efficitur nulla ut condimentum. Phasellus luctus lacinia nisi, nec porta neque placerat vitae. In sed gravida metus. Donec dolor felis, ultrices in lacus sit amet, posuere laoreet dolor. Mauris rhoncus mauris ac tellus finibus, cursus tincidunt lectus rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin imperdiet sem quam, vitae molestie ipsum blandit quis. Donec viverra eros vitae augue euismod elementum. Suspendisse rhoncus massa vitae dolor dapibus, sit amet feugiat mauris rhoncus. Nam sapien felis, sagittis at sapien quis, vulputate vehicula ligula. Sed ac egestas justo, at fringilla est. Nam eleifend, nisl vitae maximus sagittis, felis massa dapibus elit, in pharetra justo ex non eros.
                     </p>
                     <p>
-                        <Button bsSize="large" bsStyle="danger" onClick={this.getPreviousPage}>
+                        <Button bsSize="large" bsStyle="danger" onClick={this.getPreviousPage} className="mr-sm-2">
                           Previous Page!
                         </Button>
-                        <Button bsSize="large" bsStyle="danger" onClick={this.getNextPage}>
+                        <Button bsSize="large" bsStyle="danger" onClick={this.getNextPage} className="mr-sm-2">
                           Next Page!
                         </Button>
                     </p>
+                    <div id='mini_patterns'>
                     {this.state.data.map(d => 
-                        <div key={d.pattern_id} onClick={()=>this.getPatternID(d.pattern_id)}>
+                        <div key={d.pattern_id} onClick={()=>this.getPatternID(d.pattern_id)} className="float-left">
                             <img src={d.img_small_url}/>
                             <br></br>
                             {d.name}
@@ -177,6 +178,7 @@ export default class MiniPatterns extends React.Component {
                             {d.pattern_id}
                         </div>
                     )}
+                    </div>
                 </Col>
                 <Col md={5}>
                     <Pattern pattern_id={this.state.pattern.pattern_id} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email}/> 

@@ -283,7 +283,7 @@ export default class Pattern extends React.Component {
                     <br></br>
                     {this.state.count_queues} ❤ 
                     <br></br>
-                    <Button bsStyle="info" onClick={this.addToQueue} className="mr-sm-2" >
+                    <Button bsStyle="danger" onClick={this.addToQueue} className="mr-sm-2" >
                         Add to Favorties
                     </Button>
                     <hr/>
