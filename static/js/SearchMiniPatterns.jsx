@@ -126,27 +126,26 @@ export default class SearchMiniPatterns extends React.Component {
         return (
                 <div>
                     <Row>
-                  <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                  <nav className="navbar navbar-expand-lg navbar-dark bg-primary container-fluid">
                     <a className="navbar-brand" href="/">Knit It</a>
-
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <form className="form-inline my-2 my-lg-0">
-                            <FormControl inputRef={node => this.state.user.button_email = node}  type="text" placeholder="Email" />
-                            <FormControl inputRef={node => this.state.user.button_password = node}  type="text" placeholder="Password" />
-                            <Button bsStyle="info" onClick={this.setLogIn} className="mr-sm-2" >
-                                Log in
-                            </Button>
-                            <Button bsStyle="info" onClick={this.setLogOut} className="mr-sm-2" >
-                                Log out
-                            </Button>
-                      </form>
                       <form className="form-inline my-2 my-lg-0">
-                            <FormControl inputRef={node => this.state.button_query = node}  type="text" placeholder="Enter query" />
+                            <FormControl inputRef={node => this.state.button_query = node}  type="text" placeholder="Enter query" className="mr-sm-2" />
                             <Button bsStyle="warning" onClick={this.getQuery} className="mr-sm-2" >
                                 Search
                             </Button>
                             <Button bsStyle="warning" onClick={this.resetResults} className="mr-sm-2" >
                                 Reset Results
+                            </Button>
+                      </form>
+                        <form className="form-inline my-2 my-lg-0">
+                            <FormControl inputRef={node => this.state.user.button_email = node}  type="text" placeholder="Email" className="mr-sm-2"/>
+                            <FormControl inputRef={node => this.state.user.button_password = node}  type="text" placeholder="Password" className="mr-sm-2"/>
+                            <Button bsStyle="info" onClick={this.setLogIn} className="mr-sm-2" >
+                                Log in
+                            </Button>
+                            <Button bsStyle="info" onClick={this.setLogOut} className="mr-sm-2" >
+                                Log out
                             </Button>
                       </form>
                     </div>
