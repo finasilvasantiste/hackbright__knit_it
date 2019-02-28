@@ -130,9 +130,9 @@ export default class MiniPatterns extends React.Component {
         this.getPythonMiniPatternsByQuery(this.state.query, 1); 
 
         // console.log('Did mount, is_logged_in:' + this.state.user.is_logged_in)
-        console.log('!!!!!!!!!!!!!')
-        console.log('MiniPatterns componentDidMount:')
-        console.log(this.state)
+        // console.log('!!!!!!!!!!!!!')
+        // console.log('MiniPatterns componentDidMount:')
+        // console.log(this.state)
 
     }
 
@@ -141,7 +141,7 @@ export default class MiniPatterns extends React.Component {
 
         // console.log('Will Receive props, is_logged_in:' + nextProps.is_logged_in)
 
-        console.log('MiniPatterns nextProps ', nextProps)
+        // console.log('MiniPatterns nextProps ', nextProps)
         this.setState({
             user: {
                 email : nextProps.email,

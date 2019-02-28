@@ -1,5 +1,6 @@
 import React from "react";
-import MiniPatterns from "./MiniPatterns"
+import MiniPatterns from "./MiniPatterns";
+import RegisterForm from "./RegisterForm";
 import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl } from "react-bootstrap";
 
 
@@ -25,6 +26,7 @@ export default class SearchMiniPatterns extends React.Component {
         this.resetResults = this.resetResults.bind(this);
         this.setLogIn = this.setLogIn.bind(this);
         this.setLogOut = this.setLogOut.bind(this);
+        // this.getRegisterForm = this.getRegisterForm.bind(this);
 
     }
 
@@ -148,6 +150,7 @@ export default class SearchMiniPatterns extends React.Component {
                                 Log out
                             </Button>
                       </form>
+                      <RegisterForm/>
                     </div>
                   </nav>
                     </Row>
