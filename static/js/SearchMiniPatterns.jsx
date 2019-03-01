@@ -16,7 +16,8 @@ export default class SearchMiniPatterns extends React.Component {
                 email : '',
                 input_email : '',
                 input_password : '',
-                is_logged_in : false
+                is_logged_in : false,
+                unsuccessful_log_in_attempt: false,
             },
             query : '%20',
             button_query : ' '
@@ -26,9 +27,8 @@ export default class SearchMiniPatterns extends React.Component {
         this.resetResults = this.resetResults.bind(this);
         this.setLogIn = this.setLogIn.bind(this);
         this.setLogOut = this.setLogOut.bind(this);
-        // this.getRegisterForm = this.getRegisterForm.bind(this);
-
     }
+
 
     getQuery(is_reset = false){
         /*
@@ -65,9 +65,18 @@ export default class SearchMiniPatterns extends React.Component {
             this.setState({
                 user: {
                     is_logged_in : true,
-                    email: email
+                    email: email,
+                    unsuccessful_log_in_attempt: false
                     }
                 });
+        }else{
+            this.setState({
+                user: {
+                    is_logged_in : false,
+                    unsuccessful_log_in_attempt: true
+                    }
+                });
+
         }
     };
 
@@ -87,22 +96,29 @@ export default class SearchMiniPatterns extends React.Component {
 
     }
 
+
+    clearLogInInputFields(){
+        $('#email_input').val('')
+        $('#password_input').val('')
+    }
+
+
     setLogIn(){
         /*
-            Sends auth values to server to log user in.
+            Logs user in by given email and password.
         */
         console.log('Logging in!');
 
         const email = String(this.state.user.input_email.value);
         const password = String(this.state.user.input_password.value);
 
-        if (email != this.state.user.email){
-            if (this.state.user.is_logged_in == false){
-                this.sendAuthToServer(email, password);
-            }
-        }else{
+        this.clearLogInInputFields()
+
+        if(this.state.user.is_logged_in == false){
             this.sendAuthToServer(email, password);
-        };
+        }else{
+            console.log('You need to log out first before you can log in again!')
+        }
         
     }
 
@@ -119,6 +135,8 @@ export default class SearchMiniPatterns extends React.Component {
                     is_logged_in : false
                     }
             });
+        }else{
+            console.log('You\'re not logged in, so can\t log you out!')
         }
 
     }
@@ -141,14 +159,24 @@ export default class SearchMiniPatterns extends React.Component {
                             </Button>
                       </form>
                         <form className="form-inline my-2 my-lg-0">
-                            <FormControl inputRef={node => this.state.user.input_email = node}  type="text" placeholder="Email" className="mr-sm-2"/>
-                            <FormControl inputRef={node => this.state.user.input_password = node}  type="text" placeholder="Password" className="mr-sm-2"/>
-                            <Button bsStyle="info" onClick={this.setLogIn} className="mr-sm-2" >
+                            <FormControl id="email_input" inputRef={node => this.state.user.input_email = node}  type="text" placeholder="Email" className="mr-sm-2"/>
+                            <FormControl id="password_input" inputRef={node => this.state.user.input_password = node}  type="text" placeholder="Password" className="mr-sm-2"/>
+                            <Button bsStyle="info" onClick={this.setLogIn} className={this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
                                 Log in
                             </Button>
-                            <Button bsStyle="info" onClick={this.setLogOut} className="mr-sm-2" >
+                            <Button bsStyle="info" onClick={this.setLogOut} className={!this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
                                 Log out
                             </Button>
+                          <div>
+                            { this.state.user.is_logged_in
+                              ? <p>You're logged in as {this.state.user.email}.</p>
+                              : null
+                            }
+                            { this.state.user.unsuccessful_log_in_attempt
+                              ? <p>Log in unsuccessful! Please try again.</p>
+                              : null
+                            }
+                        </div>
                       </form>
                       <RegisterForm is_logged_in={this.state.user.is_logged_in}/>
                     </div>

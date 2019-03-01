@@ -9,13 +9,14 @@ export default class RegisterForm extends React.Component {
     super(props, context);
 
     this.state = {
-          show: false,
           user: {
               input_email : '',
               input_password : '',
               is_logged_in : this.props.is_logged_in,
+              is_registered : false,
+              unsuccessful_registration_attempt: false,
           },
-          is_registered : false
+          show: false,
     };
 
     this.handleShow = this.handleShow.bind(this);
@@ -40,11 +41,17 @@ export default class RegisterForm extends React.Component {
 
       if(respFromServer['success']== 'true'){
           this.setState({
-              is_registered : true
+              user: {
+                is_registered : true,
+                unsuccessful_registration_attempt : false
+                }
               });
       }else{
         this.setState({
-              is_registered : false
+              user: {
+                is_registered : false,
+                unsuccessful_registration_attempt : true
+                }
               });
       }
 
@@ -116,10 +123,12 @@ export default class RegisterForm extends React.Component {
               ? <p>You're currently logged in! Please log out in order to register.</p>
               : null
             }
-          </div>
-          <div>
-            { this.state.is_registered
+            { this.state.user.is_registered
               ? <p>You've registered successfully!</p>
+              : null
+            }
+            { this.state.user.unsuccessful_registration_attempt
+              ? <p>Registration unsuccessful! Did you perhaps already register with that email?</p>
               : null
             }
           </div>
