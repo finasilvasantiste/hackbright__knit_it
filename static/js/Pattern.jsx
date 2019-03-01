@@ -197,9 +197,9 @@ export default class Pattern extends React.Component {
         /*
             Adds pattern to favorites queue if user is logged in.
         */
-        console.log('*************')
-        console.log('Pattern addToQueue')
-        console.log(this.state)
+        // console.log('*************')
+        // console.log('Pattern addToQueue')
+        // console.log(this.state)
 
         if(this.state.user.is_logged_in == true){
             console.log('Adding to favorites!')
@@ -252,18 +252,18 @@ export default class Pattern extends React.Component {
     }
 
     componentDidMount() {
-        console.log('++++++++++')
-        console.log('Pattern componentDidMount:')
+        // console.log('++++++++++')
+        // console.log('Pattern componentDidMount:')
         this.getPythonPattern(this.state.data.pattern_id); 
 
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('++++++++++')
-        console.log('Pattern NextProps:')
-        console.log(nextProps)
-        console.log('Current state:')
-        console.log(this.state)
+        // console.log('++++++++++')
+        // console.log('Pattern NextProps:')
+        // console.log(nextProps)
+        // console.log('Current state:')
+        // console.log(this.state)
 
 
         this.getPythonPattern(nextProps.pattern_id)

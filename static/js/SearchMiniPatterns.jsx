@@ -1,7 +1,7 @@
 import React from "react";
 import MiniPatterns from "./MiniPatterns";
 import RegisterForm from "./RegisterForm";
-import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl } from "react-bootstrap";
+import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl, Modal, ModalHeader, ModalBody, ModalFooter } from "react-bootstrap";
 
 
 require('../css/fullstack.css');
@@ -20,13 +20,18 @@ export default class SearchMiniPatterns extends React.Component {
                 unsuccessful_log_in_attempt: false,
             },
             query : '%20',
-            button_query : ' '
+            button_query : ' ',
+            modal : ' ',
+            modal_show : false
         }
 
         this.getQuery = this.getQuery.bind(this);
         this.resetResults = this.resetResults.bind(this);
         this.setLogIn = this.setLogIn.bind(this);
         this.setLogOut = this.setLogOut.bind(this);
+        this.handleModalShow = this.handleModalShow.bind(this);
+        this.handleModalClose = this.handleModalClose.bind(this);
+
     }
 
 
@@ -142,6 +147,16 @@ export default class SearchMiniPatterns extends React.Component {
     }
 
 
+    handleModalClose() {
+        this.setState({ modal_show: false });
+    }
+
+
+    handleModalShow() {
+        this.setState({ modal_show: true });
+    }
+
+
     render () {
         return (
                 <div>
@@ -178,12 +193,36 @@ export default class SearchMiniPatterns extends React.Component {
                             }
                         </div>
                       </form>
-                      <RegisterForm is_logged_in={this.state.user.is_logged_in}/>
+                      { this.state.user.is_logged_in
+                        ? <div>
+                        <Button bsStyle="success" onClick={this.handleModalShow} className={!this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
+                                My favorites
+                            </Button> 
+                            {this.state.modal}
+                            </div>
+                        : <RegisterForm is_logged_in={this.state.user.is_logged_in}/>
+                      }
                     </div>
                   </nav>
                     </Row>
                         <MiniPatterns query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} />  
+
+                <Modal className={this.state.modal_show ? 'show' : ''} show={this.state.modal_show} onHide={this.handleModalClose}>
+                  <Modal.Header>
+                    <Modal.Title>My favorites</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                  Favs!
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button onClick={this.handleModalClose}>
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+
                 </div>
+
         );
     }
 }
