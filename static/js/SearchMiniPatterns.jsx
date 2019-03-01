@@ -14,8 +14,8 @@ export default class SearchMiniPatterns extends React.Component {
         this.state= {
             user: {
                 email : '',
-                button_email : '',
-                button_password : '',
+                input_email : '',
+                input_password : '',
                 is_logged_in : false
             },
             query : '%20',
@@ -57,11 +57,11 @@ export default class SearchMiniPatterns extends React.Component {
         this.getQuery(true)
     }
 
-    updateLogInStatus(resp, email){
+    updateLogInStatus(respFromServer, email){
         /*
             Updates user log in status according to server response.
         */
-        if(resp['success']== 'true'){
+        if(respFromServer['success']== 'true'){
             this.setState({
                 user: {
                     is_logged_in : true,
@@ -73,7 +73,7 @@ export default class SearchMiniPatterns extends React.Component {
 
     sendAuthToServer(email, password){
         /*
-            Returns authentication success status from server.
+            Sends auth values to server for log in.
         */
 
         const route_part_1 = '/auth/log_in/'
@@ -93,8 +93,8 @@ export default class SearchMiniPatterns extends React.Component {
         */
         console.log('Logging in!');
 
-        const email = String(this.state.user.button_email.value);
-        const password = String(this.state.user.button_password.value);
+        const email = String(this.state.user.input_email.value);
+        const password = String(this.state.user.input_password.value);
 
         if (email != this.state.user.email){
             if (this.state.user.is_logged_in == false){
@@ -141,8 +141,8 @@ export default class SearchMiniPatterns extends React.Component {
                             </Button>
                       </form>
                         <form className="form-inline my-2 my-lg-0">
-                            <FormControl inputRef={node => this.state.user.button_email = node}  type="text" placeholder="Email" className="mr-sm-2"/>
-                            <FormControl inputRef={node => this.state.user.button_password = node}  type="text" placeholder="Password" className="mr-sm-2"/>
+                            <FormControl inputRef={node => this.state.user.input_email = node}  type="text" placeholder="Email" className="mr-sm-2"/>
+                            <FormControl inputRef={node => this.state.user.input_password = node}  type="text" placeholder="Password" className="mr-sm-2"/>
                             <Button bsStyle="info" onClick={this.setLogIn} className="mr-sm-2" >
                                 Log in
                             </Button>
@@ -150,7 +150,7 @@ export default class SearchMiniPatterns extends React.Component {
                                 Log out
                             </Button>
                       </form>
-                      <RegisterForm/>
+                      <RegisterForm is_logged_in={this.state.user.is_logged_in}/>
                     </div>
                   </nav>
                     </Row>
