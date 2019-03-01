@@ -42,6 +42,10 @@ export default class RegisterForm extends React.Component {
           this.setState({
               is_registered : true
               });
+      }else{
+        this.setState({
+              is_registered : false
+              });
       }
 
       console.log('Resp from server:', respFromServer['success'])
@@ -107,12 +111,22 @@ export default class RegisterForm extends React.Component {
             <Modal.Title>Register</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-
-            Success: {this.state.is_registered}
+          <div>
+            { this.state.user.is_logged_in
+              ? <p>You're currently logged in! Please log out in order to register.</p>
+              : null
+            }
+          </div>
+          <div>
+            { this.state.is_registered
+              ? <p>You've registered successfully!</p>
+              : null
+            }
+          </div>
           <form className="form-inline my-2 my-lg-0">
                 <FormControl inputRef={node => this.state.user.input_email = node}  type="text" placeholder="Email" className="mr-sm-2"/>
                 <FormControl inputRef={node => this.state.user.input_password = node}  type="text" placeholder="Password" className="mr-sm-2"/>
-                <Button bsStyle="info" onClick={this.registerUser} className="mr-sm-2" >
+                <Button bsStyle="info" onClick={this.registerUser} className={this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
                     Register
                 </Button>
           </form>
