@@ -18,6 +18,7 @@ export default class SearchMiniPatterns extends React.Component {
                 input_password : '',
                 is_logged_in : false,
                 unsuccessful_log_in_attempt: false,
+                favorites: 'user.favorites'
             },
             query : '%20',
             button_query : ' ',
@@ -102,6 +103,53 @@ export default class SearchMiniPatterns extends React.Component {
     }
 
 
+    setFavoriteItems(items_list){
+        /*
+            Returns html representation of items in list.
+        */
+        return items_list.map((pattern) =>
+            <li key={pattern.pattern_id.toString()}>
+            {pattern.pattern_id}, {pattern.name}</li>
+            );
+    }
+
+
+    setFavorites(favorites_list){
+    /*
+        Returns html representation of items in list.
+    */
+
+        const favorites_elems = this.setFavoriteItems(favorites_list)
+
+        console.log('HTML FAV')
+        console.log(favorites_elems)
+        this.setState({
+            user : {
+                favorites : favorites_elems
+            }
+        })
+    }
+
+
+    getFavoritesList(){
+        /*
+            Returns list with pattern_id and pattern_name from patterns in favorites list.
+        */
+        const email = this.state.user.email
+        const route_pre = '/'
+        const route_post = '/favorites/get'
+
+
+        $.get(route_pre + email + route_post, (data) => {    
+            console.log('FAVORITES')
+            console.log(data)
+            this.setFavorites(data)
+
+        });
+
+    }
+
+
     clearLogInInputFields(){
         $('#email_input').val('')
         $('#password_input').val('')
@@ -153,6 +201,7 @@ export default class SearchMiniPatterns extends React.Component {
 
 
     handleModalShow() {
+        this.getFavoritesList()
         this.setState({ modal_show: true });
     }
 
@@ -213,6 +262,7 @@ export default class SearchMiniPatterns extends React.Component {
                   </Modal.Header>
                   <Modal.Body>
                   Favs!
+                  <p>Favorites: {this.state.user.favorites}</p>
                   </Modal.Body>
                   <Modal.Footer>
                     <Button onClick={this.handleModalClose}>

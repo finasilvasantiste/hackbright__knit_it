@@ -156,12 +156,23 @@ def get_patterns_in_queue(user_email):
     user_db = User.query.filter(User.user_email == user_email).first()
     queue_list = user_db.queue
 
-    print(queue_list)
-    resp = {}
+
+    pattern_ids = []
 
     for i in range(len(queue_list)):
-        resp[i] = queue_list[i].pattern_id
+        pattern_ids.append(queue_list[i].pattern_id)
 
+
+    patterns = HANDLER.get_knitting_patterns_by_ids(pattern_ids)
+
+
+    resp = []
+    for pattern in patterns:
+        pattern_dict = {}
+        pattern_dict['pattern_id'] = pattern['pattern_id']
+        pattern_dict['name'] = pattern['name']
+
+        resp.append(pattern_dict)
 
     return jsonify(resp)
 
@@ -236,6 +247,7 @@ def knitting_patterns_by_ids(pattern_ids_string):
     """
        Returns multiple patterns given a list of pattern ids.
     """
+    # return jsonify(get_knitting_patterns_by_ids(pattern_ids_string))
     return get_knitting_patterns_by_ids(pattern_ids_string)
 
 
