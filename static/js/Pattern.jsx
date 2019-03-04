@@ -208,17 +208,15 @@ export default class Pattern extends React.Component {
         /*
             Returns true if given pattern_id is in list, false otherwise.
         */
-        console.log('@@@@@@@@@@@@@@@@@@@@@@@')
+        // console.log('@@@@@@@@@@@@@@@@@@@@@@@')
         for(let i = 0; i<pattern_id_list.length; i++){
             // console.log('pattern_id_list:')
             // console.log(pattern_id_list[i].pattern_id)
             // console.log('pattern_id')
             // console.log(pattern_id)
             if(pattern_id_list[i].pattern_id == pattern_id){
-                console.log('Inside FAV list!')
+                // console.log('Inside FAV list!')
                 return true
-            }else{
-                console.log('NOT in FAV list!')
             }
         }
 
@@ -235,17 +233,20 @@ export default class Pattern extends React.Component {
 
 
         $.get(route_pre + email + route_post, (data) => {    
-            console.log('FAVORITES')
-            console.log(data)
+            // console.log('FAVORITES')
+            // console.log(data)
             let isInFavs = this.isInFavorites(data, pattern_id)
-            console.log('######')
-            console.log(isInFavs)
+            // console.log('######')
+            // console.log(isInFavs)
             this.setPatternIsInQueue(isInFavs)
         });
 
     }
 
     getPatternIsInQueue(email, pattern_id){
+        /*
+            Checks if pattern is in user's queue.
+        */
         this.getFavoritesList(email, pattern_id)
 
     }
@@ -254,9 +255,6 @@ export default class Pattern extends React.Component {
         /*
             Adds pattern to favorites queue if user is logged in.
         */
-        // console.log('*************')
-        // console.log('Pattern addToQueue')
-        // console.log(this.state)
 
         if(this.state.user.is_logged_in == true){
             console.log('Adding to favorites!')
@@ -337,7 +335,7 @@ export default class Pattern extends React.Component {
         })
     }
 
-    setUser(user, pattern_id){
+    setUserAndIfPatternInQueue(user, pattern_id){
         /*
             Sets user information in state.
         */
@@ -356,23 +354,14 @@ export default class Pattern extends React.Component {
 
 
     componentDidMount() {
-        // console.log('++++++++++')
-        // console.log('Pattern componentDidMount:')
         this.getPythonPattern(this.state.data.pattern_id); 
 
     }
 
     componentWillReceiveProps(nextProps){
-        // console.log('++++++++++')
-        // console.log('Pattern NextProps:')
-        // console.log(nextProps)
-        // console.log('Current state:')
-        // console.log(this.state)
-
-
         this.getPythonPattern(nextProps.pattern_id)
         this.setPatternID(nextProps.pattern_id)
-        this.setUser(nextProps, nextProps.pattern_id)
+        this.setUserAndIfPatternInQueue(nextProps, nextProps.pattern_id)
 
     }
 
