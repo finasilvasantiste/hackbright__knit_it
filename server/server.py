@@ -138,6 +138,7 @@ def add_pattern_to_queue(user_email, pattern_id):
 
     return jsonify(resp)
 
+@app.route('/<string:user_email>/favorites/remove/<int:pattern_id>')
 
 @app.route('/<string:user_email>/favorites/get')
 def patterns_in_queue(user_email):

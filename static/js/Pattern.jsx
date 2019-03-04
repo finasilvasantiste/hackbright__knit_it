@@ -34,11 +34,13 @@ export default class Pattern extends React.Component {
            user: {
                 email : this.props.email,
                 is_logged_in : this.props.is_logged_in
-            }
+            },
+            is_in_queue : false
         };
 
         this.getPythonPattern = this.getPythonPattern.bind(this);
         this.addToQueue = this.addToQueue.bind(this);
+        this.removeFromQueue = this.removeFromQueue.bind(this);
 
     }
 
@@ -109,7 +111,7 @@ export default class Pattern extends React.Component {
 
     setCountQueues(count_queues){
         /*
-            Sets how many times pattern ahs been added to queue.
+            Sets how many times pattern has been added to queue.
         */
         this.setState({
             count_queues : count_queues
@@ -162,6 +164,15 @@ export default class Pattern extends React.Component {
 
     }
 
+    setPatternIsInQueue(is_in_queue){
+        /*
+            Sets whether pattern is in user's queue.
+        */
+        this.setState({
+            is_in_queue : is_in_queue
+        })
+
+    }
 
     getPythonPattern(pattern_id){
         /* 
@@ -193,6 +204,52 @@ export default class Pattern extends React.Component {
     }
 
 
+    isInFavorites(pattern_id_list, pattern_id){
+        /*
+            Returns true if given pattern_id is in list, false otherwise.
+        */
+        console.log('@@@@@@@@@@@@@@@@@@@@@@@')
+        for(let i = 0; i<pattern_id_list.length; i++){
+            // console.log('pattern_id_list:')
+            // console.log(pattern_id_list[i].pattern_id)
+            // console.log('pattern_id')
+            // console.log(pattern_id)
+            if(pattern_id_list[i].pattern_id == pattern_id){
+                console.log('Inside FAV list!')
+                return true
+            }else{
+                console.log('NOT in FAV list!')
+            }
+        }
+
+        return false
+    }
+
+   getFavoritesList(email, pattern_id){
+        /*
+            Returns list with pattern_id and pattern_name from patterns in favorites list.
+        */
+        // const email = this.state.user.email
+        const route_pre = '/'
+        const route_post = '/favorites/get'
+
+
+        $.get(route_pre + email + route_post, (data) => {    
+            console.log('FAVORITES')
+            console.log(data)
+            let isInFavs = this.isInFavorites(data, pattern_id)
+            console.log('######')
+            console.log(isInFavs)
+            this.setPatternIsInQueue(isInFavs)
+        });
+
+    }
+
+    getPatternIsInQueue(email, pattern_id){
+        this.getFavoritesList(email, pattern_id)
+
+    }
+
     addToQueue(){
         /*
             Adds pattern to favorites queue if user is logged in.
@@ -221,6 +278,9 @@ export default class Pattern extends React.Component {
                     console.log('Add to queue, return from server:')
                     console.log(data)
                     this.setCountQueues(data2['count_queues'])
+                    if(data['success'] == 'true'){
+                        this.setPatternIsInQueue(true)
+                    }
                 });
             });
 
@@ -228,6 +288,45 @@ export default class Pattern extends React.Component {
             console.log('You\'re not logged in! Can\'t add to favorites!')
         }
     }
+
+    removeFromQueue(){
+        /*
+            Removes pattern from user's queue.
+        */
+        console.log('@@@@@@')
+        console.log('Is_In_Queue:')
+        console.log(this.state.is_in_queue)
+        if(this.state.is_in_queue){
+            console.log('Removing from queue!')
+            // this.setPatternIsInQueue(false)
+
+            // const email = this.state.user.email
+            // const pattern_id = this.state.pattern_id
+
+            // console.log('pattern_id:')
+            // console.log(pattern_id)
+
+            // const route_pre = '/'
+            // const route_post = '/favorites/add/'
+
+            // const route_count_queues_pre = '/patterns/knitting/';
+            // const route_count_queues_post = '/queues/get';
+
+            // $.get(route_pre + email + route_post + pattern_id, (data) => {
+            //     $.get(route_count_queues_pre + pattern_id + route_count_queues_post, (data2)=>{
+            //         console.log('Add to queue, return from server:')
+            //         console.log(data)
+            //         this.setCountQueues(data2['count_queues'])
+            //         this.setPatternIsInQueue(true)
+            //     });
+            // });
+        }else{
+            console.log('Not in user\'s queue! Can\'t remove it.')
+        }
+
+
+    }
+
 
     setPatternID(pattern_id){
         /*
@@ -238,7 +337,7 @@ export default class Pattern extends React.Component {
         })
     }
 
-    setUser(user){
+    setUser(user, pattern_id){
         /*
             Sets user information in state.
         */
@@ -249,7 +348,12 @@ export default class Pattern extends React.Component {
             }
         })
 
+        if(user.email && user.is_logged_in){
+            this.getPatternIsInQueue(user.email, pattern_id)
+        }
+
     }
+
 
     componentDidMount() {
         // console.log('++++++++++')
@@ -268,7 +372,7 @@ export default class Pattern extends React.Component {
 
         this.getPythonPattern(nextProps.pattern_id)
         this.setPatternID(nextProps.pattern_id)
-        this.setUser(nextProps)
+        this.setUser(nextProps, nextProps.pattern_id)
 
     }
 
@@ -283,9 +387,24 @@ export default class Pattern extends React.Component {
                     <br></br>
                     {this.state.count_queues} ❤ 
                     <br></br>
-                    <Button bsStyle="danger" onClick={this.addToQueue} className="mr-sm-2" size="sm" >
-                        Add to Favorties
-                    </Button>
+                    <div>
+
+                    { this.state.user.is_logged_in && this.state.is_in_queue
+                        ?
+                        <Button key='removeFromQueue' bsStyle="danger" onClick={this.removeFromQueue} className="mr-sm-2" size="sm" >
+                        Remove from Favs
+                        </Button>
+                        : null 
+                    }
+                    { this.state.user.is_logged_in && !this.state.is_in_queue
+                        ?
+                        <Button key='addToQueue' bsStyle="danger" onClick={this.addToQueue} className="mr-sm-2" size="sm" >
+                        Add to Favs
+                        </Button>
+                        : null
+                    }
+
+                  </div>
                     <hr/>
                     <img src={this.state.data.img_fullsize_url}/>
                     <p>

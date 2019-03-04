@@ -17,8 +17,10 @@ export default class SearchMiniPatterns extends React.Component {
                 input_email : '',
                 input_password : '',
                 is_logged_in : false,
-                unsuccessful_log_in_attempt: false,
-                favorites: 'user.favorites'
+                unsuccessful_log_in_attempt: false
+            },
+            favorites: {
+                data: 'favorites.data'
             },
             query : '%20',
             button_query : ' ',
@@ -121,11 +123,11 @@ export default class SearchMiniPatterns extends React.Component {
 
         const favorites_elems = this.setFavoriteItems(favorites_list)
 
-        console.log('HTML FAV')
-        console.log(favorites_elems)
+        // console.log('HTML FAV')
+        // console.log(favorites_elems)
         this.setState({
-            user : {
-                favorites : favorites_elems
+            favorites : {
+                data : favorites_elems
             }
         })
     }
@@ -189,7 +191,7 @@ export default class SearchMiniPatterns extends React.Component {
                     }
             });
         }else{
-            console.log('You\'re not logged in, so can\t log you out!')
+            console.log('You\'re not logged in, so you can\'t log out!')
         }
 
     }
@@ -261,8 +263,7 @@ export default class SearchMiniPatterns extends React.Component {
                     <Modal.Title>My favorites</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                  Favs!
-                  <p>Favorites: {this.state.user.favorites}</p>
+                  <p>{this.state.favorites.data}</p>
                   </Modal.Body>
                   <Modal.Footer>
                     <Button onClick={this.handleModalClose}>
