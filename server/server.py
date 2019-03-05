@@ -40,26 +40,19 @@ def get_log_in(user_email, password):
 
     password = password.lower()
     new_user_password_hash = User.get_password_hash(password)
-
     user_db = User.query.filter(User.user_email == user_email).first()
-    # print(new_user_password_hash)
-    # print(user_db.password_hash)
+    is_success = False
 
-    if user_db is None:
-        resp = {
-            'success': 'false'
-            }
-    else:    
+    if user_db is not None:  
         if new_user_password_hash == user_db.password_hash:
             # print('++++ Same password hash +++++')
-            resp = {
-                'success': 'true'
-                }
-        else:
-            # print ('+++++ Different password hash +++++')
-            resp = {
-                'success': 'false'
-                }
+            is_success = True
+
+
+    resp = {
+            'success': is_success
+            }
+
 
     return resp
 
@@ -81,65 +74,90 @@ def get_registration(user_email, password):
     # new_queue_id = User.get_new_queue_id()
     new_user = User(user_email, password)
     user_db = User.query.filter(User.user_email == user_email).first()
-
-    # print('+++++++')
-    # print(new_user)
+    is_success = False
 
     if user_db is None:
         DB__CONNECTION_HANDLER.add_new_object(new_user)
-        resp = {
-            'success': 'true'
-            }
-    else:
-        # print('User already in db.')
-        resp = {
-            'success': 'false'
+        is_success = True
+
+    resp = {
+            'success': is_success
             }
 
     return resp
 
 
 @app.route('/<string:user_email>/favorites/add/<int:pattern_id>')
-def pattern_to_queue(user_email, pattern_id):
-    """
-        Adds pattern to given queue.
-        Returns true if pattern added successfully to queue.
-    """
-
-    return jsonify(add_pattern_to_queue(user_email, pattern_id))
-
-
 def add_pattern_to_queue(user_email, pattern_id):
     """
         Adds pattern to given queue.
         Returns true if pattern added successfully to queue.
     """
 
-    # print('++++++++++++++++++++')
-    # print('Queue_id: {}, Pattern_id: {}'.format(queue_id, pattern_id))
+    return jsonify(get_add_pattern_to_queue(user_email, pattern_id))
 
+
+def get_add_pattern_to_queue(user_email, pattern_id):
+    """
+        Adds pattern to given queue.
+        Returns true if pattern added successfully to queue.
+    """
 
     user_db = User.query.filter(User.user_email == user_email).first()
     queue_id = user_db.queue_id
     new_queue_item = Queue(queue_id, pattern_id)
-    queue_item_db = Queue.query.filter(Queue.queue_id == queue_id, Queue.pattern_id == pattern_id).first()
+    # queue_item_db = Queue.query.filter(Queue.queue_id == queue_id, Queue.pattern_id == pattern_id).first()
+    # is_success = False
 
+    # if queue_item_db is None:
+    #     DB__CONNECTION_HANDLER.add_new_object(new_queue_item)
+    #     is_success = True
 
-    if queue_item_db is None:
+    is_in_queue = get_pattern_is_in_queue(user_email, pattern_id)
+    is_success = False
+
+    if is_in_queue:
         DB__CONNECTION_HANDLER.add_new_object(new_queue_item)
-        resp = {
-            'success': 'true'
-            }
-    else:
-        print('Pattern already in this user\'s queue!')
-        resp = {
-            'success': 'false'
+        is_success = True
+
+    resp = {
+            'success': is_success
             }
 
     return resp
 
-# @app.route('/<string:user_email>/favorites/remove/<int:pattern_id>')
-# TO-DO
+
+@app.route('/<string:user_email>/favorites/remove/<int:pattern_id>')
+def remove_pattern_from_queue(user_email, pattern_id):
+    """
+        Removes pattern from user's queue if it exists in user's queue.
+    """
+
+    return jsonify(get_remove_pattern_from_queue(user_email, pattern_id))
+
+
+def get_remove_pattern_from_queue(user_email, pattern_id):
+    """
+        Removes pattern from user's queue if it exists in user's queue.
+    """
+
+    user_db = User.query.filter(User.user_email == user_email).first()
+    queue_id = user_db.queue_id
+    new_queue_item = Queue(queue_id, pattern_id)
+    is_in_queue = get_pattern_is_in_queue(user_email, pattern_id)
+    is_success = False
+
+    if is_in_queue:
+        DB__CONNECTION_HANDLER.remove_object(new_queue_item)
+        is_success = True
+
+    resp = {
+            'success': is_success
+            }
+
+    return resp
+
+
 
 @app.route('/<string:user_email>/favorites/contains/<int:pattern_id>')
 def pattern_is_in_queue(user_email, pattern_id):
@@ -151,17 +169,22 @@ def pattern_is_in_queue(user_email, pattern_id):
 
 
 def get_pattern_is_in_queue(user_email, pattern_id):
+    """
+        Returns true if pattern is in user's queue. 
+    """
 
     patterns = get_patterns_in_queue(user_email)
+    is_in_queue = False
 
-    pattern_is_in_queue = False
-
-    if(patterns):
+    if patterns:
         for pattern in patterns:
             if pattern['pattern_id'] == pattern_id:
-                pattern_is_in_queue = True
+                is_in_queue = True
 
-    resp = {'success': pattern_is_in_queue}
+    resp = {
+            'success': is_in_queue
+            }
+
 
     return resp
 
@@ -182,8 +205,6 @@ def get_patterns_in_queue(user_email):
 
     user_db = User.query.filter(User.user_email == user_email).first()
     queue_list = user_db.queue
-
-
     pattern_ids = []
 
     for i in range(len(queue_list)):
@@ -287,7 +308,6 @@ def get_knitting_patterns_by_ids(pattern_ids_string):
        Returns multiple patterns given a list of pattern ids.
     """
     pattern_ids = []
-
     pattern_ids = pattern_ids_string.split('+')
 
     patterns = HANDLER.get_knitting_patterns_by_ids(pattern_ids)

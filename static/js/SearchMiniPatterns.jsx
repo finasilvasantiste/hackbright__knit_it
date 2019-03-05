@@ -69,7 +69,7 @@ export default class SearchMiniPatterns extends React.Component {
         /*
             Updates user log in status according to server response.
         */
-        if(respFromServer['success']== 'true'){
+        if(respFromServer['success']){
             this.setState({
                 user: {
                     is_logged_in : true,
@@ -184,7 +184,7 @@ export default class SearchMiniPatterns extends React.Component {
         */
         console.log('Logging out!')
 
-        if (this.state.user.is_logged_in == true){
+        if (this.state.user.is_logged_in){
             this.setState({
                 user: {
                     is_logged_in : false

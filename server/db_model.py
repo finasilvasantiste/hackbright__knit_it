@@ -150,9 +150,20 @@ class DB_Connection_Handler():
         db.app = app
         db.init_app(app)
 
+
     def add_new_object(self, object_to_add):
-        
+        """
+            Adds object/new row to table.
+        """
         db.session.add(object_to_add)
+        db.session.commit()
+
+
+    def remove_object(self, object_to_remove):
+        """
+            Removes object/row from table.
+        """
+        db.session.delete(object_to_remove)
         db.session.commit()
 
 

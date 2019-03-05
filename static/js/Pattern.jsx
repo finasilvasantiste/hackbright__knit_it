@@ -256,7 +256,7 @@ export default class Pattern extends React.Component {
             Adds pattern to favorites queue if user is logged in.
         */
 
-        if(this.state.user.is_logged_in == true){
+        if(this.state.user.is_logged_in){
             console.log('Adding to favorites!')
 
             const email = this.state.user.email
@@ -276,7 +276,7 @@ export default class Pattern extends React.Component {
                     console.log('Add to queue, return from server:')
                     console.log(data)
                     this.setCountQueues(data2['count_queues'])
-                    if(data['success'] == 'true'){
+                    if(data['success']){
                         this.setPatternIsInQueue(true)
                     }
                 });

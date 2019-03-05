@@ -39,7 +39,7 @@ export default class RegisterForm extends React.Component {
       Updates user log in status according to server response.
     */
 
-      if(respFromServer['success']== 'true'){
+      if(respFromServer['success']){
           this.setState({
               user: {
                 is_registered : true,
