@@ -20,7 +20,7 @@ export default class SearchMiniPatterns extends React.Component {
                 unsuccessful_log_in_attempt: false
             },
             favorites: {
-                data: 'favorites.data'
+                data: ''
             },
             query : '%20',
             button_query : ' ',
@@ -256,7 +256,7 @@ export default class SearchMiniPatterns extends React.Component {
                     </div>
                   </nav>
                     </Row>
-                        <MiniPatterns query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} />  
+                        <MiniPatterns showQueue={this.state.modal_show} query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} />  
 
                 <Modal className={this.state.modal_show ? 'show' : ''} show={this.state.modal_show} onHide={this.handleModalClose}>
                   <Modal.Header>
