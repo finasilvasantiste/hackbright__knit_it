@@ -137,36 +137,26 @@ export default class MiniPatterns extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('@@@@@@@@@@@@@@@@')
-        console.log(nextProps.showQueue)
+        let isDifferentQuery = (nextProps.query != this.state.query ? true : false)
+        let hasChangedLogIn = (nextProps.is_logged_in != this.state.user.is_logged_in ? true : false)
+        if(isDifferentQuery){
 
-        let isDifferentQuery = (nextProps.query==this.state.query ? true : false)
-        console.log('different query:')
-        console.log('nextProps')
-        console.log(nextProps.query)
-        console.log('state')
-        console.log(this.state.query)
-        console.log(isDifferentQuery)
+            this.getPythonMiniPatternsByQuery(nextProps.query, 1);
 
-        let isFirstPage = (this.state.page_number>1 ? false : true)
-        console.log('is first page:')
-        console.log(isFirstPage)
-        if(isFirstPage){
-            if(!nextProps.showQueue){
+            this.setState({
+                user: {
+                    email : nextProps.email,
+                    is_logged_in : nextProps.is_logged_in
+                }
+            });
+        }else if(hasChangedLogIn){
+            this.setState({
+                user: {
+                    email : nextProps.email,
+                    is_logged_in : nextProps.is_logged_in
+                }
+            });
 
-
-                this.getPythonMiniPatternsByQuery(nextProps.query, 1);
-
-                // console.log('Will Receive props, is_logged_in:' + nextProps.is_logged_in)
-
-                // console.log('MiniPatterns nextProps ', nextProps)
-                this.setState({
-                    user: {
-                        email : nextProps.email,
-                        is_logged_in : nextProps.is_logged_in
-                    }
-                });
-            }
         }
     }
 
