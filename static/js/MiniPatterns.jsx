@@ -92,6 +92,7 @@ export default class MiniPatterns extends React.Component {
 
     }
 
+
     getPatternID(pattern_id){
         /*
             Gets pattern_id from selected mini pattern.
@@ -128,13 +129,8 @@ export default class MiniPatterns extends React.Component {
 
     componentDidMount() {
         this.getPythonMiniPatternsByQuery(this.state.query, 1); 
-
-        // console.log('Did mount, is_logged_in:' + this.state.user.is_logged_in)
-        // console.log('!!!!!!!!!!!!!')
-        // console.log('MiniPatterns componentDidMount:')
-        // console.log(this.state)
-
     }
+
 
     componentWillReceiveProps(nextProps){
         let isDifferentQuery = (nextProps.query != this.state.query ? true : false)

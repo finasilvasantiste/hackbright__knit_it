@@ -166,7 +166,7 @@ export default class Pattern extends React.Component {
 
     setPatternIsInQueue(is_in_queue){
         /*
-            Sets whether pattern is in user's queue.
+            Sets true if pattern is in user's queue, false otherwise.
         */
         this.setState({
             is_in_queue : is_in_queue
@@ -178,13 +178,6 @@ export default class Pattern extends React.Component {
         /* 
             Gets pattern info from python server and forwards it to set the new state of component.
         */
-
-        // console.log('*******************')
-        // console.log('Pattern getPythonPattern:')
-        // console.log('this.state:')
-        // console.log(this.state.pattern_id)
-        // console.log('pattern_id param:')
-        // console.log(pattern_id)
 
         const route = '/patterns/knitting/get/';
         const route_count_queues_pre = '/patterns/knitting/';
@@ -203,126 +196,75 @@ export default class Pattern extends React.Component {
         }
     }
 
-
-    isInFavorites(pattern_id_list, pattern_id){
-        /*
-            Returns true if given pattern_id is in list, false otherwise.
-        */
-        // console.log('@@@@@@@@@@@@@@@@@@@@@@@')
-        for(let i = 0; i<pattern_id_list.length; i++){
-            // console.log('pattern_id_list:')
-            // console.log(pattern_id_list[i].pattern_id)
-            // console.log('pattern_id')
-            // console.log(pattern_id)
-            if(pattern_id_list[i].pattern_id == pattern_id){
-                // console.log('Inside FAV list!')
-                return true
-            }
-        }
-
-        return false
-    }
-
-   getFavoritesList(email, pattern_id){
+   getPatternIsInQueue(email, pattern_id){
         /*
             Returns list with pattern_id and pattern_name from patterns in favorites list.
         */
-        // const email = this.state.user.email
         const route_pre = '/'
-        const route_post = '/favorites/get'
+        const route_post = '/favorites/contains/'
 
 
-        $.get(route_pre + email + route_post, (data) => {    
-            // console.log('FAVORITES')
-            // console.log(data)
-            let isInFavs = this.isInFavorites(data, pattern_id)
-            // console.log('######')
-            // console.log(isInFavs)
-            this.setPatternIsInQueue(isInFavs)
+        $.get(route_pre + email + route_post + pattern_id, (data) => {    
+            this.setPatternIsInQueue(data['success'])
         });
 
     }
 
-    getPatternIsInQueue(email, pattern_id){
-        /*
-            Checks if pattern is in user's queue.
-        */
-        this.getFavoritesList(email, pattern_id)
 
+    addOrRemoveFromQueue(action){
+        let route_post = ''
+        let is_in_queue = false
+
+        if(action == 'add'){
+            route_post = '/favorites/add/'
+            is_in_queue = true
+
+        }else if(action == 'remove'){
+            route_post = '/favorites/remove/'
+
+        }
+
+        const email = this.state.user.email
+        const pattern_id = this.state.pattern_id
+
+        console.log('pattern_id:')
+        console.log(pattern_id)
+
+        const route_pre = '/'
+
+        const route_count_queues_pre = '/patterns/knitting/';
+        const route_count_queues_post = '/queues/get';
+
+        $.get(route_pre + email + route_post + pattern_id, (data) => {
+            $.get(route_count_queues_pre + pattern_id + route_count_queues_post, (data2)=>{
+                this.setCountQueues(data2['count_queues'])
+                if(data['success']){
+                    if(is_in_queue){
+                    this.setPatternIsInQueue(is_in_queue)
+                    }else{
+                       this.setPatternIsInQueue(is_in_queue) 
+                   }
+                }
+            });
+        });
     }
+
 
     addToQueue(){
         /*
             Adds pattern to favorites queue if user is logged in.
         */
 
-        if(this.state.user.is_logged_in){
-            console.log('Adding to favorites!')
-
-            const email = this.state.user.email
-            const pattern_id = this.state.pattern_id
-
-            console.log('pattern_id:')
-            console.log(pattern_id)
-
-            const route_pre = '/'
-            const route_post = '/favorites/add/'
-
-            const route_count_queues_pre = '/patterns/knitting/';
-            const route_count_queues_post = '/queues/get';
-
-            $.get(route_pre + email + route_post + pattern_id, (data) => {
-                $.get(route_count_queues_pre + pattern_id + route_count_queues_post, (data2)=>{
-                    console.log('Add to queue, return from server:')
-                    console.log(data)
-                    this.setCountQueues(data2['count_queues'])
-                    if(data['success']){
-                        this.setPatternIsInQueue(true)
-                    }
-                });
-            });
-
-        }else{
-            console.log('You\'re not logged in! Can\'t add to favorites!')
-        }
+        this.addOrRemoveFromQueue('add')
     }
+
 
     removeFromQueue(){
         /*
             Removes pattern from user's queue.
         */
-        console.log('@@@@@@')
-        console.log('Is_In_Queue:')
-        console.log(this.state.is_in_queue)
-        if(this.state.is_in_queue){
-            console.log('Removing from queue!')
-            // this.setPatternIsInQueue(false)
 
-            // const email = this.state.user.email
-            // const pattern_id = this.state.pattern_id
-
-            // console.log('pattern_id:')
-            // console.log(pattern_id)
-
-            // const route_pre = '/'
-            // const route_post = '/favorites/add/'
-
-            // const route_count_queues_pre = '/patterns/knitting/';
-            // const route_count_queues_post = '/queues/get';
-
-            // $.get(route_pre + email + route_post + pattern_id, (data) => {
-            //     $.get(route_count_queues_pre + pattern_id + route_count_queues_post, (data2)=>{
-            //         console.log('Add to queue, return from server:')
-            //         console.log(data)
-            //         this.setCountQueues(data2['count_queues'])
-            //         this.setPatternIsInQueue(true)
-            //     });
-            // });
-        }else{
-            console.log('Not in user\'s queue! Can\'t remove it.')
-        }
-
-
+        this.addOrRemoveFromQueue('remove')
     }
 
 
@@ -334,6 +276,7 @@ export default class Pattern extends React.Component {
             pattern_id : pattern_id
         })
     }
+
 
     setUserAndIfPatternInQueue(user, pattern_id){
         /*
