@@ -1,8 +1,6 @@
 import React from "react";
 import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl } from "react-bootstrap";
-
 import DetailedView from "./DetailedView"
-
 import $ from 'jquery'
 
 
@@ -134,6 +132,8 @@ export default class SearchResults extends React.Component {
     componentWillReceiveProps(nextProps){
         let isDifferentQuery = (nextProps.query != this.state.query ? true : false)
         let hasChangedLogIn = (nextProps.is_logged_in != this.state.user.is_logged_in ? true : false)
+        let isDifferentPatternID = (nextProps.pattern_id != this.state.pattern.pattern_id ? true : false)
+
         if(isDifferentQuery){
 
             this.getPythonMiniPatternsByQuery(nextProps.query, 1);
@@ -152,7 +152,17 @@ export default class SearchResults extends React.Component {
                 }
             });
 
+        }else if(isDifferentPatternID){
+            this.setState({
+                pattern: {
+                    pattern_id : nextProps.pattern_id
+                }
+            })
+
         }
+
+        // console.log('####### Search results #######')
+        // console.log(nextProps.pattern_id)
     }
 
 

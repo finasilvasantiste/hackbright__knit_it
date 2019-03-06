@@ -1,8 +1,5 @@
 import React from "react";
 import { Button, Grid, Row, Col } from "react-bootstrap";
-
-
-// var $ = require('jquery');
 import $ from 'jquery'
 
 export default class Pattern extends React.Component {
@@ -304,7 +301,10 @@ export default class Pattern extends React.Component {
     componentWillReceiveProps(nextProps){
         this.getPythonPattern(nextProps.pattern_id)
         this.setPatternID(nextProps.pattern_id)
-        this.setUserAndIfPatternInQueue(nextProps, nextProps.pattern_id)
+        
+        if(nextProps.pattern_id){
+            this.setUserAndIfPatternInQueue(nextProps, nextProps.pattern_id)
+        }
 
     }
 

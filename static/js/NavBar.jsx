@@ -18,6 +18,7 @@ export default class NavBar extends React.Component {
             favorites: {
                 data: ''
             },
+            pattern_id : '',
             query : '%20',
             modal : ' ',
             modal_show : false
@@ -29,6 +30,7 @@ export default class NavBar extends React.Component {
         this.setLogOut = this.setLogOut.bind(this);
         this.handleModalShow = this.handleModalShow.bind(this);
         this.handleModalClose = this.handleModalClose.bind(this);
+        this.getPatternID = this.getPatternID.bind(this);
 
     }
 
@@ -117,14 +119,24 @@ export default class NavBar extends React.Component {
 
     }
 
+    getPatternID(pattern_id){
+        console.log('@@@@ LOADING PATTERN @@@@')
+
+        console.log(pattern_id)
+
+        this.setState({
+            pattern_id : pattern_id
+        })
+    }
+
 
     setFavoriteItems(items_list){
         /*
             Returns html representation of items in list.
         */
         return items_list.map((pattern) =>
-            <li key={pattern.pattern_id.toString()}>
-            {pattern.pattern_id}, {pattern.name}</li>
+            <li key={pattern.pattern_id.toString()} onClick={()=>this.getPatternID(pattern.pattern_id)}>
+            {pattern.name}</li>
             );
     }
 
@@ -262,7 +274,7 @@ export default class NavBar extends React.Component {
                     </div>
                   </nav>
                     </Row>
-                        <SearchResults showQueue={this.state.modal_show} query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} />  
+                        <SearchResults showQueue={this.state.modal_show} query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} pattern_id={this.state.pattern_id}/>  
 
                 <Modal className={this.state.modal_show ? 'show' : ''} show={this.state.modal_show} onHide={this.handleModalClose}>
                   <Modal.Header>
