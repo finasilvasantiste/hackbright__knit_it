@@ -103,9 +103,7 @@ def get_add_pattern_to_queue(user_email, pattern_id):
         Returns true if pattern added successfully to queue.
     """
 
-    user_db = User.query.filter(User.user_email == user_email).first()
-    queue_id = user_db.queue_id
-    new_queue_item = Queue(queue_id, pattern_id)
+    
     # queue_item_db = Queue.query.filter(Queue.queue_id == queue_id, Queue.pattern_id == pattern_id).first()
     # is_success = False
 
@@ -117,6 +115,9 @@ def get_add_pattern_to_queue(user_email, pattern_id):
     is_success = False
 
     if is_in_queue:
+        user_db = User.query.filter(User.user_email == user_email).first()
+        queue_id = user_db.queue_id
+        new_queue_item = Queue(queue_id, pattern_id)
         DB__CONNECTION_HANDLER.add_new_object(new_queue_item)
         is_success = True
 
@@ -140,15 +141,17 @@ def get_remove_pattern_from_queue(user_email, pattern_id):
     """
         Removes pattern from user's queue if it exists in user's queue.
     """
-
-    user_db = User.query.filter(User.user_email == user_email).first()
-    queue_id = user_db.queue_id
-    new_queue_item = Queue(queue_id, pattern_id)
+    
     is_in_queue = get_pattern_is_in_queue(user_email, pattern_id)
     is_success = False
 
     if is_in_queue:
-        DB__CONNECTION_HANDLER.remove_object(new_queue_item)
+        user_db = User.query.filter(User.user_email == user_email).first()
+        queue_id = user_db.queue_id
+        # new_queue_item = Queue(queue_id, pattern_id)
+        queue_item_db = Queue.query.filter(Queue.queue_id == queue_id, Queue.pattern_id == pattern_id).first()
+
+        DB__CONNECTION_HANDLER.remove_object(queue_item_db)
         is_success = True
 
     resp = {
@@ -156,7 +159,6 @@ def get_remove_pattern_from_queue(user_email, pattern_id):
             }
 
     return resp
-
 
 
 @app.route('/<string:user_email>/favorites/contains/<int:pattern_id>')
