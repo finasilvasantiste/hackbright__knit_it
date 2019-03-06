@@ -10,8 +10,6 @@ export default class RegisterForm extends React.Component {
 
     this.state = {
           user: {
-              input_email : '',
-              input_password : '',
               is_logged_in : this.props.is_logged_in,
               is_registered : false,
               unsuccessful_registration_attempt: false,
@@ -69,7 +67,7 @@ export default class RegisterForm extends React.Component {
 
       console.log(email , ' ', password)
 
-      $.get(route_part_1 + email + route_part_2 + password, (data) => {
+      $.post(route_part_1 + email + route_part_2 + password, (data) => {
           console.log(data);
           this.updateRegistrationStatus(data);
       });
@@ -84,10 +82,11 @@ export default class RegisterForm extends React.Component {
     */
     console.log('Registering!');
 
-    const email = String(this.state.user.input_email.value);
-    const password = String(this.state.user.input_password.value);
+    const email = $('#register_email_input').val()
+    const password = $('#register_password_input').val()
 
-    
+    console.log('@@@@@@REGISTER@@@')
+    console.log(email, password)
     if (this.state.user.is_logged_in){
         console.log('You need to log out before you can register!')
     }else{
@@ -133,8 +132,8 @@ export default class RegisterForm extends React.Component {
             }
           </div>
           <form className="form-inline my-2 my-lg-0">
-                <FormControl inputRef={node => this.state.user.input_email = node}  type="text" placeholder="Email" className="mr-sm-2"/>
-                <FormControl inputRef={node => this.state.user.input_password = node}  type="text" placeholder="Password" className="mr-sm-2"/>
+                            <FormControl id="register_email_input" type="text" placeholder="Email" className="mr-sm-2"/>
+                            <FormControl id="register_password_input" type="text" placeholder="Password" className="mr-sm-2"/>
                 <Button bsStyle="info" onClick={this.registerUser} className={this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
                     Register
                 </Button>

@@ -44,7 +44,7 @@ export default class Pattern extends React.Component {
 
     }
 
-    getYarnText(yarn){
+    getYarnHTML(yarn){
         /*
             Returns a yarn item by combining name and weight to one string.
         */
@@ -60,7 +60,7 @@ export default class Pattern extends React.Component {
         const yarn_unpacked = []
 
         for(let i = 0; i< yarn_list.length; i++){
-            const yarn = this.getYarnText(yarn_list[i])
+            const yarn = this.getYarnHTML(yarn_list[i])
             yarn_unpacked.push(yarn)
 
         };
@@ -235,7 +235,7 @@ export default class Pattern extends React.Component {
         const route_count_queues_pre = '/patterns/knitting/';
         const route_count_queues_post = '/queues/get';
 
-        $.get(route_pre + email + route_post + pattern_id, (data) => {
+        $.post(route_pre + email + route_post + pattern_id, (data) => {
             $.get(route_count_queues_pre + pattern_id + route_count_queues_post, (data2)=>{
                 this.setCountQueues(data2['count_queues'])
                 if(data['success']){

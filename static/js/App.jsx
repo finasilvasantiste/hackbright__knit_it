@@ -1,5 +1,5 @@
 import React from "react";
-import SearchMiniPatterns from "./SearchMiniPatterns"
+import NavBar from "./NavBar"
 import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl, Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 
@@ -16,7 +16,7 @@ export default class App extends React.Component {
     render () {
         return (
                 <Grid >
-                    <SearchMiniPatterns />  
+                    <NavBar />  
                 </Grid>
         );
     }

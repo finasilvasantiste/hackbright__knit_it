@@ -1,13 +1,12 @@
 import React from "react";
 import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl } from "react-bootstrap";
 
-import Pattern from "./Pattern"
+import DetailedView from "./DetailedView"
 
 import $ from 'jquery'
-// var $ = require('jquery');
 
 
-export default class MiniPatterns extends React.Component {
+export default class SearchResults extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -186,7 +185,7 @@ export default class MiniPatterns extends React.Component {
                     </div>
                 </Col>
                 <Col md={5}>
-                    <Pattern pattern_id={this.state.pattern.pattern_id} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email}/> 
+                    <DetailedView pattern_id={this.state.pattern.pattern_id} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email}/> 
                 </Col> 
                 </Row>
             </div>

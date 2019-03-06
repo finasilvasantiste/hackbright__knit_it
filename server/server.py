@@ -1,5 +1,5 @@
 ### Runs server and manages requests.
-from flask import Flask, redirect, request, render_template, session, jsonify, abort
+from flask import Flask, render_template, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from ravelry_handler import Ravelry_handler
 from db_model import DB_Connection_Handler, User, Queue
@@ -13,6 +13,7 @@ app.secret_key = 'dev'
 
 # Handles requests to external api.
 HANDLER = Ravelry_handler()
+# Handles requests to local db.
 DB__CONNECTION_HANDLER = DB_Connection_Handler()
 
 
@@ -57,7 +58,7 @@ def get_log_in(user_email, password):
     return resp
 
 
-@app.route('/auth/register/<string:user_email>+<string:password>')
+@app.route('/auth/register/<string:user_email>+<string:password>', methods=['POST'])
 def register(user_email, password):
     """
         Returns true if registration successful, false otherwise.
@@ -87,7 +88,7 @@ def get_registration(user_email, password):
     return resp
 
 
-@app.route('/<string:user_email>/favorites/add/<int:pattern_id>')
+@app.route('/<string:user_email>/favorites/add/<int:pattern_id>', methods=['POST'])
 def add_pattern_to_queue(user_email, pattern_id):
     """
         Adds pattern to given queue.
@@ -102,14 +103,6 @@ def get_add_pattern_to_queue(user_email, pattern_id):
         Adds pattern to given queue.
         Returns true if pattern added successfully to queue.
     """
-
-    
-    # queue_item_db = Queue.query.filter(Queue.queue_id == queue_id, Queue.pattern_id == pattern_id).first()
-    # is_success = False
-
-    # if queue_item_db is None:
-    #     DB__CONNECTION_HANDLER.add_new_object(new_queue_item)
-    #     is_success = True
 
     is_in_queue = get_pattern_is_in_queue(user_email, pattern_id)
     is_success = False
@@ -128,7 +121,7 @@ def get_add_pattern_to_queue(user_email, pattern_id):
     return resp
 
 
-@app.route('/<string:user_email>/favorites/remove/<int:pattern_id>')
+@app.route('/<string:user_email>/favorites/remove/<int:pattern_id>', methods=['POST'])
 def remove_pattern_from_queue(user_email, pattern_id):
     """
         Removes pattern from user's queue if it exists in user's queue.

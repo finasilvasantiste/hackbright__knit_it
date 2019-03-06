@@ -1,21 +1,17 @@
 import React from "react";
-import MiniPatterns from "./MiniPatterns";
+import SearchResults from "./SearchResults";
 import RegisterForm from "./RegisterForm";
 import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl, Modal, ModalHeader, ModalBody, ModalFooter } from "react-bootstrap";
-
-
-require('../css/fullstack.css');
 import $ from 'jquery'
 
+// require('../css/fullstack.css');
 
-export default class SearchMiniPatterns extends React.Component {
+export default class NavBar extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
             user: {
                 email : '',
-                input_email : '',
-                input_password : '',
                 is_logged_in : false,
                 unsuccessful_log_in_attempt: false
             },
@@ -23,7 +19,6 @@ export default class SearchMiniPatterns extends React.Component {
                 data: ''
             },
             query : '%20',
-            button_query : ' ',
             modal : ' ',
             modal_show : false
         }
@@ -38,18 +33,34 @@ export default class SearchMiniPatterns extends React.Component {
     }
 
 
+    clearLogInInputFields(){
+        /*
+            Sets log in input fields to empty string.
+        */
+        $('#email_input').val('')
+        $('#password_input').val('')
+    }
+
+
+    clearSearchInputField(){
+        /*
+            Sets search input field to empty string.
+        */
+        $('#search_input').val('')
+    }
+
+
     getQuery(is_reset = false){
         /*
             Sets the new value for query in state. 
         */
-        let query_string = String(this.state.button_query.value)
-        // console.log(this.state.button_query.value)
+        // let query_string = String(this.state.button_query.value)
         
+        let query_string = $('#search_input').val()
+
         if(is_reset == true){
             query_string = '%20'
         }
-
-        // console.log(query_string)
 
         this.setState({
             query : query_string
@@ -63,7 +74,9 @@ export default class SearchMiniPatterns extends React.Component {
             Resets the search results to (empty string) search results.
         */
         this.getQuery(true)
+        this.clearSearchInputField()
     }
+
 
     updateLogInStatus(respFromServer, email){
         /*
@@ -151,21 +164,14 @@ export default class SearchMiniPatterns extends React.Component {
 
     }
 
-
-    clearLogInInputFields(){
-        $('#email_input').val('')
-        $('#password_input').val('')
-    }
-
-
     setLogIn(){
         /*
             Logs user in by given email and password.
         */
         console.log('Logging in!');
 
-        const email = String(this.state.user.input_email.value);
-        const password = String(this.state.user.input_password.value);
+        const email = $('#email_input').val()
+        const password = $('#password_input').val()
 
         this.clearLogInInputFields()
 
@@ -216,7 +222,7 @@ export default class SearchMiniPatterns extends React.Component {
                     <a className="navbar-brand" href="/">Knit It</a>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                       <form className="form-inline my-2 my-lg-0">
-                            <FormControl inputRef={node => this.state.button_query = node}  type="text" placeholder="Enter query" className="mr-sm-2" />
+                            <FormControl id="search_input" type="text" placeholder="Enter query" className="mr-sm-2" />
                             <Button bsStyle="warning" onClick={this.getQuery} className="mr-sm-2" >
                                 Search
                             </Button>
@@ -225,8 +231,8 @@ export default class SearchMiniPatterns extends React.Component {
                             </Button>
                       </form>
                         <form className="form-inline my-2 my-lg-0">
-                            <FormControl id="email_input" inputRef={node => this.state.user.input_email = node}  type="text" placeholder="Email" className="mr-sm-2"/>
-                            <FormControl id="password_input" inputRef={node => this.state.user.input_password = node}  type="text" placeholder="Password" className="mr-sm-2"/>
+                            <FormControl id="email_input" type="text" placeholder="Email" className="mr-sm-2"/>
+                            <FormControl id="password_input" type="text" placeholder="Password" className="mr-sm-2"/>
                             <Button bsStyle="info" onClick={this.setLogIn} className={this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
                                 Log in
                             </Button>
@@ -256,7 +262,7 @@ export default class SearchMiniPatterns extends React.Component {
                     </div>
                   </nav>
                     </Row>
-                        <MiniPatterns showQueue={this.state.modal_show} query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} />  
+                        <SearchResults showQueue={this.state.modal_show} query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} />  
 
                 <Modal className={this.state.modal_show ? 'show' : ''} show={this.state.modal_show} onHide={this.handleModalClose}>
                   <Modal.Header>
