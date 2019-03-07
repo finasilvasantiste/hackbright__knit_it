@@ -4,6 +4,7 @@ import DetailedView from "./DetailedView"
 import $ from 'jquery'
 
 
+
 export default class SearchResults extends React.Component {
     constructor(props) {
         super(props);
@@ -138,8 +139,8 @@ export default class SearchResults extends React.Component {
         let hasChangedLogIn = (nextProps.is_logged_in != this.state.user.is_logged_in ? true : false)
         let isDifferentPatternID = (nextProps.pattern_id != this.state.pattern.pattern_id ? true : false)
 
-        console.log('++++++++++ nextProps.isQueueSelection')
-        console.log(nextProps.isQueueSelection)
+        // console.log('++++++++++ nextProps.isQueueSelection')
+        // console.log(nextProps.isQueueSelection)
         if(isDifferentQuery){
 
             this.getPythonMiniPatternsByQuery(nextProps.query, 1);
@@ -160,8 +161,8 @@ export default class SearchResults extends React.Component {
 
         }else if(isDifferentPatternID){
             if(nextProps.isQueueSelection){
-                console.log('@@@@@@@@@@@@@ nextProps.isQueueSelection')
-                console.log(nextProps.isQueueSelection)
+                // console.log('@@@@@@@@@@@@@ nextProps.isQueueSelection')
+                // console.log(nextProps.isQueueSelection)
                 this.setState({
                     pattern: {
                         pattern_id : nextProps.pattern_id
@@ -170,16 +171,8 @@ export default class SearchResults extends React.Component {
                     isSearchResultsSelection : false
                 })
             }
-            // this.setState({
-            //     pattern: {
-            //         pattern_id : nextProps.pattern_id
-            //     }
-            // })
-
         }
 
-        // console.log('####### Search results #######')
-        // console.log(nextProps.pattern_id)
     }
 
 
@@ -189,7 +182,7 @@ export default class SearchResults extends React.Component {
                 <Row>
                 <Col md={7}>
                     <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam varius efficitur nulla ut condimentum. Phasellus luctus lacinia nisi, nec porta neque placerat vitae. In sed gravida metus. Donec dolor felis, ultrices in lacus sit amet, posuere laoreet dolor. Mauris rhoncus mauris ac tellus finibus, cursus tincidunt lectus rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin imperdiet sem quam, vitae molestie ipsum blandit quis. Donec viverra eros vitae augue euismod elementum. Suspendisse rhoncus massa vitae dolor dapibus, sit amet feugiat mauris rhoncus. Nam sapien felis, sagittis at sapien quis, vulputate vehicula ligula. Sed ac egestas justo, at fringilla est. Nam eleifend, nisl vitae maximus sagittis, felis massa dapibus elit, in pharetra justo ex non eros.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam varius efficitur nulla ut condimentum. Suspendisse rhoncus massa vitae dolor dapibus, sit amet feugiat mauris rhoncus. Nam sapien felis, sagittis at sapien quis, vulputate vehicula ligula. Sed ac egestas justo, at fringilla est. Nam eleifend, nisl vitae maximus sagittis, felis massa dapibus elit, in pharetra justo ex non eros.
                     </p>
                     <p>
                         <Button bsSize="large" bsStyle="danger" onClick={this.getPreviousPage} className="mr-sm-2">
@@ -199,14 +192,12 @@ export default class SearchResults extends React.Component {
                           Next Page!
                         </Button>
                     </p>
-                    <div id='mini_patterns'>
+                    <div id="searchResults" style={{"overflowY" : "scroll", "height": "1600px"}}>
                     {this.state.data.map(d => 
                         <div key={d.pattern_id} onClick={()=>this.getPatternID(d.pattern_id)} className="float-left">
                             <img src={d.img_small_url}/>
                             <br></br>
                             {d.name}
-                            <br></br>
-                            {d.pattern_id}
                         </div>
                     )}
                     </div>

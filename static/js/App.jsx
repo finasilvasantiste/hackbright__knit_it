@@ -15,7 +15,7 @@ export default class App extends React.Component {
 
     render () {
         return (
-                <Grid >
+                <Grid fluid={true}>
                     <NavBar />  
                 </Grid>
         );
