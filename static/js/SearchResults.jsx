@@ -19,6 +19,8 @@ export default class SearchResults extends React.Component {
            pattern: {
                 pattern_id: 781496
            },
+           isQueueSelection : this.props.isQueueSelection,
+           isSearchResultsSelection : false,
            page_number: 1,
            query : this.props.query,
            user: {
@@ -100,7 +102,9 @@ export default class SearchResults extends React.Component {
         this.setState({
             pattern: {
                 pattern_id : pattern_id
-            }
+            },
+            isQueueSelection : false,
+            isSearchResultsSelection : true
         });
 
     };
@@ -134,6 +138,8 @@ export default class SearchResults extends React.Component {
         let hasChangedLogIn = (nextProps.is_logged_in != this.state.user.is_logged_in ? true : false)
         let isDifferentPatternID = (nextProps.pattern_id != this.state.pattern.pattern_id ? true : false)
 
+        console.log('++++++++++ nextProps.isQueueSelection')
+        console.log(nextProps.isQueueSelection)
         if(isDifferentQuery){
 
             this.getPythonMiniPatternsByQuery(nextProps.query, 1);
@@ -153,11 +159,22 @@ export default class SearchResults extends React.Component {
             });
 
         }else if(isDifferentPatternID){
-            this.setState({
-                pattern: {
-                    pattern_id : nextProps.pattern_id
-                }
-            })
+            if(nextProps.isQueueSelection){
+                console.log('@@@@@@@@@@@@@ nextProps.isQueueSelection')
+                console.log(nextProps.isQueueSelection)
+                this.setState({
+                    pattern: {
+                        pattern_id : nextProps.pattern_id
+                    },
+                    isQueueSelection : true,
+                    isSearchResultsSelection : false
+                })
+            }
+            // this.setState({
+            //     pattern: {
+            //         pattern_id : nextProps.pattern_id
+            //     }
+            // })
 
         }
 
@@ -195,7 +212,7 @@ export default class SearchResults extends React.Component {
                     </div>
                 </Col>
                 <Col md={5}>
-                    <DetailedView pattern_id={this.state.pattern.pattern_id} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email}/> 
+                    <DetailedView pattern_id={this.state.pattern.pattern_id} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} isQueueSelection={this.state.isQueueSelection} isSearchResultsSelection={this.state.isSearchResultsSelection}/> 
                 </Col> 
                 </Row>
             </div>

@@ -28,6 +28,8 @@ export default class Pattern extends React.Component {
             },
            pattern_id : this.props.pattern_id,
            count_queues : '0',
+           isSearchResultsSelection : this.props.isSearchResultsSelection,
+           isQueueSelection : this.props.isQueueSelection,
            user: {
                 email : this.props.email,
                 is_logged_in : this.props.is_logged_in
@@ -301,9 +303,15 @@ export default class Pattern extends React.Component {
     componentWillReceiveProps(nextProps){
         this.getPythonPattern(nextProps.pattern_id)
         this.setPatternID(nextProps.pattern_id)
-        
+
         if(nextProps.pattern_id){
-            this.setUserAndIfPatternInQueue(nextProps, nextProps.pattern_id)
+            if(nextProps.isQueueSelection && !nextProps.isSearchResultsSelection){
+                console.log('isQueueSelection true')
+                this.setUserAndIfPatternInQueue(nextProps, nextProps.pattern_id)
+            }else if(!nextProps.isQueueSelection && nextProps.isSearchResultsSelection){
+                this.setUserAndIfPatternInQueue(nextProps, nextProps.pattern_id)
+            }
+            // this.setUserAndIfPatternInQueue(nextProps, nextProps.pattern_id)
         }
 
     }

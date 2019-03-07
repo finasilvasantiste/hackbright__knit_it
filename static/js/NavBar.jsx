@@ -19,6 +19,7 @@ export default class NavBar extends React.Component {
                 data: ''
             },
             pattern_id : '',
+            isQueueSelection : false,
             query : '%20',
             modal : ' ',
             modal_show : false
@@ -125,7 +126,8 @@ export default class NavBar extends React.Component {
         console.log(pattern_id)
 
         this.setState({
-            pattern_id : pattern_id
+            pattern_id : pattern_id,
+            isQueueSelection : true
         })
     }
 
@@ -216,7 +218,10 @@ export default class NavBar extends React.Component {
 
 
     handleModalClose() {
-        this.setState({ modal_show: false });
+        this.setState({ 
+            modal_show: false,
+            isQueueSelection : false 
+        });
     }
 
 
@@ -224,6 +229,7 @@ export default class NavBar extends React.Component {
         this.getFavoritesList()
         this.setState({ modal_show: true });
     }
+
 
 
     render () {
@@ -274,7 +280,7 @@ export default class NavBar extends React.Component {
                     </div>
                   </nav>
                     </Row>
-                        <SearchResults showQueue={this.state.modal_show} query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} pattern_id={this.state.pattern_id}/>  
+                        <SearchResults showQueue={this.state.modal_show} query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} pattern_id={this.state.pattern_id} isQueueSelection={this.state.isQueueSelection}/>  
 
                 <Modal className={this.state.modal_show ? 'show' : ''} show={this.state.modal_show} onHide={this.handleModalClose}>
                   <Modal.Header>
