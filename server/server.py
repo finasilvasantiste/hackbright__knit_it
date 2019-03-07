@@ -1,7 +1,7 @@
 ### Runs server and manages requests.
 from flask import Flask, render_template, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
-from ravelry_handler import Ravelry_handler
+from API_handler import API_handler
 from db_model import DB_Connection_Handler, User, Queue
 
 
@@ -12,7 +12,7 @@ app.secret_key = 'dev'
 
 
 # Handles requests to external api.
-HANDLER = Ravelry_handler()
+HANDLER = API_handler()
 # Handles requests to local db.
 DB__CONNECTION_HANDLER = DB_Connection_Handler()
 
