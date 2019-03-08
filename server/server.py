@@ -1,8 +1,8 @@
 ### Runs server and manages requests.
 from flask import Flask, render_template, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
-from API_handler import API_handler
-from db_model import DB_Connection_Handler, User, Queue
+from handler_API import Handler_API
+from model_db import Handler_DB_Connection, User, Queue
 
 
 # Set up flask server.
@@ -12,9 +12,9 @@ app.secret_key = 'dev'
 
 
 # Handles requests to external api.
-HANDLER = API_handler()
+HANDLER_API = Handler_API()
 # Handles requests to local db.
-DB__CONNECTION_HANDLER = DB_Connection_Handler()
+HANDLER_DB_CONNECTION = Handler_DB_Connection()
 
 
 @app.route('/')
@@ -78,7 +78,7 @@ def get_registration(user_email, password):
     is_success = False
 
     if user_db is None:
-        DB__CONNECTION_HANDLER.add_new_object(new_user)
+        HANDLER_DB_CONNECTION.add_new_object(new_user)
         is_success = True
 
     resp = {
@@ -111,7 +111,7 @@ def get_add_pattern_to_queue(user_email, pattern_id):
         user_db = User.query.filter(User.user_email == user_email).first()
         queue_id = user_db.queue_id
         new_queue_item = Queue(queue_id, pattern_id)
-        DB__CONNECTION_HANDLER.add_new_object(new_queue_item)
+        HANDLER_DB_CONNECTION.add_new_object(new_queue_item)
         is_success = True
 
     resp = {
@@ -144,7 +144,7 @@ def get_remove_pattern_from_queue(user_email, pattern_id):
         # new_queue_item = Queue(queue_id, pattern_id)
         queue_item_db = Queue.query.filter(Queue.queue_id == queue_id, Queue.pattern_id == pattern_id).first()
 
-        DB__CONNECTION_HANDLER.remove_object(queue_item_db)
+        HANDLER_DB_CONNECTION.remove_object(queue_item_db)
         is_success = True
 
     resp = {
@@ -207,7 +207,7 @@ def get_patterns_in_queue(user_email):
 
    
     if pattern_ids:
-        patterns = HANDLER.get_knitting_patterns_by_ids(pattern_ids)
+        patterns = HANDLER_API.get_knitting_patterns_by_ids(pattern_ids)
     else:
         patterns = []
 
@@ -263,7 +263,7 @@ def get_knitting_patterns_by_query_page(query, page):
     """
 
     print('{} {}'.format(query, page))
-    patterns = HANDLER.get_knitting_patterns_by_query(query, page)
+    patterns = HANDLER_API.get_knitting_patterns_by_query(query, page)
 
     return patterns
 
@@ -282,7 +282,7 @@ def get_knitting_patterns_by_page(page):
         but only up to 100 at a time (provides paginator).
     """
     query = ""
-    patterns = HANDLER.get_knitting_patterns_by_query(query,page)
+    patterns = HANDLER_API.get_knitting_patterns_by_query(query,page)
 
     return patterns
 
@@ -305,7 +305,7 @@ def get_knitting_patterns_by_ids(pattern_ids_string):
     pattern_ids = []
     pattern_ids = pattern_ids_string.split('+')
 
-    patterns = HANDLER.get_knitting_patterns_by_ids(pattern_ids)
+    patterns = HANDLER_API.get_knitting_patterns_by_ids(pattern_ids)
 
     return patterns
 
@@ -314,7 +314,7 @@ def init_db():
     # So that we can use Flask-SQLAlchemy, we'll make a Flask app.
 
 
-    DB__CONNECTION_HANDLER.connect_to_db(app)
+    HANDLER_DB_CONNECTION.connect_to_db(app)
     print("Connected to DB.")
 
 
