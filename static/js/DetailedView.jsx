@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Grid, Row, Col } from "react-bootstrap";
 import $ from 'jquery'
 
-export default class Pattern extends React.Component {
+export default class DetailedView extends React.Component {
 
     constructor(props){
         super(props);
