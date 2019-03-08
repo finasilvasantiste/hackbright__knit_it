@@ -311,8 +311,9 @@ def get_knitting_patterns_by_ids(pattern_ids_string):
 
 
 def init_db():
-    # So that we can use Flask-SQLAlchemy, we'll make a Flask app.
-
+    """
+        Initiates connection to local db.
+    """
 
     HANDLER_DB_CONNECTION.connect_to_db(app)
     print("Connected to DB.")

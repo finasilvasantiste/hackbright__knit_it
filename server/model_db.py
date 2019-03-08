@@ -139,7 +139,7 @@ class Handler_DB_Connection():
 
     def connect_to_db(self, app):
         """
-            Connect the database to Flask app.
+            Connects to local db using ORM Mapper SQLAlchemy.
         """
 
         # Configure to use our PostgreSQL database
@@ -166,20 +166,4 @@ class Handler_DB_Connection():
         db.session.delete(object_to_remove)
         db.session.commit()
 
-
-def init_app():
-    # So that we can use Flask-SQLAlchemy, we'll make a Flask app.
-    from server import app
-
-
-    DB__CONNECTION_HANDLER = Handler_DB_Connection()
-
-    DB__CONNECTION_HANDLER.connect_to_db(app)
-    print("Connected to DB.")
-
-
-if __name__ == "__main__":
-    # As a convenience, if we run this module interactively, it will leave
-    # you in a state of being able to work with the database directly.
-    init_app()
     
