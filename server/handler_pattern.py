@@ -165,6 +165,14 @@ class Handler_Pattern(Handler_Mini_Pattern):
         return pattern_values
 
 
+    def create_pattern(self, pattern_values):
+        """
+            Returns pattern object of specified type by using data from dictionary provided.
+        """
+        
+        return Pattern(pattern_values)
+
+
     def create_pattern_list(self, patterns_dict):
         """
             Returns a list with pattern objects by using list with dictionaries provided.
@@ -178,7 +186,7 @@ class Handler_Pattern(Handler_Mini_Pattern):
 
         for p_dict in patterns_dict_list:
             pattern_values = self.set_values(p_dict)
-            pattern = self.create_pattern_of_type('pattern', pattern_values)
+            pattern = self.create_pattern(pattern_values)
             patterns_list.append(pattern)
 
         return patterns_list
