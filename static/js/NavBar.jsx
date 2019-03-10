@@ -241,8 +241,8 @@ export default class NavBar extends React.Component {
         return (
                 <div>
                     <Row>
-                  <nav className="navbar navbar-expand-lg navbar-light bg-light container-fluid">
-                    <a className="navbar-brand" href="/">Knit It</a>
+                  <nav className="navbar logo navbar-expand-lg navbar-light bg-light container-fluid">
+                    <a className="navbar-brand " href="/">KNIT IT</a>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                       <form className="form-inline my-2 my-lg-0">
                             <FormControl id="search_input" type="text" placeholder="Enter query" className="mr-sm-2" />

@@ -2,6 +2,21 @@ import React from "react";
 import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl } from "react-bootstrap";
 import DetailedView from "./DetailedView"
 import $ from 'jquery'
+// import wool from '../images/wool.svg';
+
+// import Icon from "./wool.svg";
+// import svgSource from ‘./wool.svg’
+
+// const SVG = () => 
+//   <svg
+//     width="100%"
+//     height="100%"
+//     viewBox="0 0 32 32"
+//     xmlns="http://www.w3.org/2000/svg"
+//     xmlnsXlink="http://www.w3.org/1999/xlink"
+//   >
+//       <path d="./wool.svg" fill="#000" />
+//   </svg>;
 
 
 

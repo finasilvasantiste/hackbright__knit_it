@@ -2,10 +2,25 @@
     min-height: 100%;
     text-align: center;
     /*background-image: url('../images/header.jpg');*/
-    background-repeat: no-repeat;
-    background-position: center;
+    /*background-repeat: no-repeat;*/
+    /*background-position: center;*/
     background-size: cover;
     margin-top: -15px;
+}
+.logo{
+    background-image: url('../images/wool.svg');
+    background-repeat: no-repeat;
+    background-size: 42px 40px;
+    background-position: left;
+    font-weight: bold;
+}
+.navbar-brand{
+    margin-left: 20px;
+}
+.bg-light {
+     background-color: #ffffff!important; 
+    border-color: #ababab40;
+    border-style: solid;
 }
 .header-contents {
     top: 50%;
