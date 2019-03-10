@@ -49,7 +49,8 @@ class Handler_Mini_Pattern():
 
         if pattern_dict['first_photo']:
             img_fullsize_url = pattern_dict['first_photo']['medium2_url']
-            img_small_url = pattern_dict['first_photo']['small_url']
+            img_small_url = pattern_dict['first_photo']['square_url']
+
         else:
             img_fullsize_url = ''
             img_small_url = ''

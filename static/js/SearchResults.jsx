@@ -196,8 +196,6 @@ export default class SearchResults extends React.Component {
                     {this.state.data.map(d => 
                         <div key={d.pattern_id} onClick={()=>this.getPatternID(d.pattern_id)} className="float-left">
                             <img src={d.img_small_url}/>
-                            <br></br>
-                            {d.name}
                         </div>
                     )}
                     </div>

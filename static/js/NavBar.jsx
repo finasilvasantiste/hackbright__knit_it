@@ -182,17 +182,22 @@ export default class NavBar extends React.Component {
         /*
             Logs user in by given email and password.
         */
-        console.log('Logging in!');
-
         const email = $('#email_input').val()
         const password = $('#password_input').val()
 
         this.clearLogInInputFields()
 
+        const regex_match = new RegExp("[A-Za-z0-9]+@$")
+        const isValidEmail = regex_match.test(email);
+
+
         if(this.state.user.is_logged_in == false){
-            this.sendAuthToServer(email, password);
-        }else{
-            console.log('You need to log out first before you can log in again!')
+            if(isValidEmail){
+                if(password.length >= 1){
+                    console.log('Logging in!');
+                    this.sendAuthToServer(email, password);
+                }
+            }
         }
         
     }
@@ -250,7 +255,7 @@ export default class NavBar extends React.Component {
                       </form>
                         <form className="form-inline my-2 my-lg-0">
                             <FormControl id="email_input" type="text" placeholder="Email" className="mr-sm-2"/>
-                            <FormControl id="password_input" type="text" placeholder="Password" className="mr-sm-2"/>
+                            <FormControl id="password_input" type="text" placeholder="Password" type="password" className="mr-sm-2"/>
                             <Button bsStyle="info" onClick={this.setLogIn} className={this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
                                 Log in
                             </Button>

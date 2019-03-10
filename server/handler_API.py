@@ -127,7 +127,7 @@ class Handler_API():
         else:
             patterns_dicts = self.get_mini_patterns_dict(resp_from_server)
 
-            return patterns_dicts   
+            return patterns_dicts
 
 
     def get_mini_patterns_dict(self, resp_from_server):
