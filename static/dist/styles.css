@@ -14,6 +14,9 @@
     background-position: left;
     font-weight: bold;
 }
+.mini_pattern{
+    margin: 15px;
+}
 .navbar-brand{
     margin-left: 26px;
 }

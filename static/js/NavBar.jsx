@@ -251,54 +251,50 @@ export default class NavBar extends React.Component {
         return (
                 <div>
                     <Row>
-                  <nav className="navbar logo navbar-expand-lg navbar-light bg-light container-fluid">
-                    <a className="navbar-brand " href="/">KNIT IT</a>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div>
-                      <form className="form-inline my-2 my-lg-0">
-                            <FormControl id="search_input" type="text" placeholder="Enter query" className="mr-sm-2" />
-                            <Button bsStyle="warning" onClick={this.getQuery} className="mr-sm-2" >
-                                Search
-                            </Button>
-                            <Button bsStyle="warning" onClick={this.resetResults} className="mr-sm-2" >
-                                Reset Results
-                            </Button>
-                      </form>
-                      </div>
-                      
-                        { this.state.user.is_logged_in
-                          ? <p>You're logged in as {this.state.user.email}.</p>
-                          : null
-                        }
-                        { this.state.user.unsuccessful_log_in_attempt
-                          ? <p>Log in unsuccessful! Please try again.</p>
-                          : null
-                        }
-                       
-                      { this.state.user.is_logged_in
-                        ? <div>
-                        <Button bsStyle="success" onClick={this.handleModalShow} className={!this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
-                                My favorites
-                            </Button> 
-                            </div>
-                        : <RegisterForm is_logged_in={this.state.user.is_logged_in}/>
-                      }
-                      { !this.state.user.is_logged_in
-                        ? <div>
-                            <Button bsStyle="success" onClick={this.handleLoginModalShow}>
-                                Log in
-                            </Button> 
-                            </div>
-
-                        : <div>
-                        <Button bsStyle="info" onClick={this.setLogOut}  >
-                                Log out
-                            </Button>
-                            </div>
-
-                      }
-                    </div>
-                  </nav>
+                      <nav className="navbar logo navbar-expand-lg navbar-light bg-light container-fluid">
+                        <a className="navbar-brand" href="/">KNIT IT</a>
+                        <div className="mr-auto">
+                          <form className="form-inline my-2 my-lg-0">
+                                <FormControl id="search_input" type="text" placeholder="Enter query" className="mr-sm-2" />
+                                <Button bsStyle="warning" onClick={this.getQuery} className="mr-sm-2" >
+                                    Search
+                                </Button>
+                                <Button bsStyle="warning" onClick={this.resetResults} className="mr-sm-2" >
+                                    Reset Results
+                                </Button>
+                          </form>
+                          </div>    
+                          <div className="ml-auto">
+                            { this.state.user.is_logged_in
+                              ? <p>You're logged in as {this.state.user.email}.</p>
+                              : null
+                            }
+                            { this.state.user.unsuccessful_log_in_attempt
+                              ? <p>Log in unsuccessful! Please try again.</p>
+                              : null
+                            }
+                           <div style={{"display" : "flex"}}>
+                          { this.state.user.is_logged_in
+                            ? 
+                            <Button bsStyle="success" onClick={this.handleModalShow} className={!this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
+                                    My favorites
+                                </Button> 
+                                
+                            : <RegisterForm is_logged_in={this.state.user.is_logged_in}/>
+                          }
+                          { !this.state.user.is_logged_in
+                            ? 
+                                <Button bsStyle="success" onClick={this.handleLoginModalShow}>
+                                    Log in
+                                </Button> 
+                            : 
+                            <Button bsStyle="info" onClick={this.setLogOut}  >
+                                    Log out
+                                </Button>
+                          }
+                          </div>
+                          </div>
+                      </nav>
                     </Row>
                         <SearchResults showQueue={this.state.modal_show} query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} pattern_id={this.state.pattern_id} isQueueSelection={this.state.isQueueSelection}/>  
 
