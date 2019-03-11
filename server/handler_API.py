@@ -14,13 +14,11 @@ class Handler_API():
     URL_RETURNS_MINI_PATTERNS = "patterns/search.json"
     URL_RETURNS_PATTERNS = "patterns.json"
 
-
     def get_api_result(self, url, params):
         """
             Returns result from http get request to external api.
         """
         return self.HANDLER_HTTP.send_get_request(url, params)
-
 
     def get_knitting_patterns_by_ids(self, ids_list):
         """
@@ -31,24 +29,20 @@ class Handler_API():
         for i in ids_list:
             ids_string = '{}, {}'.format(ids_string, i)
 
-        ids_string = ids_string[1:]    
+        ids_string = ids_string[1:]
 
         params = {
-            "ids" : ids_string,
-            "craft" : "knitting"
+            "ids": ids_string,
+            "craft": "knitting"
         }
 
         resp_from_server = self.get_api_result(self.URL_RETURNS_PATTERNS, params)
-
 
         if resp_from_server.get('status'):
             return resp_from_server
         else:
             patterns_dicts = self.get_patterns_dict(resp_from_server)
-
             return patterns_dicts
-            # return resp_from_server 
-
 
     def get_patterns(self):
         """
@@ -68,7 +62,6 @@ class Handler_API():
             patterns_dicts = self.get_mini_patterns_dict(resp_from_server)
 
             return patterns_dicts      
-
 
     def get_knitting_patterns(self):
         """
@@ -90,7 +83,6 @@ class Handler_API():
 
             return patterns_dicts
             # return resp_from_server  
-
 
     def get_knitting_patterns_by_query(self, query, page_number=None):
         """
@@ -129,7 +121,6 @@ class Handler_API():
 
             return patterns_dicts
 
-
     def get_mini_patterns_dict(self, resp_from_server):
         """
             Returns list of mini patterns dictionaries using response from server provided.
@@ -139,7 +130,6 @@ class Handler_API():
         patterns_dict = self.HANDLER_MINI_PATTERN.create_pattern_dict_list(patterns)
         
         return patterns_dict
-
 
     def get_patterns_dict(self, resp_from_server):
         """

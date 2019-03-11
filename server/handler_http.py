@@ -3,6 +3,7 @@
 import requests
 import json
 
+
 class Handler_HTTP():
 
     BASE_URL = 'https://api.ravelry.com/'
@@ -26,8 +27,8 @@ class Handler_HTTP():
 
         url = '{}{}'.format(self.BASE_URL, url)
 
-        try: 
-            response = requests.get(url, auth=self.AUTH, params = params,)
+        try:
+            response = requests.get(url, auth=self.AUTH, params=params,)
             return response.json()
         except:
-            return {"status" : "500" , "reason" : "Post unsuccessful."}
+            return {"status" : "500" , "reason" : "Get unsuccessful."}
