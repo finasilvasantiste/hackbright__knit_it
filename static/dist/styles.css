@@ -20,6 +20,9 @@
 .navbar-brand{
     margin-left: 26px;
 }
+.login-status{
+    margin-right: 15px;
+}
 .bg-light {
      background-color: #ffffff!important; 
     border-color: #ababab40;

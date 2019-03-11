@@ -331,14 +331,14 @@ export default class DetailedView extends React.Component {
 
                     { this.state.user.is_logged_in && this.state.is_in_queue
                         ?
-                        <Button key='removeFromQueue' bsStyle="danger" onClick={this.removeFromQueue} className="mr-sm-2" size="sm" >
+                        <Button key='removeFromQueue' bsStyle="danger" bsSize="small" onClick={this.removeFromQueue} className="mr-sm-2" size="sm" >
                         Remove from Favs
                         </Button>
                         : null 
                     }
                     { this.state.user.is_logged_in && !this.state.is_in_queue
                         ?
-                        <Button key='addToQueue' bsStyle="danger" onClick={this.addToQueue} className="mr-sm-2" size="sm" >
+                        <Button key='addToQueue' bsStyle="danger" bsSize="small" onClick={this.addToQueue} className="mr-sm-2" size="sm" >
                         Add to Favs
                         </Button>
                         : null

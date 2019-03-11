@@ -256,27 +256,29 @@ export default class NavBar extends React.Component {
                         <div className="mr-auto">
                           <form className="form-inline my-2 my-lg-0">
                                 <FormControl id="search_input" type="text" placeholder="Enter query" className="mr-sm-2" />
-                                <Button bsStyle="warning" onClick={this.getQuery} className="mr-sm-2" >
+                                <Button bsStyle="danger" onClick={this.getQuery} className="mr-sm-2" >
                                     Search
                                 </Button>
-                                <Button bsStyle="warning" onClick={this.resetResults} className="mr-sm-2" >
+                                <Button bsStyle="outline-danger" onClick={this.resetResults} className="mr-sm-2" >
                                     Reset Results
                                 </Button>
                           </form>
                           </div>    
                           <div className="ml-auto">
+                              <div style={{"display" : "flex"}}>
+                              <div className="login-status">
                             { this.state.user.is_logged_in
-                              ? <p>You're logged in as {this.state.user.email}.</p>
+                              ? <p>Logged in as {this.state.user.email}</p>
                               : null
                             }
                             { this.state.user.unsuccessful_log_in_attempt
                               ? <p>Log in unsuccessful! Please try again.</p>
                               : null
                             }
-                           <div style={{"display" : "flex"}}>
+                           </div>
                           { this.state.user.is_logged_in
                             ? 
-                            <Button bsStyle="success" onClick={this.handleModalShow} className={!this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
+                            <Button bsStyle="danger" onClick={this.handleModalShow} className={!this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
                                     My favorites
                                 </Button> 
                                 
@@ -284,11 +286,11 @@ export default class NavBar extends React.Component {
                           }
                           { !this.state.user.is_logged_in
                             ? 
-                                <Button bsStyle="success" onClick={this.handleLoginModalShow}>
+                                <Button bsStyle="outline-secondary" onClick={this.handleLoginModalShow}>
                                     Log in
                                 </Button> 
                             : 
-                            <Button bsStyle="info" onClick={this.setLogOut}  >
+                            <Button bsStyle="outline-secondary" onClick={this.setLogOut}  >
                                     Log out
                                 </Button>
                           }
@@ -319,7 +321,7 @@ export default class NavBar extends React.Component {
                   <form className="form-inline my-2 my-lg-0">
                     <FormControl id="email_input" type="text" placeholder="Email" className="mr-sm-2"/>
                     <FormControl id="password_input" type="text" placeholder="Password" type="password" className="mr-sm-2"/>           
-                    <div><Button bsStyle="info" onClick={this.setLogIn} className={this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
+                    <div><br/><Button bsStyle="outline-secondary" onClick={this.setLogIn} className={this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
                         Submit
                     </Button>
                     </div>

@@ -200,11 +200,11 @@ export default class SearchResults extends React.Component {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam varius efficitur nulla ut condimentum. Suspendisse rhoncus massa vitae dolor dapibus, sit amet feugiat mauris rhoncus. Nam sapien felis, sagittis at sapien quis, vulputate vehicula ligula. Sed ac egestas justo, at fringilla est. Nam eleifend, nisl vitae maximus sagittis, felis massa dapibus elit, in pharetra justo ex non eros.
                     </p>
                     <p>
-                        <Button bsSize="large" bsStyle="danger" onClick={this.getPreviousPage} className="mr-sm-2">
-                          Previous Page!
+                        <Button bsStyle="danger" onClick={this.getPreviousPage} className="mr-sm-2">
+                          Previous Page
                         </Button>
-                        <Button bsSize="large" bsStyle="danger" onClick={this.getNextPage} className="mr-sm-2">
-                          Next Page!
+                        <Button  bsStyle="danger" onClick={this.getNextPage} className="mr-sm-2">
+                          Next Page
                         </Button>
                     </p>
                     <div id="searchResults">
