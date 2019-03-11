@@ -320,7 +320,7 @@ export default class DetailedView extends React.Component {
     render () {
         return (
                 <Col>
-                    <h1>{this.state.data.name}</h1>
+                    <h1><b>{this.state.data.name}</b></h1>
                     By {this.state.data.author}
                     <br></br>
                     Created at {this.state.data.created_at}
@@ -345,35 +345,35 @@ export default class DetailedView extends React.Component {
                     }
 
                   </div>
-                    <hr/>
+                    <br/>
                     <img src={this.state.data.img_fullsize_url}/>
                     <p>
-                    Pattern Type: {this.state.data.pattern_type}
+                    <b>Pattern Type:</b> {this.state.data.pattern_type}
                     <br></br>
-                    Available sizes: {this.state.data.sizes}
+                    <b>Available sizes:</b> {this.state.data.sizes}
                     <br></br>
-                    Yardage: {this.state.data.yardage}
+                    <b>Yardage:</b> {this.state.data.yardage}
                     <br></br>
-                    Yarn weight: {this.state.data.yarn_weight}
+                    <b>Yarn weight:</b> {this.state.data.yarn_weight}
                     <br></br>
-                    Gauge: {this.state.data.gauge}
+                    <b>Gauge:</b> {this.state.data.gauge}
                     <br></br>
-                    Is it free?: {this.state.data.is_free}
+                    <b>Is it free?:</b> {this.state.data.is_free}
                     <br></br>
-                    Can I download it?: {this.state.data.is_downloadable}
+                    <b>Can I download it?:</b> {this.state.data.is_downloadable}
                     <br></br>
                     Download url: {this.state.data.download_url}
                     </p>
-                    Suggested Yarn: 
+                    <b>Suggested Yarn:</b> 
                     <ul>
                     {this.state.data.suggested_yarn}
                     </ul>
-                    Needles required:
+                    <b>Needles required:</b>
                     <ul>
                     {this.state.data.needles_required}
                     </ul>
                     <p>
-                    Description: {this.state.data.description}
+                    <b>Description:</b> {this.state.data.description}
                     </p>
                 </Col>
         );

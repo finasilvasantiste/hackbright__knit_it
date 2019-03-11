@@ -14,8 +14,14 @@
     background-position: left;
     font-weight: bold;
 }
+.row{
+    margin: 10px 10px 10px 10px;
+}
 .mini_pattern{
     margin: 15px;
+}
+.navbar{
+    padding: 1.0rem 1rem;
 }
 .navbar-brand{
     margin-left: 26px;
@@ -25,8 +31,8 @@
 }
 .bg-light {
      background-color: #ffffff!important; 
-    border-color: #ababab40;
-    border-style: solid;
+/*    border-color: #ababab40;
+    border-style: solid;*/
 }
 .header-contents {
     top: 50%;

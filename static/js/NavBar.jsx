@@ -251,6 +251,7 @@ export default class NavBar extends React.Component {
         return (
                 <div>
                     <Row>
+
                       <nav className="navbar logo navbar-expand-lg navbar-light bg-light container-fluid">
                         <a className="navbar-brand" href="/">KNIT IT</a>
                         <div className="mr-auto">
@@ -298,6 +299,7 @@ export default class NavBar extends React.Component {
                           </div>
                       </nav>
                     </Row>
+                    <hr/>
                         <SearchResults showQueue={this.state.modal_show} query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} pattern_id={this.state.pattern_id} isQueueSelection={this.state.isQueueSelection}/>  
 
                 <Modal className={this.state.modal_show ? 'show' : ''} show={this.state.modal_show} onHide={this.handleModalClose}>
