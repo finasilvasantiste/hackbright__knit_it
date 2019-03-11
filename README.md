@@ -4,3 +4,6 @@ Single-page application that allows a user to search and browse knitting pattern
 Tech stack: Python, Flask, JavaScript, React.js, jQuery, Bootstrap, PostgreSQL, HTML, CSS
 
 (coming soon: explanation of data model and architecture used.)
+
+![alt text](https://github.com/finasilvasantiste/hackbright__knit_it/blob/master/uml_diagrams/svg/Class%20Diagram%20-%20MVC.svg)
+
