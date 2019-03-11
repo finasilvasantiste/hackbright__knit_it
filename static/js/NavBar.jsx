@@ -33,6 +33,8 @@ export default class NavBar extends React.Component {
         this.handleModalShow = this.handleModalShow.bind(this);
         this.handleModalClose = this.handleModalClose.bind(this);
         this.getPatternID = this.getPatternID.bind(this);
+        this.handleLoginModalShow = this.handleLoginModalShow.bind(this);
+        this.handleLoginModalClose = this.handleLoginModalClose.bind(this);
 
     }
 
@@ -236,6 +238,13 @@ export default class NavBar extends React.Component {
         this.setState({ modal_show: true });
     }
 
+    handleLoginModalShow(){
+        this.setState({ modal_login_show: true });
+    }
+
+    handleLoginModalClose(){
+        this.setState({ modal_login_show: false });
+    }
 
 
     render () {
@@ -245,6 +254,7 @@ export default class NavBar extends React.Component {
                   <nav className="navbar logo navbar-expand-lg navbar-light bg-light container-fluid">
                     <a className="navbar-brand " href="/">KNIT IT</a>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div>
                       <form className="form-inline my-2 my-lg-0">
                             <FormControl id="search_input" type="text" placeholder="Enter query" className="mr-sm-2" />
                             <Button bsStyle="warning" onClick={this.getQuery} className="mr-sm-2" >
@@ -254,11 +264,7 @@ export default class NavBar extends React.Component {
                                 Reset Results
                             </Button>
                       </form>
-                        <form className="form-inline my-2 my-lg-0">
-                            <FormControl id="email_input" type="text" placeholder="Email" className="mr-sm-2"/>
-                            <FormControl id="password_input" type="text" placeholder="Password" type="password" className="mr-sm-2"/>
-                          
-                      </form>
+                      </div>
                       
                         { this.state.user.is_logged_in
                           ? <p>You're logged in as {this.state.user.email}.</p>
@@ -278,15 +284,16 @@ export default class NavBar extends React.Component {
                         : <RegisterForm is_logged_in={this.state.user.is_logged_in}/>
                       }
                       { !this.state.user.is_logged_in
-                        ? <div><Button bsStyle="info" onClick={this.setLogIn} className={this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
+                        ? <div>
+                            <Button bsStyle="success" onClick={this.handleLoginModalShow}>
                                 Log in
-                            </Button>
-                            {this.state.user.is_logged_in}
+                            </Button> 
                             </div>
-                        : <div><Button bsStyle="info" onClick={this.setLogOut} className={!this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
+
+                        : <div>
+                        <Button bsStyle="info" onClick={this.setLogOut}  >
                                 Log out
                             </Button>
-                            {this.state.user.is_logged_in}
                             </div>
 
                       }
@@ -308,16 +315,22 @@ export default class NavBar extends React.Component {
                     </Button>
                   </Modal.Footer>
                 </Modal>
-
                 <Modal className={this.state.modal_login_show ? 'show' : ''} show={this.state.modal_login_show} onHide={this.handleModalClose}>
                   <Modal.Header>
-                    <Modal.Title>My favorites</Modal.Title>
+                    <Modal.Title>Log in</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                  <p>{this.state.favorites.data}</p>
+                  <form className="form-inline my-2 my-lg-0">
+                    <FormControl id="email_input" type="text" placeholder="Email" className="mr-sm-2"/>
+                    <FormControl id="password_input" type="text" placeholder="Password" type="password" className="mr-sm-2"/>           
+                    <div><Button bsStyle="info" onClick={this.setLogIn} className={this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
+                        Submit
+                    </Button>
+                    </div>
+                  </form>
                   </Modal.Body>
                   <Modal.Footer>
-                    <Button onClick={this.handleModalClose}>
+                    <Button onClick={this.handleLoginModalClose}>
                       Close
                     </Button>
                   </Modal.Footer>
