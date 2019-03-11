@@ -22,7 +22,8 @@ export default class NavBar extends React.Component {
             isQueueSelection : false,
             query : '%20',
             modal : ' ',
-            modal_show : false
+            modal_show : false,
+            modal_login_show : false
         }
 
         this.getQuery = this.getQuery.bind(this);
@@ -256,31 +257,38 @@ export default class NavBar extends React.Component {
                         <form className="form-inline my-2 my-lg-0">
                             <FormControl id="email_input" type="text" placeholder="Email" className="mr-sm-2"/>
                             <FormControl id="password_input" type="text" placeholder="Password" type="password" className="mr-sm-2"/>
-                            <Button bsStyle="info" onClick={this.setLogIn} className={this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
-                                Log in
-                            </Button>
-                            <Button bsStyle="info" onClick={this.setLogOut} className={!this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
-                                Log out
-                            </Button>
-                          <div>
-                            { this.state.user.is_logged_in
-                              ? <p>You're logged in as {this.state.user.email}.</p>
-                              : null
-                            }
-                            { this.state.user.unsuccessful_log_in_attempt
-                              ? <p>Log in unsuccessful! Please try again.</p>
-                              : null
-                            }
-                        </div>
+                          
                       </form>
+                      
+                        { this.state.user.is_logged_in
+                          ? <p>You're logged in as {this.state.user.email}.</p>
+                          : null
+                        }
+                        { this.state.user.unsuccessful_log_in_attempt
+                          ? <p>Log in unsuccessful! Please try again.</p>
+                          : null
+                        }
+                       
                       { this.state.user.is_logged_in
                         ? <div>
                         <Button bsStyle="success" onClick={this.handleModalShow} className={!this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
                                 My favorites
                             </Button> 
-                            {this.state.modal}
                             </div>
                         : <RegisterForm is_logged_in={this.state.user.is_logged_in}/>
+                      }
+                      { !this.state.user.is_logged_in
+                        ? <div><Button bsStyle="info" onClick={this.setLogIn} className={this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
+                                Log in
+                            </Button>
+                            {this.state.user.is_logged_in}
+                            </div>
+                        : <div><Button bsStyle="info" onClick={this.setLogOut} className={!this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
+                                Log out
+                            </Button>
+                            {this.state.user.is_logged_in}
+                            </div>
+
                       }
                     </div>
                   </nav>
@@ -288,6 +296,20 @@ export default class NavBar extends React.Component {
                         <SearchResults showQueue={this.state.modal_show} query={this.state.query} is_logged_in={this.state.user.is_logged_in} email={this.state.user.email} pattern_id={this.state.pattern_id} isQueueSelection={this.state.isQueueSelection}/>  
 
                 <Modal className={this.state.modal_show ? 'show' : ''} show={this.state.modal_show} onHide={this.handleModalClose}>
+                  <Modal.Header>
+                    <Modal.Title>My favorites</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                  <p>{this.state.favorites.data}</p>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button onClick={this.handleModalClose}>
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+
+                <Modal className={this.state.modal_login_show ? 'show' : ''} show={this.state.modal_login_show} onHide={this.handleModalClose}>
                   <Modal.Header>
                     <Modal.Title>My favorites</Modal.Title>
                   </Modal.Header>

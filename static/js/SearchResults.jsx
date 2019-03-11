@@ -207,7 +207,7 @@ export default class SearchResults extends React.Component {
                           Next Page!
                         </Button>
                     </p>
-                    <div id="searchResults" style={{"overflowY" : "scroll", "height": "1600px"}}>
+                    <div id="searchResults">
                     {this.state.data.map(d => 
                         <div key={d.pattern_id} onClick={()=>this.getPatternID(d.pattern_id)} className="float-left">
                             <img src={d.img_small_url}/>
