@@ -1,8 +1,8 @@
 ### Data Model for db data is defined here. ###
-
 from flask_sqlalchemy import SQLAlchemy
 import hashlib
 from random import randint
+
 
 db = SQLAlchemy()
 
@@ -10,14 +10,12 @@ class User(db.Model):
     """
         Represents a user in Knit It app.
     """
-
     __tablename__ = "users"
-
     user_email = db.Column(db.String(100), primary_key=True)
     password_hash = db.Column(db.String(500), nullable=False)
     queue_id = db.Column(db.Integer, autoincrement=True, unique=True, primary_key=True)
-
     queue = db.relationship('Queue')
+
 
     def __init__(self, user_email, password):
         self.user_email = user_email
@@ -25,9 +23,11 @@ class User(db.Model):
         self.password_hash = User.get_password_hash(password)
 
 
-
     @classmethod
     def get_password_hash(self,password):
+        """
+            Returns hashed password.
+        """
 
         sha = hashlib.sha1(password.encode('utf-8'))
         
@@ -76,8 +76,6 @@ class User(db.Model):
         return new_queue_id
 
 
-
-
     def __repr__(self):
         """
             Provides helpful representation when object is printed.
@@ -87,17 +85,13 @@ class User(db.Model):
             self.queue_id, self.password_hash)
 
 
-
 class Queue(db.Model):
     """
         Represents a user's queue.
     """
-
     __tablename__ = "queues"
-
     queue_id = db.Column(db.Integer, db.ForeignKey('users.queue_id'), primary_key=True)
     pattern_id = db.Column(db.Integer, primary_key=True)
-
     # Define relationship to user
     user = db.relationship('User')
 
@@ -121,7 +115,6 @@ class Queue(db.Model):
         for q in queues_with_pattern:
             users.append(q.user)
 
-
         return users
 
 
@@ -133,10 +126,10 @@ class Queue(db.Model):
         return "<Queue queue_id={} pattern_id={}>".format(self.queue_id, self.pattern_id)
 
 
-
 class Handler_DB_Connection():
-
-
+    """
+        Handles actions related to the connection to db.
+    """
     def connect_to_db(self, app):
         """
             Connects to local db using ORM Mapper SQLAlchemy.

@@ -7,10 +7,7 @@ from model_db import Handler_DB_Connection, User, Queue
 
 # Set up flask server.
 app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
-
 app.secret_key = 'dev'
-
-
 # Handles requests to external api.
 HANDLER_API = Handler_API()
 # Handles requests to local db.
@@ -29,16 +26,13 @@ def log_in(user_email, password):
     """
         Returns true if log in successful, false otherwise.
     """
-
     return jsonify(get_log_in(user_email, password))
-
 
 def get_log_in(user_email, password):
     """
         Check user_email and password with values in database.
         Returns true if log in successful, false otherwise.
     """
-
     password = password.lower()
     new_user_password_hash = User.get_password_hash(password)
     user_db = User.query.filter(User.user_email == user_email).first()
@@ -54,25 +48,20 @@ def get_log_in(user_email, password):
             'success': is_success
             }
 
-
     return resp
-
 
 @app.route('/auth/register/<string:user_email>+<string:password>', methods=['POST'])
 def register(user_email, password):
     """
         Returns true if registration successful, false otherwise.
     """
-
     return jsonify(get_registration(user_email, password))
-
 
 def get_registration(user_email, password):
     """
         Registers user by given email and password.
         Returns true if registration successful, false otherwise.
     """
-    # new_queue_id = User.get_new_queue_id()
     new_user = User(user_email, password)
     user_db = User.query.filter(User.user_email == user_email).first()
     is_success = False
@@ -87,23 +76,19 @@ def get_registration(user_email, password):
 
     return resp
 
-
 @app.route('/<string:user_email>/favorites/add/<int:pattern_id>', methods=['POST'])
 def add_pattern_to_queue(user_email, pattern_id):
     """
         Adds pattern to given queue.
         Returns true if pattern added successfully to queue.
     """
-
     return jsonify(get_add_pattern_to_queue(user_email, pattern_id))
-
 
 def get_add_pattern_to_queue(user_email, pattern_id):
     """
         Adds pattern to given queue.
         Returns true if pattern added successfully to queue.
     """
-
     is_in_queue = get_pattern_is_in_queue(user_email, pattern_id)
     is_success = False
 
@@ -120,13 +105,11 @@ def get_add_pattern_to_queue(user_email, pattern_id):
 
     return resp
 
-
 @app.route('/<string:user_email>/favorites/remove/<int:pattern_id>', methods=['POST'])
 def remove_pattern_from_queue(user_email, pattern_id):
     """
         Removes pattern from user's queue if it exists in user's queue.
     """
-
     return jsonify(get_remove_pattern_from_queue(user_email, pattern_id))
 
 
@@ -134,14 +117,12 @@ def get_remove_pattern_from_queue(user_email, pattern_id):
     """
         Removes pattern from user's queue if it exists in user's queue.
     """
-    
     is_in_queue = get_pattern_is_in_queue(user_email, pattern_id)
     is_success = False
 
     if is_in_queue:
         user_db = User.query.filter(User.user_email == user_email).first()
         queue_id = user_db.queue_id
-        # new_queue_item = Queue(queue_id, pattern_id)
         queue_item_db = Queue.query.filter(Queue.queue_id == queue_id, Queue.pattern_id == pattern_id).first()
 
         HANDLER_DB_CONNECTION.remove_object(queue_item_db)
@@ -153,21 +134,17 @@ def get_remove_pattern_from_queue(user_email, pattern_id):
 
     return resp
 
-
 @app.route('/<string:user_email>/favorites/contains/<int:pattern_id>')
 def pattern_is_in_queue(user_email, pattern_id):
     """
         Returns true if pattern is in user's queue. 
     """
-
     return jsonify(get_pattern_is_in_queue(user_email, pattern_id))
-
 
 def get_pattern_is_in_queue(user_email, pattern_id):
     """
         Returns true if pattern is in user's queue. 
     """
-
     patterns = get_patterns_in_queue(user_email)
     is_in_queue = False
 
@@ -180,24 +157,19 @@ def get_pattern_is_in_queue(user_email, pattern_id):
             'success': is_in_queue
             }
 
-
     return resp
-
 
 @app.route('/<string:user_email>/favorites/get')
 def patterns_in_queue(user_email):
     """
         Returns pattern name and id from user's queue.
     """
-
     return jsonify(get_patterns_in_queue(user_email))
-
 
 def get_patterns_in_queue(user_email):
     """
         Returns pattern name and id from user's queue.
     """
-
     user_db = User.query.filter(User.user_email == user_email).first()
     queue_list = user_db.queue
     pattern_ids = []
@@ -222,21 +194,17 @@ def get_patterns_in_queue(user_email):
 
     return pattern_dicts
 
-
 @app.route('/patterns/knitting/<int:pattern_id>/queues/get')
 def queues_by_pattern(pattern_id):
     """
         Returns how many times a specific pattern has been added to a queue. 
     """
-
     return jsonify(get_queues_by_pattern(pattern_id))
-
 
 def get_queues_by_pattern(pattern_id): 
     """
         Returns how many times a specific pattern has been added to a queue. 
     """
-
     queue_items_db = Queue.query.filter(Queue.pattern_id == pattern_id).all()
     count_queues = len(queue_items_db)
 
@@ -244,36 +212,29 @@ def get_queues_by_pattern(pattern_id):
         'count_queues': count_queues
         }
 
-
     return count_queues_dict
-
 
 @app.route('/patterns/knitting/query/<string:query>/page/<int:page>')
 def knitting_patterns_by_query_page(query, page):
     """
         Returns search query and page number results.
     """
-
     return jsonify(get_knitting_patterns_by_query_page(query, page))
-
 
 def get_knitting_patterns_by_query_page(query, page):
     """
         Returns all knitting patterns matching search query and page number.
     """
-
     print('{} {}'.format(query, page))
     patterns = HANDLER_API.get_knitting_patterns_by_query(query, page)
 
     return patterns
-
 
 @app.route('/patterns/knitting/page/<int:page>')
 def knitting_patterns_by_page(page):
     """
         Returns knitting patterns by page results.
     """
-
     return jsonify(get_knitting_patterns_by_page(page))
 
 def get_knitting_patterns_by_page(page):
@@ -286,17 +247,12 @@ def get_knitting_patterns_by_page(page):
 
     return patterns
 
-
-
 @app.route('/patterns/knitting/get/<string:pattern_ids_string>')
 def knitting_patterns_by_ids(pattern_ids_string):
     """
        Returns multiple patterns given a list of pattern ids.
     """
-    # return jsonify(get_knitting_patterns_by_ids(pattern_ids_string))
     return jsonify(get_knitting_patterns_by_ids(pattern_ids_string))
-
-
 
 def get_knitting_patterns_by_ids(pattern_ids_string):
     """
@@ -309,22 +265,18 @@ def get_knitting_patterns_by_ids(pattern_ids_string):
 
     return patterns
 
-
 def init_db():
     """
         Initiates connection to local db.
     """
-
     HANDLER_DB_CONNECTION.connect_to_db(app)
     print("Connected to DB.")
-
-
+    
 
 if __name__ == "__main__":
 
     app.debug = True
     DebugToolbarExtension(app)
-
     init_db()
     app.run(host="0.0.0.0", port="3333")
 

@@ -1,9 +1,10 @@
-### Search requests that require usage of model classes are handled here. ###
-
 from model import Mini_Pattern
 
-class Handler_Mini_Pattern():
 
+class Handler_Mini_Pattern():
+    """
+        Handles actions related to a Mini Pattern object.
+    """
     def create_pattern_dict_list(self, patterns_list):
         """
             Returns a list with pattern dictionaries by using list with pattern objects provided.
@@ -65,7 +66,6 @@ class Handler_Mini_Pattern():
         }
 
         return pattern_values
-
 
 
     def create_pattern_list(self, patterns_dict_list):

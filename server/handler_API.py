@@ -1,16 +1,15 @@
-### Calls to Ravelry Api are handled here. ###
-
 from handler_http import Handler_HTTP
 from handler_mini_pattern import Handler_Mini_Pattern
 from handler_pattern import Handler_Pattern
 
 
 class Handler_API():
-
+    """
+        Handles requests to external API (Ravelry).
+    """
     HANDLER_HTTP = Handler_HTTP()
     HANDLER_MINI_PATTERN = Handler_Mini_Pattern()
     HANDLER_PATTERN = Handler_Pattern()
-    
     URL_RETURNS_MINI_PATTERNS = "patterns/search.json"
     URL_RETURNS_PATTERNS = "patterns.json"
 
@@ -88,8 +87,7 @@ class Handler_API():
         else:
             patterns_dicts = self.get_mini_patterns_dict(resp_from_server)
 
-            return patterns_dicts
-            # return resp_from_server  
+            return patterns_dicts 
 
 
     def get_knitting_patterns_by_query(self, query, page_number=None):

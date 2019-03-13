@@ -1,14 +1,19 @@
-### HTTP requests are handled here. ###
-
 import requests
 import json
 
-class Handler_HTTP():
 
+class Handler_HTTP():
+    """
+        Handles http requests.
+    """
     BASE_URL = 'https://api.ravelry.com/'
     AUTH = ''
 
+
     def set_auth(self):
+        """
+            Reads config file and sets auth values.
+        """
         with open('config.json', 'r') as f:
             config = json.load(f)
 
@@ -30,4 +35,4 @@ class Handler_HTTP():
             response = requests.get(url, auth=self.AUTH, params = params,)
             return response.json()
         except:
-            return {"status" : "500" , "reason" : "Post unsuccessful."}
+            return {"status" : "500" , "reason" : "Get unsuccessful."}

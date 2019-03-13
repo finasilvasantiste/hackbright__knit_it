@@ -1,10 +1,11 @@
-### ID requests that require usage of model classes are handled here.   ###
-
 from handler_mini_pattern import Handler_Mini_Pattern
 from model import Pattern
 
-class Handler_Pattern(Handler_Mini_Pattern):
 
+class Handler_Pattern(Handler_Mini_Pattern):
+    """
+        Handles actions related to a Pattern object.
+    """
     def get_yarn_list(self, suggested_yarn_list):
         """
             Returns yarn dictionary with name and weight.

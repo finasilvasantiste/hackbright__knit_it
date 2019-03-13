@@ -1,14 +1,13 @@
 ### Data Model for api data is defined here. ###
-
 import datetime
 import pytz
+
 
 class Mini_Pattern():
     """
         Represents a search result object. 
         Values are subset of information found in Pattern.
     """
-    
     def __init__(self, pattern_values):
 
         self.pattern_id = pattern_values['pattern_id']
@@ -27,6 +26,7 @@ class Mini_Pattern():
 
         return repr_s
 
+
     @classmethod
     def as_dict(self, pattern):
         """
@@ -41,7 +41,6 @@ class Pattern(Mini_Pattern):
     """
         Represents a pattern with detailed information. 
     """
-
     def __init__(self, pattern_values):
         self.pattern_id = pattern_values['pattern_id']
         self.name = pattern_values['name']
@@ -62,7 +61,6 @@ class Pattern(Mini_Pattern):
 
         self.suggested_yarn = Yarn.get_yarn_list(pattern_values['suggested_yarn_list'])
         self.suggested_needles = Needles.get_needles_list(pattern_values['suggested_needles_list'])
-
 
 
     def convert_date_time(self, date_time_str):
@@ -130,9 +128,10 @@ class Pattern(Mini_Pattern):
         return pattern_dict
 
 
-
 class Yarn():
-    
+    """
+        Represents a yarn object.
+    """
     def __init__(self, name, weight):
         self.name = name
         self.weight = weight
@@ -193,9 +192,10 @@ class Yarn():
         return yarn_dict
 
 
-
 class Needles():
-
+    """
+        Represents a needles object.
+    """
     def __init__(self, name):
         self.name = name
 
