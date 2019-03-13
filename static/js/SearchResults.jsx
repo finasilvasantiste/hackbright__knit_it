@@ -33,7 +33,7 @@ export default class SearchResults extends React.Component {
             }
            ],
            pattern: {
-                pattern_id: 781496
+                pattern_id: this.props.pattern_id
            },
            isQueueSelection : this.props.isQueueSelection,
            isSearchResultsSelection : false,

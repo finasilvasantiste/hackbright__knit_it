@@ -18,7 +18,7 @@ export default class NavBar extends React.Component {
             favorites: {
                 data: ''
             },
-            pattern_id : '',
+            pattern_id : 781496,
             isQueueSelection : false,
             query : '%20',
             modal : ' ',
@@ -190,7 +190,7 @@ export default class NavBar extends React.Component {
 
         this.clearLogInInputFields()
 
-        const regex_match = new RegExp("[A-Za-z0-9]+@$")
+        const regex_match = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
         const isValidEmail = regex_match.test(email);
 
 

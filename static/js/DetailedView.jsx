@@ -310,8 +310,9 @@ export default class DetailedView extends React.Component {
                 this.setUserAndIfPatternInQueue(nextProps, nextProps.pattern_id)
             }else if(!nextProps.isQueueSelection && nextProps.isSearchResultsSelection){
                 this.setUserAndIfPatternInQueue(nextProps, nextProps.pattern_id)
+            }else if(!nextProps.isQueueSelection && !nextProps.isSearchResultsSelection && (nextProps.is_logged_in || !nextProps.is_logged_in)){
+                this.setUserAndIfPatternInQueue(nextProps, nextProps.pattern_id)
             }
-            // this.setUserAndIfPatternInQueue(nextProps, nextProps.pattern_id)
         }
 
     }
@@ -361,8 +362,11 @@ export default class DetailedView extends React.Component {
                     <b>Is it free?:</b> {this.state.data.is_free}
                     <br></br>
                     <b>Can I download it?:</b> {this.state.data.is_downloadable}
-                    <br></br>
-                    Download url: {this.state.data.download_url}
+                    { this.state.data.is_downloadable == 'Yes'
+                        ? <span> <a href={this.state.data.download_url} target="_new">(download here)</a></span>
+                        : null
+                    }
+                    
                     </p>
                     <b>Suggested Yarn:</b> 
                     <ul>
