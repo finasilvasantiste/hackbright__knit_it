@@ -21,14 +21,13 @@ class Handler_HTTP():
         PASSWORD = config['DEFAULT']['PASSWORD']
         self.AUTH = (USER, PASSWORD)
 
-
     def __init__(self):
         self.set_auth()
 
-
     def send_get_request(self, url, params):
-        """Returns response of external api as json."""
-
+        """
+            Returns response of external api as json.
+        """
         url = '{}{}'.format(self.BASE_URL, url)
 
         try: 

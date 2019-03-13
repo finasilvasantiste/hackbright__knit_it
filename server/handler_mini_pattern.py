@@ -19,20 +19,16 @@ class Handler_Mini_Pattern():
 
         return patterns_dict_list
 
-
     def create_pattern(self, pattern_values):
         """
             Returns pattern object of specified type by using data from dictionary provided.
         """
-        
         return Mini_Pattern(pattern_values)
-
 
     def set_values(self, pattern_dict):
         """
             Returns pattern values by using data from dictionary provided.
         """
-
         if pattern_dict['id']:
             pattern_id = pattern_dict['id']
         else:
@@ -67,7 +63,6 @@ class Handler_Mini_Pattern():
 
         return pattern_values
 
-
     def create_pattern_list(self, patterns_dict_list):
         """
             Returns a list with mini pattern objects by using list with dictionaries provided.
@@ -79,15 +74,12 @@ class Handler_Mini_Pattern():
             pattern = self.create_pattern(pattern_values)
             patterns_list.append(pattern)
 
-
         return patterns_list
-
 
     def create_pattern_dict(self, pattern):
         """
             Returns pattern dictionary by using data from pattern object provided.
         """
-
         pattern_dict = Mini_Pattern.as_dict(pattern)
 
         return pattern_dict

@@ -20,7 +20,6 @@ class Handler_API():
         """
         return self.HANDLER_HTTP.send_get_request(url, params)
 
-
     def get_knitting_patterns_by_ids(self, ids_list):
         """
             Returns knitting patterns given a list of pattern ids.
@@ -46,15 +45,12 @@ class Handler_API():
             patterns_dicts = self.get_patterns_dict(resp_from_server)
 
             return patterns_dicts
-            # return resp_from_server 
-
 
     def get_patterns(self):
         """
             Returns all patterns, 
             but only up to 100 at a time (provides paginator).
         """
-
         params = {
             "query" : ""
         }
@@ -68,13 +64,11 @@ class Handler_API():
 
             return patterns_dicts      
 
-
     def get_knitting_patterns(self):
         """
             Returns all knitting patterns, 
             but only up to 100 at a time (provides paginator).
         """
-
         params = {
             "query" : "",
             "craft" : "knitting"
@@ -96,7 +90,6 @@ class Handler_API():
             but only up to 100 at a time (provides paginator).
             Optional argument page number. 
         """
-
         query_list = query.split("+")
         query_string = ""
 
@@ -127,23 +120,19 @@ class Handler_API():
 
             return patterns_dicts
 
-
     def get_mini_patterns_dict(self, resp_from_server):
         """
             Returns list of mini patterns dictionaries using response from server provided.
         """
-
         patterns = self.HANDLER_MINI_PATTERN.create_pattern_list(resp_from_server['patterns'])
         patterns_dict = self.HANDLER_MINI_PATTERN.create_pattern_dict_list(patterns)
         
         return patterns_dict
 
-
     def get_patterns_dict(self, resp_from_server):
         """
             Returns list of patterns dictionaries using response from server provided.
         """
-
         patterns = self.HANDLER_PATTERN.create_pattern_list(resp_from_server['patterns'])
         patterns_dict = self.HANDLER_PATTERN.create_pattern_dict_list(patterns)
         

@@ -21,12 +21,14 @@ def index():
     """
     return render_template('index.html')
 
+
 @app.route('/auth/log_in/<string:user_email>+<string:password>')
 def log_in(user_email, password):
     """
         Returns true if log in successful, false otherwise.
     """
     return jsonify(get_log_in(user_email, password))
+
 
 def get_log_in(user_email, password):
     """
@@ -50,12 +52,14 @@ def get_log_in(user_email, password):
 
     return resp
 
+
 @app.route('/auth/register/<string:user_email>+<string:password>', methods=['POST'])
 def register(user_email, password):
     """
         Returns true if registration successful, false otherwise.
     """
     return jsonify(get_registration(user_email, password))
+
 
 def get_registration(user_email, password):
     """
@@ -76,6 +80,7 @@ def get_registration(user_email, password):
 
     return resp
 
+
 @app.route('/<string:user_email>/favorites/add/<int:pattern_id>', methods=['POST'])
 def add_pattern_to_queue(user_email, pattern_id):
     """
@@ -83,6 +88,7 @@ def add_pattern_to_queue(user_email, pattern_id):
         Returns true if pattern added successfully to queue.
     """
     return jsonify(get_add_pattern_to_queue(user_email, pattern_id))
+
 
 def get_add_pattern_to_queue(user_email, pattern_id):
     """
@@ -104,6 +110,7 @@ def get_add_pattern_to_queue(user_email, pattern_id):
             }
 
     return resp
+
 
 @app.route('/<string:user_email>/favorites/remove/<int:pattern_id>', methods=['POST'])
 def remove_pattern_from_queue(user_email, pattern_id):
@@ -134,12 +141,14 @@ def get_remove_pattern_from_queue(user_email, pattern_id):
 
     return resp
 
+
 @app.route('/<string:user_email>/favorites/contains/<int:pattern_id>')
 def pattern_is_in_queue(user_email, pattern_id):
     """
         Returns true if pattern is in user's queue. 
     """
     return jsonify(get_pattern_is_in_queue(user_email, pattern_id))
+
 
 def get_pattern_is_in_queue(user_email, pattern_id):
     """
@@ -159,12 +168,14 @@ def get_pattern_is_in_queue(user_email, pattern_id):
 
     return resp
 
+
 @app.route('/<string:user_email>/favorites/get')
 def patterns_in_queue(user_email):
     """
         Returns pattern name and id from user's queue.
     """
     return jsonify(get_patterns_in_queue(user_email))
+
 
 def get_patterns_in_queue(user_email):
     """
@@ -194,12 +205,14 @@ def get_patterns_in_queue(user_email):
 
     return pattern_dicts
 
+
 @app.route('/patterns/knitting/<int:pattern_id>/queues/get')
 def queues_by_pattern(pattern_id):
     """
         Returns how many times a specific pattern has been added to a queue. 
     """
     return jsonify(get_queues_by_pattern(pattern_id))
+
 
 def get_queues_by_pattern(pattern_id): 
     """
@@ -214,12 +227,14 @@ def get_queues_by_pattern(pattern_id):
 
     return count_queues_dict
 
+
 @app.route('/patterns/knitting/query/<string:query>/page/<int:page>')
 def knitting_patterns_by_query_page(query, page):
     """
         Returns search query and page number results.
     """
     return jsonify(get_knitting_patterns_by_query_page(query, page))
+
 
 def get_knitting_patterns_by_query_page(query, page):
     """
@@ -230,12 +245,14 @@ def get_knitting_patterns_by_query_page(query, page):
 
     return patterns
 
+
 @app.route('/patterns/knitting/page/<int:page>')
 def knitting_patterns_by_page(page):
     """
         Returns knitting patterns by page results.
     """
     return jsonify(get_knitting_patterns_by_page(page))
+
 
 def get_knitting_patterns_by_page(page):
     """
@@ -247,12 +264,14 @@ def get_knitting_patterns_by_page(page):
 
     return patterns
 
+
 @app.route('/patterns/knitting/get/<string:pattern_ids_string>')
 def knitting_patterns_by_ids(pattern_ids_string):
     """
        Returns multiple patterns given a list of pattern ids.
     """
     return jsonify(get_knitting_patterns_by_ids(pattern_ids_string))
+
 
 def get_knitting_patterns_by_ids(pattern_ids_string):
     """
@@ -264,6 +283,7 @@ def get_knitting_patterns_by_ids(pattern_ids_string):
     patterns = HANDLER_API.get_knitting_patterns_by_ids(pattern_ids)
 
     return patterns
+
 
 def init_db():
     """

@@ -10,7 +10,6 @@ class Handler_Pattern(Handler_Mini_Pattern):
         """
             Returns yarn dictionary with name and weight.
         """
-
         yarn_list = []
 
         if len(suggested_yarn_list) > 0:
@@ -29,7 +28,6 @@ class Handler_Pattern(Handler_Mini_Pattern):
         else:
             yarn_list.append({"yarn_weight" : '', "yarn_name" : ''})
 
-
         return yarn_list  
 
 
@@ -37,7 +35,6 @@ class Handler_Pattern(Handler_Mini_Pattern):
         """
             Returns pattern values by using data from dictionary provided.
         """
-
         if pattern_dict['id']:
             pattern_id = pattern_dict['id']
         else:
@@ -162,7 +159,6 @@ class Handler_Pattern(Handler_Mini_Pattern):
             "suggested_needles_list" : suggested_needles_list
         }
 
-
         return pattern_values
 
 
@@ -170,7 +166,6 @@ class Handler_Pattern(Handler_Mini_Pattern):
         """
             Returns pattern object of specified type by using data from dictionary provided.
         """
-        
         return Pattern(pattern_values)
 
 
@@ -178,7 +173,6 @@ class Handler_Pattern(Handler_Mini_Pattern):
         """
             Returns a list with pattern objects by using list with dictionaries provided.
         """
-
         patterns_dict_list = []
         patterns_list = []
 
@@ -197,7 +191,6 @@ class Handler_Pattern(Handler_Mini_Pattern):
         """
             Returns pattern dictionary by using data from pattern object provided.
         """
-
         pattern_dict = Pattern.as_dict(pattern)
 
         return pattern_dict

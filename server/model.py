@@ -16,7 +16,6 @@ class Mini_Pattern():
         self.img_fullsize_url = pattern_values['img_fullsize_url']
         self.img_small_url = pattern_values['img_small_url']
 
-
     def __repr__(self):
         """
             Provides helpful representation when object is printed.
@@ -25,7 +24,6 @@ class Mini_Pattern():
             self.pattern_id, self.name, self.is_free, self.img_fullsize_url, self.img_small_url)
 
         return repr_s
-
 
     @classmethod
     def as_dict(self, pattern):
@@ -58,10 +56,8 @@ class Pattern(Mini_Pattern):
         self.sizes = pattern_values['sizes_available']
         self.description = pattern_values['notes']
         self.created_at = self.convert_date_time(pattern_values['created_at'])
-
         self.suggested_yarn = Yarn.get_yarn_list(pattern_values['suggested_yarn_list'])
         self.suggested_needles = Needles.get_needles_list(pattern_values['suggested_needles_list'])
-
 
     def convert_date_time(self, date_time_str):
         """
@@ -73,15 +69,9 @@ class Pattern(Mini_Pattern):
         print(date_time_str)
 
         date_time_obj = datetime.datetime.strptime(date_time_str, '%Y/%m/%d %H:%M:%S')
-
-        # print('Date:', date_time_obj.date())  
-        # print('Time:', date_time_obj.time())  
-        # print('Date-time:', date_time_obj) 
-
         utc_date_time = date_time_obj.astimezone(pytz.utc)
 
         return utc_date_time
-
 
     def __repr__(self):
         """
@@ -93,7 +83,6 @@ class Pattern(Mini_Pattern):
             self.url, self.yardage, self.yarn_weight, self.gauge, self.sizes, self.description, self.created_at)
 
         return repr_s
-
 
     @classmethod
     def as_dict(self, pattern):
@@ -127,7 +116,6 @@ class Pattern(Mini_Pattern):
 
         return pattern_dict
 
-
 class Yarn():
     """
         Represents a yarn object.
@@ -136,14 +124,12 @@ class Yarn():
         self.name = name
         self.weight = weight
 
-
     def __repr__(self):
         """
             Provides helpful representation when object is printed.
         """
         repr_s = "<Yarn name='{}' weight='{}'>".format(self.name, self.weight)
         return repr_s
-
 
     @classmethod
     def get_yarn_list(self, suggested_yarn_list):
@@ -163,7 +149,6 @@ class Yarn():
 
         return yarn_list
 
-
     @classmethod
     def get_yarn_dicts(self, yarn_list):
         """
@@ -177,7 +162,6 @@ class Yarn():
             yarn_dict_list.append(yarn_dict)
 
         return yarn_dict_list
-
 
     @classmethod
     def as_dict(self, yarn):
@@ -199,7 +183,6 @@ class Needles():
     def __init__(self, name):
         self.name = name
 
-
     def __repr__(self):
         """
             Provides helpful representation when object is printed.
@@ -207,7 +190,6 @@ class Needles():
         repr_s = "<Needles name='{}'>".format(self.name)
 
         return repr_s
-
 
     @classmethod
     def get_needles_list(self, suggested_needles_list):
@@ -225,7 +207,6 @@ class Needles():
 
         return needles_list
 
-
     @classmethod
     def get_needles_dicts(self, needles_list):
         """
@@ -239,7 +220,6 @@ class Needles():
             needles_dict_list.append(needles_dict)
 
         return needles_dict_list
-
 
     @classmethod
     def as_dict(self, needles):
