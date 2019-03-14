@@ -6,7 +6,6 @@ import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl, Nav
 require('../css/fullstack.css');
 
 
-
 export default class App extends React.Component {
     constructor(props) {
         super(props);

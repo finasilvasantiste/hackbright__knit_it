@@ -4,7 +4,6 @@ import RegisterForm from "./RegisterForm";
 import { Button, Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl, Modal, ModalHeader, ModalBody, ModalFooter } from "react-bootstrap";
 import $ from 'jquery'
 
-// require('../css/fullstack.css');
 
 export default class NavBar extends React.Component {
     constructor(props) {
@@ -140,7 +139,7 @@ export default class NavBar extends React.Component {
             Returns html representation of items in list.
         */
         return items_list.map((pattern) =>
-            <li key={pattern.pattern_id.toString()} onClick={()=>this.getPatternID(pattern.pattern_id)}>
+            <li key={pattern.pattern_id.toString()} onClick={()=>this.getPatternID(pattern.pattern_id)} className="fav-list-item">
             {pattern.name}</li>
             );
     }
@@ -153,8 +152,6 @@ export default class NavBar extends React.Component {
 
         const favorites_elems = this.setFavoriteItems(favorites_list)
 
-        // console.log('HTML FAV')
-        // console.log(favorites_elems)
         this.setState({
             favorites : {
                 data : favorites_elems

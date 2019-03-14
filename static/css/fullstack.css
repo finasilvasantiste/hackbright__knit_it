@@ -11,6 +11,11 @@
 .mini_pattern{
     margin: 15px;
 }
+.mini_pattern:hover{
+    cursor: pointer;
+    opacity: 0.3;
+
+}
 .navbar{
     padding: 1.0rem 1rem;
 }
@@ -30,4 +35,7 @@ a:hover {
   color: #dc7db0;
   text-decoration: none;
 }
-
+.fav-list-item:hover{
+    color: #d63a81;
+    cursor: pointer;
+}
