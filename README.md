@@ -13,5 +13,6 @@ Make sure `host="0.0.0.0", port="3333"` are free. Change into dir `server` and s
 
 ## MVC Class Overview
 ![alt text](https://github.com/finasilvasantiste/hackbright__knit_it/blob/master/uml_diagrams/svg/Class%20Diagram%20-%20MVC.svg)
+The view components send requests to `server.py`, which communicates to the `Handler_API` `Handler_DB_connection` classes, and `User` and `Queue` ORM classes. `Handler_API` has a single instance of the remaining three controllers, which communicate to the corresponding model class.
 
 (under construction: explanation of data model and architecture used.)
