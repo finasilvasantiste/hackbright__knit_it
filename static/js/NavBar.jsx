@@ -243,7 +243,6 @@ export default class NavBar extends React.Component {
         this.setState({ modal_login_show: false });
     }
 
-
     render () {
         return (
                 <div>
@@ -253,7 +252,7 @@ export default class NavBar extends React.Component {
                         <a className="navbar-brand" href="/">KNIT IT</a>
                         <div className="mr-auto">
                           <form className="form-inline my-2 my-lg-0">
-                                <FormControl id="search_input" type="text" placeholder="Enter query" className="mr-sm-2" />
+                                <FormControl id="search_input" type="text" placeholder="Enter query" className="mr-sm-2"/>
                                 <Button bsStyle="danger" onClick={this.getQuery} className="mr-sm-2" >
                                     Search
                                 </Button>
