@@ -295,7 +295,7 @@ def init_db():
 
 if __name__ == "__main__":
 
-    app.debug = True
+    app.debug = False
     DebugToolbarExtension(app)
     init_db()
     app.run(host="0.0.0.0", port="3333")
