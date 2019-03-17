@@ -17,7 +17,7 @@ You'll need:
 - Python virtual environment
 - Install everything from `requirements.txt` into your virtual environment
 
-Make sure `host="0.0.0.0", port="3333"` is free. `cd` into `server` directory and start the app by typing `python3 server.py` in your terminal.
+Make sure `host="0.0.0.0", port="3333"` is free. `cd` into `server/` and start the app by typing `python3 server.py` in your terminal.
 
 # MVC Class Overview
 ![mvc](https://github.com/finasilvasantiste/hackbright__knit_it/blob/master/uml_diagrams/svg/Class%20Diagram%20-%20MVC.svg)
