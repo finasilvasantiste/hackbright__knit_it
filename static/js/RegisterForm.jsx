@@ -133,7 +133,7 @@ export default class RegisterForm extends React.Component {
           </div>
           <form className="form-inline my-2 my-lg-0">
                             <FormControl id="register_email_input" type="text" placeholder="Email" className="mr-sm-2"/>
-                            <FormControl id="register_password_input" type="text" placeholder="Password" className="mr-sm-2"/>
+                            <FormControl id="register_password_input" type="text" placeholder="Password" type="password" className="mr-sm-2"/>
                 <div><br/><Button bsStyle="outline-secondary" onClick={this.registerUser} className={this.state.user.is_logged_in ? 'mr-sm-2 disabled' : 'mr-sm-2'} >
                     Submit
                 </Button>
