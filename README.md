@@ -1,5 +1,5 @@
 # Knit It
-‘Knit It’ is a single-page application that allows a user to search and browse knitting patterns available on ravelry.com. Users can register and log in, and if a user is logged in they can add, remove and browse patterns from their favorites list ("queue" in diagrams below). 
+A single-page application that allows a user to search and browse knitting patterns available on ravelry.com. Users can register and log in, and if a user is logged in they can add, remove and browse patterns from their favorites list ("queue" in diagrams below). 
 
 My web app is organized following a Model-View-Controller pattern. The backend is implemented in Python, the frontend is implemented purely in React.
 
