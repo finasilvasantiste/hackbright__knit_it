@@ -11,7 +11,7 @@ Tech stack: Python, Flask, JavaScript, React.js, jQuery, Bootstrap, PostgreSQL, 
 
 ![demo](https://github.com/finasilvasantiste/hackbright__knit_it/blob/master/demo.gif)
  
-## Getting Started
+# Getting Started
 You'll need:
 - Python 3
 - Python virtual environment
@@ -19,8 +19,24 @@ You'll need:
 
 Make sure `host="0.0.0.0", port="3333"` are free. Change into dir `server` and start the app by typing `python3 server.py` in your terminal.
 
-## MVC Class Overview
+# MVC Class Overview
 ![mvc](https://github.com/finasilvasantiste/hackbright__knit_it/blob/master/uml_diagrams/svg/Class%20Diagram%20-%20MVC.svg)
 The view components send requests to `server.py`, which communicates to the `Handler_API` `Handler_DB_connection` classes, and `User` and `Queue` (Favorites List) ORM classes. `Handler_API` has a single instance of the remaining three controllers, which communicate to the corresponding model class.
 
-(under construction: explanation of data model and architecture used.)
+# Class Diagram
+![class-diagram](https://github.com/finasilvasantiste/hackbright__knit_it/blob/master/uml_diagrams/svg/Class%20Diagram.svg)
+
+# Sequence Diagrams
+A selection of three sequence diagrams to help visualize the interactions between frontend and backend.
+
+## Get Search Results
+![seq-diagram-get-search-results](https://github.com/finasilvasantiste/hackbright__knit_it/blob/master/uml_diagrams/svg/Sequence%20Diagram%20-%20Get%20Search%20Results.svg)
+Scenarios: initial load or when a user submits a search query.
+
+## Get Detailed View
+![seq-diagram-get-detailed-view](https://github.com/finasilvasantiste/hackbright__knit_it/blob/master/uml_diagrams/svg/Sequence%20Diagram%20-%20Get%20Detailed%20Pattern%20View.svg)
+Scenarios: initial load, when a user clicks on a search result item or when they click on an item in their favorites list. 
+
+## Get Favorites List
+![seq-diagram-get-favorites-list](https://github.com/finasilvasantiste/hackbright__knit_it/blob/master/uml_diagrams/svg/Sequence%20Diagram%20-%20Get%20Favorites%20List.svg)
+Scenarios: when a user opens favorites list.
